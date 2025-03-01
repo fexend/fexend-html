@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Fexend Dashboard</title>
+		<title>Profile | Fexend</title>
 		<link rel="stylesheet" defer href="/dist/css/app.css" />
 
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -97,6 +97,7 @@
 
 		<main class="main-content">
 			<!-- Navbar -->
+
 			<header class="navbar-layout">
 				<nav>
 					<div class="px-3 py-3 lg:px-5 lg:pl-3">
@@ -143,9 +144,7 @@
 										<path d="M6 6l12 12" />
 									</svg>
 								</button>
-								<span class="nav-title"
-									><a href="/src">Fexend Dashboard</a></span
-								>
+								<span class="nav-title"><a href="/src">Fexend</a></span>
 							</div>
 
 							<div class="flex items-center gap-4">
@@ -323,7 +322,7 @@
 			<!-- Sidebar -->
 			<aside class="flex mt-16 fixed top-0 left-0 isolated z-10 h-full">
 				<!-- Icon Sidebar - Hidden on mobile, visible on tablet and up -->
-				<div class="sidebar-icon z-20">
+				<div class="sidebar-icon">
 					<div>
 						<div class="inline-flex h-16 w-16 items-center justify-center">
 							<a
@@ -561,14 +560,13 @@
 				<!-- Icon Sidebar - Hidden on mobile, visible on tablet and up -->
 
 				<!-- Expanded Sidebar - Mobile overlay, normal sidebar on larger screens -->
-				<div class="relative z-10">
+				<div class="relative">
 					<div
-						x-cloak
 						x-show="sidebarOpen"
-						x-transition:enter="transform transition duration-300 ease-in-out"
+						x-transition:enter="transform transition-transform duration-200 ease-out"
 						x-transition:enter-start="translate-x-[-100%]"
 						x-transition:enter-end="translate-x-0"
-						x-transition:leave="transform transition duration-300 ease-in-out"
+						x-transition:leave="transform transition-transform duration-200 ease-in"
 						x-transition:leave-start="translate-x-0"
 						x-transition:leave-end="translate-x-[-100%]"
 						class="sidebar-layout overflow-y-auto max-h-screen"
@@ -576,84 +574,12 @@
 						<div class="px-4 py-6">
 							<ul class="space-y-1" x-data="{ selected: null }">
 								<li>
-									<a href="/src/pages/index.html" class="sidebar-link">Pages</a>
-								</li>
-								<li>
-									<a href="/src/pages/login.html" class="sidebar-link">Login</a>
-								</li>
-								<li>
-									<a href="/src/pages/signup.html" class="sidebar-link"
-										>Sign Up</a
-									>
-								</li>
-								<li>
-									<a href="/src/pages/forgot-password.html" class="sidebar-link"
-										>Forgot Password</a
-									>
-								</li>
-								<li>
-									<a href="/src/pages/reset-password.html" class="sidebar-link"
-										>Reset Password</a
-									>
-								</li>
-
-								<li>
 									<a
-										href="/src/pages/profile.html"
+										href="/src/settings/index.html"
 										class="sidebar-link sidebar-link-active"
-										>Profile</a
+										>Settings</a
 									>
 								</li>
-
-								<div class="divider"></div>
-								<li>
-									<a href="/src/layouts/layout1.html" class="sidebar-link"
-										>Layout</a
-									>
-								</li>
-								<li>
-									<a href="/src/layouts/layout2.html" class="sidebar-link"
-										>Layout 2</a
-									>
-								</li>
-								<li>
-									<a href="/src/layouts/layout3.html" class="sidebar-link"
-										>Layout 3</a
-									>
-								</li>
-								<li>
-									<a href="/src/layouts/layout3.html" class="sidebar-link"
-										>Layout 4</a
-									>
-								</li>
-
-								<!-- <li x-data="{ open: false, subSelected: null }">
-									<button @click="open = !open" class="sidebar-dropdown-button">
-										<span class="text-sm font-medium">Sidebar Dropdown</span>
-										<svg
-											xmlns="http://www.w3.org/2000/svg"
-											class="sidebar-dropdown-icon"
-											:class="{ 'open': open }"
-											viewBox="0 0 20 20"
-											fill="currentColor"
-										>
-											<path
-												fill-rule="evenodd"
-												d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-												clip-rule="evenodd"
-											/>
-										</svg>
-									</button>
-
-									<ul x-show="open" x-transition class="sidebar-dropdown">
-										<li>
-											<a href="" class="sidebar-nested-link">Sidebar</a>
-										</li>
-										<li>
-											<a href="#" class="sidebar-nested-link">Sidebar</a>
-										</li>
-									</ul>
-								</li> -->
 							</ul>
 						</div>
 					</div>
@@ -728,9 +654,17 @@
 						class="card lg:col-span-8 transition-transform"
 						x-show="cardOpen === 'general'"
 					>
-						<form action="" x-data="{ alertOpen: false }">
-							<div class="card-header">
+						<form action="" x-data="{ alertOpen: false, isEditing: false }">
+							<div class="card-header flex justify-between items-center">
 								<h2 class="card-title">General Profile</h2>
+								<button
+									type="button"
+									class="button button-primary"
+									x-show="!isEditing"
+									@click="isEditing = true"
+								>
+									Edit
+								</button>
 							</div>
 							<div class="card-body">
 								<div
@@ -754,6 +688,7 @@
 											name="name"
 											placeholder="Name"
 											value="John Doe"
+											:readonly="!isEditing"
 										/>
 									</div>
 									<div class="form-group">
@@ -766,6 +701,7 @@
 											name="email"
 											placeholder="Email"
 											value="johndoe@example.com"
+											:readonly="!isEditing"
 										/>
 									</div>
 									<div class="form-group">
@@ -778,6 +714,7 @@
 											name="phone"
 											placeholder="Phone"
 											value="123-456-7890"
+											:readonly="!isEditing"
 										/>
 									</div>
 									<div class="form-group">
@@ -790,18 +727,28 @@
 											name="address"
 											placeholder="Address"
 											value="123 Main St"
+											:readonly="!isEditing"
 										/>
 									</div>
 								</div>
 							</div>
-							<div class="card-footer">
-								<button
-									type="button"
-									class="button button-primary me-auto"
-									@click="alertOpen = true"
-								>
-									Submit
-								</button>
+							<div class="card-footer" x-show="isEditing">
+								<div class="flex gap-2">
+									<button
+										type="button"
+										class="button button-primary"
+										@click="alertOpen = true; isEditing = false"
+									>
+										Save
+									</button>
+									<button
+										type="button"
+										class="button button-secondary"
+										@click="isEditing = false"
+									>
+										Cancel
+									</button>
+								</div>
 							</div>
 						</form>
 					</div>
@@ -1136,7 +1083,7 @@
 								xmlns="http://www.w3.org/2000/svg"
 								class="h-5 w-5"
 								fill="none"
-								viewBox="0 0 24 24"
+								viewBox="0 0 24h24 24"
 								stroke="currentColor"
 							>
 								<path

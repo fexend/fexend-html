@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Fexend Dashboard</title>
+		<title>Fexend</title>
 		<link rel="stylesheet" defer href="/dist/css/app.css" />
 
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -144,9 +144,7 @@
 										<path d="M6 6l12 12" />
 									</svg>
 								</button>
-								<span class="nav-title"
-									><a href="/src">Fexend Dashboard</a></span
-								>
+								<span class="nav-title"><a href="/src">Fexend</a></span>
 							</div>
 
 							<div class="flex items-center gap-4">
@@ -656,9 +654,17 @@
 						class="card lg:col-span-8 transition-transform"
 						x-show="cardOpen === 'general'"
 					>
-						<form action="" x-data="{ alertOpen: false }">
-							<div class="card-header">
+						<form action="" x-data="{ alertOpen: false, isEditing: false }">
+							<div class="card-header flex justify-between items-center">
 								<h2 class="card-title">General Profile</h2>
+								<button
+									type="button"
+									class="button button-primary"
+									x-show="!isEditing"
+									@click="isEditing = true"
+								>
+									Edit
+								</button>
 							</div>
 							<div class="card-body">
 								<div
@@ -682,6 +688,7 @@
 											name="name"
 											placeholder="Name"
 											value="John Doe"
+											:readonly="!isEditing"
 										/>
 									</div>
 									<div class="form-group">
@@ -694,6 +701,7 @@
 											name="email"
 											placeholder="Email"
 											value="johndoe@example.com"
+											:readonly="!isEditing"
 										/>
 									</div>
 									<div class="form-group">
@@ -706,6 +714,7 @@
 											name="phone"
 											placeholder="Phone"
 											value="123-456-7890"
+											:readonly="!isEditing"
 										/>
 									</div>
 									<div class="form-group">
@@ -718,18 +727,28 @@
 											name="address"
 											placeholder="Address"
 											value="123 Main St"
+											:readonly="!isEditing"
 										/>
 									</div>
 								</div>
 							</div>
-							<div class="card-footer">
-								<button
-									type="button"
-									class="button button-primary me-auto"
-									@click="alertOpen = true"
-								>
-									Submit
-								</button>
+							<div class="card-footer" x-show="isEditing">
+								<div class="flex gap-2">
+									<button
+										type="button"
+										class="button button-primary"
+										@click="alertOpen = true; isEditing = false"
+									>
+										Save
+									</button>
+									<button
+										type="button"
+										class="button button-secondary"
+										@click="isEditing = false"
+									>
+										Cancel
+									</button>
+								</div>
 							</div>
 						</form>
 					</div>
