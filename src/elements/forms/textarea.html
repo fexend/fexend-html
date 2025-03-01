@@ -767,6 +767,47 @@
 						</div>
 					</div>
 				</div>
+				<!-- <div class="card mt-4">
+					<div class="card-title">
+						<h2 class="card-title">Tinymce</h2>
+					</div>
+					<div class="card-body">
+						<div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+							<div class="form-group">
+								<label for="tinymce"
+									>TinyMCE <span class="text-danger">*</span></label
+								>
+								<textarea
+									id="tinymce"
+									class=""
+									placeholder="Enter some text..."
+									readonly
+								></textarea>
+							</div>
+						</div>
+					</div>
+				</div> -->
+
+				<div class="card mt-4">
+					<div class="card-header">
+						<h2 class="card-title">CKEditor</h2>
+					</div>
+					<div class="card-body">
+						<div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+							<div class="form-group">
+								<label for="ckeditor"
+									>CKEditor <span class="text-danger">*</span></label
+								>
+								<textarea
+									id="ckeditor"
+									class="ckeditor"
+									placeholder="Enter some text..."
+									id="ck-editor"
+								></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 
 			<!-- Mobile Bottom Menu -->
@@ -961,5 +1002,93 @@
 				</div>
 			</div>
 		</main>
+		<!-- <script
+			src="/src/assets/tinymce/js/tinymce/tinymce.min.js"
+			referrerpolicy="origin"
+		></script>
+
+		<script>
+			tinymce.init({
+				debug: true,
+				selector: "textarea#tinymce",
+				plugins:
+					"anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount",
+				toolbar:
+					"undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat",
+				external_plugins: {
+					anchor: "/src/assets/tinymce/js/tinymce/plugins/anchor/plugin.min.js",
+					autolink:
+						"/src/assets/tinymce/js/tinymce/plugins/autolink/plugin.min.js",
+					charmap:
+						"/src/assets/tinymce/js/tinymce/plugins/charmap/plugin.min.js",
+					codesample:
+						"/src/assets/tinymce/js/tinymce/plugins/codesample/plugin.min.js",
+					emoticons:
+						"/src/assets/tinymce/js/tinymce/plugins/emoticons/plugin.min.js",
+					image: "/src/assets/tinymce/js/tinymce/plugins/image/plugin.min.js",
+					link: "/src/assets/tinymce/js/tinymce/plugins/link/plugin.min.js",
+					lists: "/src/assets/tinymce/js/tinymce/plugins/lists/plugin.min.js",
+					media: "/src/assets/tinymce/js/tinymce/plugins/media/plugin.min.js",
+					searchreplace:
+						"/src/assets/tinymce/js/tinymce/plugins/searchreplace/plugin.min.js",
+					table: "/src/assets/tinymce/js/tinymce/plugins/table/plugin.min.js",
+					visualblocks:
+						"/src/assets/tinymce/js/tinymce/plugins/visualblocks/plugin.min.js",
+					wordcount:
+						"/src/assets/tinymce/js/tinymce/plugins/wordcount/plugin.min.js",
+				},
+				theme: "silver",
+				theme_url: "/src/assets/tinymce/js/tinymce/themes/silver/theme.min.js",
+				icons_url: "/src/assets/tinymce/js/tinymce/icons/default/icons.js",
+				skin_url: "/src/assets/tinymce/js/tinymce/skins/ui/oxide",
+				content_css:
+					"/src/assets/tinymce/js/tinymce/skins/content/default/content.css",
+			});
+		</script> -->
+
+		<script type="importmap">
+			{
+				"imports": {
+					"ckeditor5": "./ckeditor5/ckeditor5.js",
+					"ckeditor5/": "./ckeditor5/"
+				}
+			}
+		</script>
+		<script src="/src/assets/ckeditor5/main.js"></script>
+		<script>
+			document.addEventListener("DOMContentLoaded", function () {
+				ClassicEditor.create(document.querySelector("#ckeditor"), {
+					toolbar: {
+						items: [
+							"heading",
+							"|",
+							"bold",
+							"italic",
+							"underline",
+							"strikethrough",
+							"subscript",
+							"superscript",
+							"|",
+							"link",
+							"bulletedList",
+							"numberedList",
+							"blockQuote",
+							"insertTable",
+							"mediaEmbed",
+							"undo",
+							"redo",
+						],
+					},
+					language: "en", // Adding language configuration
+					placeholder: "Start typing here...", // Adding a placeholder
+				})
+					.then((editor) => {
+						console.log("Editor was initialized", editor);
+					})
+					.catch((error) => {
+						console.error(error);
+					});
+			});
+		</script>
 	</body>
 </html>

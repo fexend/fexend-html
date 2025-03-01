@@ -1,0 +1,65 @@
+.drawer-backdrop {
+	@apply fixed inset-0 bg-black/50 transition-opacity duration-300 z-20 isolate;
+}
+
+.drawer-backdrop-blur {
+	@apply backdrop-blur-sm;
+}
+
+.drawer {
+	@apply fixed bg-white dark:bg-gray-800 shadow-lg transition-transform duration-300 ease-in-out;
+}
+
+.drawer::-webkit-scrollbar {
+	width: 8px;
+}
+.drawer::-webkit-scrollbar-track {
+	@apply bg-slate-100 dark:bg-slate-800;
+}
+.drawer::-webkit-scrollbar-thumb {
+	@apply bg-slate-200 dark:bg-slate-700 rounded-md;
+}
+.drawer::-webkit-scrollbar-thumb:hover {
+	@apply bg-slate-300 dark:bg-slate-600;
+}
+.dark .drawer::-webkit-scrollbar-track {
+	@apply bg-slate-900;
+}
+.dark .drawer::-webkit-scrollbar-thumb {
+	@apply bg-slate-800;
+}
+.dark .drawer::-webkit-scrollbar-thumb:hover {
+	@apply bg-slate-700;
+}
+
+.drawer-header {
+	@apply p-4 border-b border-slate-200 dark:border-slate-800;
+}
+
+.drawer-close-button {
+	@apply absolute top-4 right-4;
+}
+
+.drawer-body {
+	@apply p-4 bg-foreground dark:bg-foreground-dark;
+}
+
+.drawer-footer {
+	@apply p-4 border-t border-slate-200 dark:border-slate-800;
+}
+
+.drawer-left {
+	@apply left-0 top-0 h-full z-[60] isolate overflow-y-auto;
+}
+
+.drawer-right {
+	@apply right-0 top-0 h-full z-[60] isolate overflow-y-auto;
+}
+
+.drawer-bottom {
+	@apply left-0 bottom-0 z-[60] isolate overflow-y-auto;
+}
+
+.drawer-open {
+	@apply transform-none;
+}

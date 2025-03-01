@@ -1,0 +1,172 @@
+label {
+	@apply block 
+	text-slate-900 
+	dark:text-slate-100 
+	text-base 
+	font-medium;
+}
+
+label.form-error {
+	@apply text-danger 
+	dark:text-danger-dark;
+}
+
+label.form-valid {
+	@apply text-success 
+	dark:text-success-dark;
+}
+
+input,
+select,
+textarea {
+	@apply block 
+	w-full 
+	px-4 
+	py-2 
+	border 
+	border-slate-300 
+	dark:border-slate-600 
+	rounded-md 
+	text-slate-900 
+	dark:text-slate-100 
+	focus:outline-none 
+	focus:border-primary 
+	dark:focus:border-primary-dark 
+	focus:ring-1 
+	focus:ring-primary 
+	dark:focus:ring-primary-dark;
+}
+
+input:disabled,
+select:disabled,
+textarea:disabled {
+	@apply bg-slate-100 
+	dark:bg-slate-800 
+	text-slate-500 
+	dark:text-slate-400 
+	cursor-not-allowed;
+}
+
+input:read-only:not([class*="flatpickr-input"]),
+input:read-only,
+textarea:read-only {
+	@apply bg-slate-100 
+	dark:bg-slate-800 
+	text-slate-500 
+	dark:text-slate-400;
+}
+
+select {
+	@apply bg-foreground 
+	dark:bg-foreground-dark 
+	text-dark 
+	dark:text-white;
+}
+
+select option {
+	@apply bg-foreground 
+	dark:bg-foreground-dark 
+	hover:bg-primary 
+	dark:hover:bg-primary-dark 
+	hover:text-white 
+	dark:hover:text-dark;
+}
+
+select option:checked {
+	@apply bg-primary 
+	dark:bg-primary-dark 
+	text-white;
+}
+
+select:focus option {
+	@apply hover:bg-primary 
+	dark:hover:bg-primary-dark 
+	hover:text-white 
+	dark:hover:text-dark;
+}
+
+input.form-error,
+select.form-error,
+textarea.form-error {
+	@apply border-danger 
+	dark:border-danger-dark 
+	focus:border-danger 
+	dark:focus:border-danger-dark 
+	focus:ring-danger 
+	dark:focus:ring-danger-dark;
+}
+
+input.form-valid,
+select.form-valid,
+textarea.form-valid {
+	@apply border-success 
+	dark:border-success-dark 
+	focus:border-success 
+	dark:focus:border-success-dark 
+	focus:ring-success 
+	dark:focus:ring-success-dark;
+}
+
+input[type="file"] {
+	@apply border 
+	border-dashed;
+}
+
+label input[type="radio"],
+label input[type="checkbox"] {
+	@apply mr-2;
+}
+
+.form-group {
+	@apply flex 
+	flex-col 
+	mt-4;
+}
+
+.form-sm {
+	@apply px-2 
+	py-1 
+	text-sm;
+}
+
+.form-lg {
+	@apply px-4 
+	py-3 
+	text-lg;
+}
+
+.form-rounded {
+	@apply rounded-full;
+}
+
+.input-icon-left {
+	@apply relative;
+}
+
+.input-icon-left input {
+	@apply pl-10;
+}
+
+.input-icon-left svg {
+	@apply absolute left-3 top-3/4 transform -translate-y-3/4 text-slate-500;
+}
+
+.input-icon-left input:focus + svg {
+	@apply text-primary;
+}
+
+.input-icon-right {
+	@apply relative;
+}
+
+.input-icon-right input {
+	@apply pr-10;
+}
+
+.input-icon-right svg {
+	@apply absolute right-3 top-3/4 transform -translate-y-3/4 text-slate-500;
+}
+
+.input-icon-right input:focus + svg {
+	@apply text-primary;
+}

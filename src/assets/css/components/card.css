@@ -1,0 +1,82 @@
+.card {
+	@apply relative bg-foreground dark:bg-foreground-dark rounded-md p-6 shadow-md transition-all duration-200;
+}
+
+/* Card variants */
+.card-primary {
+	@apply border-2 bg-primary dark:bg-primary-dark text-white border-primary dark:border-primary-dark;
+}
+
+.card-secondary {
+	@apply border-2 bg-secondary dark:bg-secondary-dark text-white;
+	border-color: var(--color-secondary);
+}
+
+.card-info {
+	@apply border-2 bg-info dark:bg-info-dark text-white;
+	border-color: var(--color-info);
+}
+
+.card-success {
+	@apply border-2 bg-success dark:bg-success-dark text-white;
+	border-color: var(--color-success);
+}
+
+.card-warning {
+	@apply border-2 bg-warning dark:bg-warning-dark text-white;
+	border-color: var(--color-warning);
+}
+
+.card-danger {
+	@apply border-2 bg-danger dark:bg-danger-dark text-white;
+	border-color: var(--color-danger);
+}
+
+/* Card hover effects */
+.card-hover:hover {
+	@apply transform scale-[1.02] shadow-lg;
+}
+
+/* Card sizes */
+.card-sm {
+	@apply p-4;
+}
+
+.card-lg {
+	@apply p-8;
+}
+
+/* Card header */
+.card-header {
+	@apply mb-4 text-xl font-semibold;
+}
+
+.card-title {
+	@apply text-2xl font-semibold;
+}
+
+/* Card footer */
+.card-footer {
+	@apply mt-4 pt-4;
+}
+
+/* Card with loading state */
+.card.loading {
+	@apply animate-pulse;
+}
+
+.card-table {
+	@apply relative bg-foreground dark:bg-foreground-dark rounded-md shadow-md transition-all duration-200;
+}
+
+.card-table .card-header {
+	@apply p-6;
+}
+
+.card-content {
+	@apply p-4 pt-0 flex justify-between;
+}
+
+.card-table .table-filter {
+	@apply relative p-4 mb-6 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 transition-transform ease-in-out;
+}

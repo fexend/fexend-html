@@ -1,0 +1,39 @@
+.accordion {
+	/* @apply ; */
+}
+
+.accordion-bordered {
+	.accordion-header {
+		@apply border-b border-gray-200 dark:border-gray-700;
+	}
+}
+
+.accordion-full-bordered {
+	.accordion-header {
+		@apply border border-gray-200 dark:border-gray-700;
+	}
+
+	.accordion-body {
+		@apply border border-gray-200 dark:border-gray-700;
+	}
+}
+
+.accordion-separated {
+	@apply my-4;
+}
+
+.accordion-header {
+	@apply text-lg flex justify-between items-center px-4 py-2 rounded-md;
+}
+
+.accordion-header:hover {
+	@apply cursor-pointer;
+}
+
+.accordion-title {
+	@apply text-lg;
+}
+
+.accordion-body {
+	@apply font-normal text-base px-4 py-2 transition-transform duration-500;
+}

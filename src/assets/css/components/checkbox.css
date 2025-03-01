@@ -1,0 +1,224 @@
+label.label-checkbox {
+	@apply flex 
+    cursor-pointer 
+    items-center 
+    gap-2;
+}
+
+label.label-checkbox-divider {
+	@apply flex cursor-pointer items-start gap-4 py-4;
+}
+
+label.label-checkbox-divider p {
+	@apply text-sm font-normal text-slate-900 dark:text-slate-100;
+}
+
+label.label-checkbox-divider span {
+	@apply text-xs font-normal text-slate-500 dark:text-slate-400;
+}
+
+label.label-checkbox-card {
+	@apply flex 
+    cursor-pointer 
+    items-start 
+    gap-4 
+    rounded-lg 
+    border 
+    border-gray-200 
+    p-4 
+    transition 
+    hover:bg-gray-50 
+    has-[:checked]:bg-blue-50 
+    dark:border-gray-700 
+    dark:hover:bg-gray-900 
+    dark:has-[:checked]:bg-blue-700/10;
+}
+
+label.label-checkbox-card p {
+	@apply text-sm font-normal;
+}
+
+label.label-checkbox-card span {
+	@apply text-xs font-normal;
+}
+
+.label-checkbox-card-primary {
+	@apply border-primary 
+	dark:border-primary-dark 
+	text-primary 
+	dark:text-primary-dark 
+	hover:bg-primary/10 
+	dark:hover:bg-primary-dark/10 
+	checked:bg-primary/20 
+	dark:checked:bg-primary-dark/20;
+}
+
+.label-checkbox-card-secondary {
+	@apply border-secondary 
+	dark:border-secondary-dark 
+	text-secondary 
+	dark:text-secondary-dark 
+	hover:bg-secondary/10 
+	dark:hover:bg-secondary-dark/10 
+	checked:bg-secondary/20 
+	dark:checked:bg-secondary-dark/20;
+}
+
+.label-checkbox-card-warning {
+	@apply border-warning 
+	dark:border-warning-dark 
+	text-warning 
+	dark:text-warning-dark 
+	hover:bg-warning/10 
+	dark:hover:bg-warning-dark/10 
+	checked:bg-warning/20 
+	dark:checked:bg-warning-dark/20;
+}
+
+.label-checkbox-card-success {
+	@apply border-success 
+	dark:border-success-dark 
+	text-success 
+	dark:text-success-dark 
+	hover:bg-success/10 
+	dark:hover:bg-success-dark/10 
+	checked:bg-success/20 
+	dark:checked:bg-success-dark/20;
+}
+
+.label-checkbox-card-danger {
+	@apply border-danger 
+	dark:border-danger-dark 
+	text-danger 
+	dark:text-danger-dark 
+	hover:bg-danger/10 
+	dark:hover:bg-danger-dark/10 
+	checked:bg-danger/20 
+	dark:checked:bg-danger-dark/20;
+}
+
+.label-checkbox-card-info {
+	@apply border-info 
+	dark:border-info-dark 
+	text-info 
+	dark:text-info-dark 
+	hover:bg-info/10 
+	dark:hover:bg-info-dark/10 
+	checked:bg-info/20 
+	dark:checked:bg-info-dark/20;
+}
+
+.label-checkbox-card-white {
+	@apply border-white 
+	dark:border-white-dark 
+	text-slate-900 
+	dark:text-white-dark 
+	hover:bg-white/10 
+	dark:hover:bg-white-dark/10 
+	checked:bg-white/20 
+	dark:checked:bg-white-dark/20;
+}
+
+.label-checkbox-card-dark {
+	@apply border-dark 
+	dark:border-dark-secondary 
+	text-dark 
+	dark:text-white 
+	hover:bg-dark/10 
+	dark:hover:bg-dark-secondary/10 
+	checked:bg-dark/20 
+	dark:checked:bg-dark-secondary/20;
+}
+
+/* dont remove will broke the switch styles */
+/* if you want to remove or changes, please make sure the switch style not effected */
+input[type="checkbox"] {
+	@apply relative 
+    size-4 
+    rounded-md 
+    bg-foreground 
+    dark:bg-foreground-dark 
+    text-primary 
+    dark:text-primary-dark 
+    focus:outline-none
+    focus:border-0
+    active:border-0;
+}
+
+input[type="checkbox"]:checked {
+	@apply bg-primary dark:bg-primary-dark;
+}
+
+/* tailwind element */
+input[type="checkbox"].input-checkbox {
+	@apply relative 
+	float-left 
+	p-0
+	appearance-none 
+	rounded-[0.25rem] 
+	border-[0.125rem] 
+	border-solid 
+	border-secondary
+	outline-none 
+	before:pointer-events-none 
+	before:absolute 
+	before:h-[0.875rem] 
+	before:w-[0.875rem] 
+	before:scale-0 
+	before:rounded-full 
+	before:bg-transparent 
+	before:opacity-0 
+	before:shadow-transparent 
+	before:content-[''] 
+	checked:border-primary 
+	checked:bg-primary 
+	checked:before:opacity-[0.16] 
+	checked:after:absolute 
+	checked:after:-mt-px 
+	checked:after:ms-[0.25rem] 
+	checked:after:block 
+	checked:after:h-[0.8125rem] 
+	checked:after:w-[0.375rem] 
+	checked:after:rotate-45 
+	checked:after:border-[0.125rem] 
+	checked:after:border-l-0 
+	checked:after:border-t-0 
+	checked:after:border-solid 
+	checked:after:border-white 
+	checked:after:bg-transparent 
+	checked:after:content-[''] 
+	hover:cursor-pointer 
+	hover:before:opacity-[0.04] 
+	hover:before:shadow-black/60 
+	focus:shadow-none 
+	focus:transition-[border-color_0.2s] 
+	focus:before:scale-100 
+	focus:before:opacity-[0.12] 
+	focus:before:shadow-black/60 
+	focus:before:transition-[box-shadow_0.2s,transform_0.2s] 
+	focus:after:absolute 
+	focus:after:z-[1] 
+	focus:after:block 
+	focus:after:h-[0.875rem] 
+	focus:after:w-[0.875rem] 
+	focus:after:rounded-[0.125rem] 
+	focus:after:content-[''] 
+	checked:focus:before:scale-100 
+	checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] 
+	checked:focus:after:-mt-px 
+	checked:focus:after:ms-[0.25rem] 
+	checked:focus:after:h-[0.8125rem] 
+	checked:focus:after:w-[0.375rem] 
+	checked:focus:after:rotate-45 
+	checked:focus:after:rounded-none 
+	checked:focus:after:border-[0.125rem] 
+	checked:focus:after:border-l-0 
+	checked:focus:after:border-t-0 
+	checked:focus:after:border-solid 
+	checked:focus:after:border-white 
+	checked:focus:after:bg-transparent 
+	rtl:float-right 
+	dark:border-neutral-400 
+	dark:checked:border-primary 
+	dark:checked:bg-primary;
+}

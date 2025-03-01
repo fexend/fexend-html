@@ -1,0 +1,23 @@
+/* Main Layout */
+.main-content {
+	@apply relative flex flex-row;
+}
+
+.main-content aside {
+	@apply flex fixed left-0 top-0 z-10 mt-16 h-full bg-white dark:bg-gray-800 transition-all duration-300 ease-in-out;
+	width: fit-content;
+	isolation: isolate;
+}
+
+.main-content {
+	@apply flex-1 transition-all duration-300 ease-in-out;
+}
+
+.main-content.ml-64 {
+	@apply ml-80; /* 16px + 64px + 240px */
+}
+
+/* Main Content Area */
+.main-container {
+	@apply mt-16 bg-background dark:bg-background-dark p-4 md:p-8 transition-[margin] duration-200 ease-out w-full;
+}

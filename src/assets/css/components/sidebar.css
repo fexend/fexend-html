@@ -1,0 +1,116 @@
+/* Sidebar Components */
+.sidebar-icon-button {
+	@apply relative flex justify-center rounded px-2 py-1.5 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200;
+}
+
+/* Modified Sidebar Link Styles using Tailwind classes */
+.sidebar-link {
+	@apply block rounded-lg px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-400 transition-transform transition-colors duration-300 ease-in-out;
+}
+
+.sidebar-link:hover {
+	@apply translate-x-[5px] text-primary dark:text-primary-dark font-normal tracking-wider;
+}
+
+.sidebar-dropdown-button {
+	@apply flex w-full items-center justify-between rounded-lg px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary dark:hover:text-primary-dark;
+}
+
+/* Dropdown specific styles */
+.sidebar-dropdown {
+	@apply mt-2 space-y-1 px-4;
+}
+
+.sidebar-dropdown-icon {
+	@apply size-4 transition-transform duration-200 text-slate-400 dark:text-slate-500;
+}
+
+.sidebar-dropdown-icon.open {
+	@apply rotate-180;
+}
+
+/* Nested dropdown styles */
+.sidebar-nested-dropdown {
+	@apply mt-2 space-y-1 px-4;
+}
+
+.sidebar-nested-button {
+	@apply flex w-full items-center justify-between rounded-lg px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary dark:hover:text-primary-dark;
+}
+
+.sidebar-link {
+	@apply block rounded-lg px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-400 transition-transform duration-300 ease-in-out;
+}
+
+.sidebar-link:hover {
+	@apply translate-x-[5px] text-primary dark:text-primary-dark font-normal tracking-wider;
+}
+
+.sidebar-nested-link {
+	@apply block rounded-lg px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-400 transition-transform duration-300 ease-in-out;
+}
+.sidebar-nested-link:hover {
+	@apply translate-x-[5px] text-primary dark:text-primary-dark font-normal tracking-wider;
+}
+
+.sidebar-dropdown-link {
+	@apply block rounded-lg px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-400 transition-transform duration-300 ease-in-out;
+}
+.sidebar-dropdown-link:hover {
+	@apply translate-x-[5px] text-primary dark:text-primary-dark font-normal tracking-wider;
+}
+
+.sidebar-dropdown-link-active {
+	@apply block rounded-lg px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-400 transition-transform duration-300 ease-in-out;
+}
+
+.sidebar-link-active,
+.sidebar-nested-link-active,
+.sidebar-dropdown-link-active {
+	@apply text-primary dark:text-primary-dark font-semibold;
+}
+
+/* Navigation Components */
+.nav-icon-button {
+	@apply p-2 rounded-lg hover:bg-primary dark:hover:bg-primary-dark;
+}
+
+/* Layout Components */
+.sidebar-layout {
+	@apply fixed w-full md:absolute left-0 top-16 md:top-0 z-40 flex h-[calc(100vh-4rem)] md:w-64 flex-col justify-between border-e bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 ease-in-out transition-transform duration-300;
+}
+
+/* Updated custom scrollbar styling for sidebar with softer colors and dark mode support */
+.sidebar-layout::-webkit-scrollbar {
+	width: 8px;
+}
+.sidebar-layout::-webkit-scrollbar-track {
+	@apply bg-slate-100 dark:bg-slate-800;
+}
+.sidebar-layout::-webkit-scrollbar-thumb {
+	@apply bg-slate-200 dark:bg-slate-700 rounded-md;
+}
+.sidebar-layout::-webkit-scrollbar-thumb:hover {
+	@apply bg-slate-300 dark:bg-slate-600;
+}
+.dark .sidebar-layout::-webkit-scrollbar-track {
+	@apply bg-slate-900;
+}
+.dark .sidebar-layout::-webkit-scrollbar-thumb {
+	@apply bg-slate-800;
+}
+.dark .sidebar-layout::-webkit-scrollbar-thumb:hover {
+	@apply bg-slate-700;
+}
+
+.sidebar-icon {
+	@apply hidden md:flex h-[calc(100vh-4rem)] w-16 flex-shrink-0 flex-col justify-between border-e bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800;
+}
+
+.sidebar-backdrop {
+	@apply fixed inset-0 bg-gray-600/30 backdrop-blur-sm z-30 md:hidden;
+}
+
+.sidebar-footer {
+	@apply sticky inset-x-0 bottom-0 border-t border-purple-200 dark:border-purple-900/30 bg-white dark:bg-slate-900 p-2;
+}

@@ -1,0 +1,204 @@
+label.form-radio {
+	@apply inline-flex 
+	items-center 
+	space-x-2 
+	mx-4 
+	cursor-pointer;
+}
+
+label.radio-card {
+	@apply block 
+	cursor-pointer 
+	text-slate-900 
+	dark:text-slate-100 
+	rounded-lg 
+	border 
+	border-slate-100 
+	dark:border-slate-600 
+	bg-foreground 
+	dark:bg-foreground-dark 
+	p-4 
+	text-sm 
+	font-medium 
+	shadow-xs 
+	hover:border-slate-200 
+	hover:dark:border-slate-800 
+	has-[:checked]:border-blue-500 
+	has-[:checked]:ring-1 
+	has-[:checked]:ring-blue-500;
+}
+
+label.radio-card input[type="radio"] {
+	@apply sr-only;
+}
+
+label.radio-button {
+	@apply flex 
+	cursor-pointer 
+	text-primary 
+	dark:text-primary-dark 
+	items-center 
+	justify-center 
+	rounded-md 
+	border 
+	border-primary 
+	px-3 
+	py-2 
+	hover:border-gray-200 
+	has-[:checked]:border-primary 
+	has-[:checked]:bg-primary 
+	has-[:checked]:text-white;
+}
+
+label.radio-button-secondary {
+	@apply text-secondary 
+	dark:text-secondary-dark 
+	border-secondary 
+	has-[:checked]:border-secondary 
+	has-[:checked]:bg-secondary 
+	has-[:checked]:text-white;
+}
+
+label.radio-button-success {
+	@apply text-success 
+	dark:text-success-dark 
+	border-success 
+	has-[:checked]:border-success 
+	has-[:checked]:bg-success 
+	has-[:checked]:text-white;
+}
+
+label.radio-button-danger {
+	@apply text-danger 
+	dark:text-danger-dark 
+	border-danger 
+	has-[:checked]:border-danger 
+	has-[:checked]:bg-danger 
+	has-[:checked]:text-white;
+}
+
+label.radio-button-warning {
+	@apply text-warning 
+	dark:text-warning-dark 
+	border-warning 
+	has-[:checked]:border-warning 
+	has-[:checked]:bg-warning 
+	has-[:checked]:text-white;
+}
+
+label.radio-button-info {
+	@apply text-info 
+	dark:text-info-dark 
+	border-info 
+	has-[:checked]:border-info 
+	has-[:checked]:bg-info 
+	has-[:checked]:text-white;
+}
+
+label.radio-button-dark {
+	@apply text-dark 
+	dark:text-white 
+	border-dark 
+	has-[:checked]:border-dark 
+	has-[:checked]:bg-dark 
+	has-[:checked]:text-white;
+}
+
+label.radio-button-white {
+	@apply text-white 
+	dark:text-dark 
+	border-white 
+	has-[:checked]:border-white 
+	has-[:checked]:bg-white 
+	has-[:checked]:text-dark;
+}
+
+label.radio-button input[type="radio"] {
+	@apply sr-only;
+}
+
+input[type="radio"] {
+	@apply relative 
+	float-left 
+	p-0
+	-ms-[1.5rem] 
+	me-1 
+	mt-0.5 
+	h-5 
+	w-5 
+	appearance-none 
+	rounded-full 
+	border-2 
+	border-solid 
+	border-secondary 
+	before:pointer-events-none 
+	before:absolute 
+	before:h-4 
+	before:w-4 
+	before:scale-0 
+	before:rounded-full 
+	before:bg-transparent 
+	before:opacity-0 
+	before:shadow-transparent 
+	before:content-[''] 
+	after:absolute 
+	after:z-[1] 
+	after:block 
+	after:h-4 
+	after:w-4 
+	after:rounded-full 
+	after:content-[''] 
+	checked:border-primary 
+	checked:before:opacity-[0.16] 
+	checked:after:absolute 
+	checked:after:left-1/2 
+	checked:after:top-1/2 
+	checked:after:h-[0.625rem] 
+	checked:after:w-[0.625rem] 
+	checked:after:rounded-full 
+	checked:after:border-primary 
+	checked:after:bg-primary 
+	checked:after:content-[''] 
+	checked:after:[transform:translate(-50%,-50%)] 
+	hover:cursor-pointer 
+	hover:before:opacity-[0.04] 
+	hover:before:shadow-black/60 
+	focus:shadow-none 
+	focus:outline-none 
+	focus:ring-0 
+	focus:before:scale-100 
+	focus:before:opacity-[0.12] 
+	focus:before:shadow-black/60 
+	focus:before:transition-[box-shadow_0.2s,transform_0.2s] 
+	checked:focus:border-primary 
+	checked:focus:before:scale-100 
+	checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] 
+	rtl:float-right 
+	dark:border-neutral-400 
+	dark:checked:border-primary;
+}
+
+/* input[type="radio"] {
+	@apply size-4 
+	rounded-full 
+	bg-foreground 
+	dark:bg-foreground-dark 
+	text-primary 
+	dark:text-primary-dark 
+	focus:outline-none;
+}
+
+input[type="radio"]::before {
+	@apply absolute 
+	inset-0 
+	rounded-full 
+	bg-white 
+	dark:bg-slate-800 
+	opacity-50;
+}
+
+input[type="radio"]:checked::before {
+	@apply bg-primary 
+	dark:bg-primary-dark 
+	opacity-100;
+} */

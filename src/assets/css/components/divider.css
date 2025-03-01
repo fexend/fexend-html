@@ -1,0 +1,3 @@
+.divider {
+	@apply border-t border-slate-400 dark:border-l-slate-500 my-3;
+}

@@ -1,0 +1,595 @@
+/*
+  Based on TailwindCSS recommendations,
+  consider using classes instead of the `@apply` directive
+  @see https://tailwindcss.com/docs/reusing-styles#avoiding-premature-abstraction
+*/
+.select2-container {
+	@apply box-border inline-block relative align-middle m-0;
+}
+.select2-container .select2-selection--single {
+	@apply box-border cursor-pointer block h-7 select-none;
+	-webkit-user-select: none;
+}
+.select2-container .select2-selection--single .select2-selection__rendered {
+	@apply block overflow-hidden text-ellipsis whitespace-nowrap pl-2 pr-5;
+}
+.select2-container .select2-selection--single .select2-selection__clear {
+	@apply bg-transparent text-[1em] border-[none];
+}
+.select2-container[dir="rtl"]
+	.select2-selection--single
+	.select2-selection__rendered {
+	@apply pl-5 pr-2;
+}
+.select2-container .select2-selection--multiple {
+	@apply box-border cursor-pointer block min-h-[32px] select-none;
+	-webkit-user-select: none;
+}
+.select2-container .select2-selection--multiple .select2-selection__rendered {
+	@apply inline p-0 list-none;
+}
+.select2-container .select2-selection--multiple .select2-selection__clear {
+	@apply bg-transparent text-[1em] border-[none];
+}
+.select2-container .select2-search--inline .select2-search__field {
+	@apply box-border text-[100%] max-w-full resize-none h-[18px] align-bottom overflow-hidden break-keep ml-[5px] mt-[5px] p-0 border-[none] font-serif;
+}
+.select2-container
+	.select2-search--inline
+	.select2-search__field::-webkit-search-cancel-button {
+	-webkit-appearance: none;
+}
+.select2-dropdown {
+	@apply border rounded box-border block absolute left-[-100000px] w-full z-[1051] border-solid border-[#aaa] bg-foreground dark:bg-foreground-dark;
+}
+.select2-results {
+	@apply block;
+}
+.select2-results__options {
+	@apply m-0 p-0 list-none;
+}
+.select2-results__option {
+	@apply select-none p-1.5;
+	-webkit-user-select: none;
+}
+.select2-results__option--selectable {
+	@apply cursor-pointer;
+}
+.select2-container--open .select2-dropdown {
+	@apply left-0;
+}
+.select2-container--open .select2-dropdown--above {
+	@apply rounded-br-none rounded-bl-none border-b-[none];
+}
+.select2-container--open .select2-dropdown--below {
+	@apply rounded-t-none border-t-[none];
+}
+.select2-search--dropdown {
+	@apply block p-1;
+}
+.select2-search--dropdown .select2-search__field {
+	@apply w-full box-border p-1;
+}
+.select2-search--dropdown .select2-search__field::-webkit-search-cancel-button {
+	-webkit-appearance: none;
+}
+.select2-search--dropdown.select2-search--hide {
+	@apply hidden;
+}
+.select2-close-mask {
+	@apply block fixed min-h-full min-w-full h-auto w-auto opacity-0 z-[99] m-0 p-0 border-0 left-0 top-0;
+	filter: alpha(opacity=0);
+}
+.select2-hidden-accessible {
+	@apply h-px overflow-hidden absolute w-px whitespace-nowrap p-0 border-0;
+	clip: rect(0 0 0 0) !important;
+	-webkit-clip-path: inset(50%) !important;
+	clip-path: inset(50%) !important;
+}
+.select2-container--default .select2-selection--single {
+	@apply border rounded border-solid border-[#aaa];
+}
+.select2-container--default
+	.select2-selection--single
+	.select2-selection__rendered {
+	@apply text-[#444] leading-7;
+}
+.select2-container--default
+	.select2-selection--single
+	.select2-selection__clear {
+	@apply cursor-pointer float-right font-[bold] h-[26px] mr-5 pr-0;
+}
+.select2-container--default
+	.select2-selection--single
+	.select2-selection__placeholder {
+	@apply text-[#999];
+}
+.select2-container--default
+	.select2-selection--single
+	.select2-selection__arrow {
+	@apply h-[26px] absolute w-5 right-px top-px;
+}
+.select2-container--default
+	.select2-selection--single
+	.select2-selection__arrow
+	b {
+	@apply h-0 absolute w-0 -ml-1 -mt-0.5 border-solid border-[5px_4px_0_4px] left-2/4 top-2/4;
+}
+.select2-container--default[dir="rtl"]
+	.select2-selection--single
+	.select2-selection__clear {
+	@apply float-left;
+}
+.select2-container--default[dir="rtl"]
+	.select2-selection--single
+	.select2-selection__arrow {
+	@apply left-px right-auto;
+}
+.select2-container--default.select2-container--disabled
+	.select2-selection--single {
+	@apply cursor-default;
+}
+.select2-container--default.select2-container--disabled
+	.select2-selection--single
+	.select2-selection__clear {
+	@apply hidden;
+}
+.select2-container--default.select2-container--open
+	.select2-selection--single
+	.select2-selection__arrow
+	b {
+	@apply border-[0_4px_5px_4px];
+}
+.select2-container--default .select2-selection--multiple {
+	@apply border rounded cursor-text relative pr-[5px] pb-[5px] border-solid border-[#aaa];
+}
+.select2-container--default
+	.select2-selection--multiple.select2-selection--clearable {
+	@apply pr-[25px];
+}
+.select2-container--default
+	.select2-selection--multiple
+	.select2-selection__clear {
+	@apply cursor-pointer font-[bold] h-5 absolute mr-2.5 mt-[5px] p-px right-0;
+}
+.select2-container--default
+	.select2-selection--multiple
+	.select2-selection__choice {
+	@apply border rounded box-border inline-block relative max-w-full overflow-hidden text-ellipsis align-bottom whitespace-nowrap ml-[5px] mt-[5px] pl-5 p-0 border-solid border-[#aaa];
+}
+.select2-container--default
+	.select2-selection--multiple
+	.select2-selection__choice__display {
+	@apply cursor-default pl-0.5 pr-[5px];
+}
+.select2-container--default
+	.select2-selection--multiple
+	.select2-selection__choice__remove {
+	@apply bg-transparent text-[#999] cursor-pointer text-[1em] font-[bold] absolute px-1 py-0 rounded-tl rounded-bl border-r-[#aaa] border-[none] border-r border-solid left-0 top-0;
+}
+.select2-container--default
+	.select2-selection--multiple
+	.select2-selection__choice__remove:hover,
+.select2-container--default
+	.select2-selection--multiple
+	.select2-selection__choice__remove:focus {
+	@apply text-[#333] outline-none;
+}
+.select2-container--default[dir="rtl"]
+	.select2-selection--multiple
+	.select2-selection__choice {
+	@apply ml-[5px] mr-auto;
+}
+.select2-container--default[dir="rtl"]
+	.select2-selection--multiple
+	.select2-selection__choice__display {
+	@apply pl-[5px] pr-0.5;
+}
+.select2-container--default[dir="rtl"]
+	.select2-selection--multiple
+	.select2-selection__choice__remove {
+	@apply rounded-tl-none rounded-bl-none rounded-tr rounded-br border-l-[#aaa] border-r-[none] border-l border-solid;
+}
+.select2-container--default[dir="rtl"]
+	.select2-selection--multiple
+	.select2-selection__clear {
+	@apply float-left ml-2.5 mr-auto;
+}
+.select2-container--default.select2-container--focus
+	.select2-selection--multiple {
+	@apply border-[solid] border-[1px] outline-none;
+}
+.select2-container--default.select2-container--disabled
+	.select2-selection--multiple {
+	@apply cursor-default;
+}
+.select2-container--default.select2-container--disabled
+	.select2-selection__choice__remove {
+	@apply hidden;
+}
+.select2-container--default.select2-container--open.select2-container--above
+	.select2-selection--single,
+.select2-container--default.select2-container--open.select2-container--above
+	.select2-selection--multiple {
+	@apply rounded-t-none;
+}
+.select2-container--default.select2-container--open.select2-container--below
+	.select2-selection--single,
+.select2-container--default.select2-container--open.select2-container--below
+	.select2-selection--multiple {
+	@apply rounded-br-none rounded-bl-none;
+}
+.select2-container--default .select2-search--dropdown .select2-search__field {
+	@apply border border-solid border-[#aaa];
+}
+.select2-container--default .select2-search--inline .select2-search__field {
+	@apply shadow-none border-[none] outline-0;
+	-webkit-appearance: textfield;
+}
+.select2-container--default .select2-results > .select2-results__options {
+	@apply max-h-[200px] overflow-y-auto;
+}
+.select2-container--default .select2-results__option .select2-results__option {
+	@apply pl-[1em];
+}
+.select2-container--default
+	.select2-results__option
+	.select2-results__option
+	.select2-results__group {
+	@apply pl-0;
+}
+.select2-container--default
+	.select2-results__option
+	.select2-results__option
+	.select2-results__option {
+	@apply ml-[-1em] pl-[2em];
+}
+.select2-container--default
+	.select2-results__option
+	.select2-results__option
+	.select2-results__option
+	.select2-results__option {
+	@apply ml-[-2em] pl-[3em];
+}
+.select2-container--default
+	.select2-results__option
+	.select2-results__option
+	.select2-results__option
+	.select2-results__option
+	.select2-results__option {
+	@apply ml-[-3em] pl-[4em];
+}
+.select2-container--default
+	.select2-results__option
+	.select2-results__option
+	.select2-results__option
+	.select2-results__option
+	.select2-results__option
+	.select2-results__option {
+	@apply ml-[-4em] pl-[5em];
+}
+.select2-container--default
+	.select2-results__option
+	.select2-results__option
+	.select2-results__option
+	.select2-results__option
+	.select2-results__option
+	.select2-results__option
+	.select2-results__option {
+	@apply ml-[-5em] pl-[6em];
+}
+.select2-container--default .select2-results__option--group {
+	@apply p-0;
+}
+.select2-container--default .select2-results__option--disabled {
+	@apply text-[#999];
+}
+.select2-container--default .select2-results__option--selected {
+	/* @apply ; */
+}
+.select2-container--default
+	.select2-results__option--highlighted.select2-results__option--selectable {
+	@apply text-slate-800 dark:text-slate-200;
+}
+.select2-container--default .select2-results__group {
+	@apply cursor-default block p-1.5;
+}
+.select2-container--classic .select2-selection--single {
+	@apply border rounded outline-0 border-solid border-[#aaa] focus:border focus:border-solid focus:border-[#5897fb];
+}
+.select2-container--classic
+	.select2-selection--single
+	.select2-selection__rendered {
+	@apply text-[#444] leading-7;
+}
+.select2-container--classic
+	.select2-selection--single
+	.select2-selection__clear {
+	@apply cursor-pointer float-right font-[bold] h-[26px] mr-5;
+}
+.select2-container--classic
+	.select2-selection--single
+	.select2-selection__placeholder {
+	@apply text-[#999];
+}
+.select2-container--classic
+	.select2-selection--single
+	.select2-selection__arrow {
+	@apply h-[26px] absolute w-5 rounded-tr rounded-br border-l-[#aaa] border-[none] border-l border-solid right-px top-px;
+}
+.select2-container--classic
+	.select2-selection--single
+	.select2-selection__arrow
+	b {
+	@apply h-0 absolute w-0 -ml-1 -mt-0.5 border-[#888_transparent_transparent_transparent] border-solid border-[5px_4px_0_4px] left-2/4 top-2/4;
+}
+.select2-container--classic[dir="rtl"]
+	.select2-selection--single
+	.select2-selection__clear {
+	@apply float-left;
+}
+.select2-container--classic[dir="rtl"]
+	.select2-selection--single
+	.select2-selection__arrow {
+	@apply rounded-none rounded-tl rounded-bl border-r-[#aaa] border-[none] border-r border-solid left-px right-auto;
+}
+.select2-container--classic.select2-container--open .select2-selection--single {
+	@apply border border-solid border-[#5897fb];
+}
+.select2-container--classic.select2-container--open
+	.select2-selection--single
+	.select2-selection__arrow {
+	@apply border-[none];
+}
+.select2-container--classic.select2-container--open
+	.select2-selection--single
+	.select2-selection__arrow
+	b {
+	@apply border-[transparent_transparent_#888_transparent] border-[0_4px_5px_4px];
+}
+.select2-container--classic.select2-container--open.select2-container--above
+	.select2-selection--single {
+	@apply rounded-t-none border-t-[none];
+}
+.select2-container--classic.select2-container--open.select2-container--below
+	.select2-selection--single {
+	@apply rounded-br-none rounded-bl-none border-b-[none];
+}
+.select2-container--classic .select2-selection--multiple {
+	@apply border rounded cursor-text pr-[5px] pb-[5px] border-solid border-[#aaa] focus:border focus:border-solid focus:border-[#5897fb];
+	outline: 0;
+}
+.select2-container--classic
+	.select2-selection--multiple
+	.select2-selection__clear {
+	@apply hidden;
+}
+.select2-container--classic
+	.select2-selection--multiple
+	.select2-selection__choice {
+	@apply border rounded inline-block ml-[5px] mt-[5px] p-0 border-solid border-[#aaa];
+}
+.select2-container--classic
+	.select2-selection--multiple
+	.select2-selection__choice__display {
+	@apply cursor-default pl-0.5 pr-[5px];
+}
+.select2-container--classic
+	.select2-selection--multiple
+	.select2-selection__choice__remove {
+	@apply bg-transparent text-[#888] cursor-pointer text-[1em] font-[bold] px-1 py-0 rounded-tl rounded-bl border-[none];
+}
+.select2-container--classic
+	.select2-selection--multiple
+	.select2-selection__choice__remove:hover {
+	@apply text-[#555] outline-0;
+}
+.select2-container--classic[dir="rtl"]
+	.select2-selection--multiple
+	.select2-selection__choice {
+	@apply ml-[5px] mr-auto;
+}
+.select2-container--classic[dir="rtl"]
+	.select2-selection--multiple
+	.select2-selection__choice__display {
+	@apply pl-[5px] pr-0.5;
+}
+.select2-container--classic[dir="rtl"]
+	.select2-selection--multiple
+	.select2-selection__choice__remove {
+	@apply rounded-tl-none rounded-bl-none rounded-tr rounded-br;
+}
+.select2-container--classic.select2-container--open
+	.select2-selection--multiple {
+	@apply border border-solid border-[#5897fb];
+}
+.select2-container--classic.select2-container--open.select2-container--above
+	.select2-selection--multiple {
+	@apply rounded-t-none border-t-[none];
+}
+.select2-container--classic.select2-container--open.select2-container--below
+	.select2-selection--multiple {
+	@apply rounded-br-none rounded-bl-none border-b-[none];
+}
+.select2-container--classic .select2-search--dropdown .select2-search__field {
+	@apply border border-solid border-[#aaa] outline-0;
+}
+.select2-container--classic .select2-search--inline .select2-search__field {
+	@apply shadow-none outline-0;
+}
+.select2-container--classic .select2-dropdown {
+	@apply border border-solid border-transparent;
+}
+.select2-container--classic .select2-dropdown--above {
+	@apply border-b-[none];
+}
+.select2-container--classic .select2-dropdown--below {
+	@apply border-t-[none];
+}
+.select2-container--classic .select2-results > .select2-results__options {
+	@apply max-h-[200px] overflow-y-auto;
+}
+.select2-container--classic .select2-results__option--group {
+	@apply p-0;
+}
+.select2-container--classic .select2-results__option--disabled {
+	@apply text-[grey];
+}
+.select2-container--classic
+	.select2-results__option--highlighted.select2-results__option--selectable {
+	@apply text-white;
+}
+.select2-container--classic .select2-results__group {
+	@apply cursor-default block p-1.5;
+}
+.select2-container--classic.select2-container--open .select2-dropdown {
+	@apply border-[#5897fb];
+}
+
+/* Dark mode overrides */
+.dark .select2-dropdown {
+	@apply border-slate-600;
+}
+
+.dark .select2-container--default .select2-selection--single,
+.dark .select2-container--default .select2-selection--multiple {
+	@apply border-slate-600 text-slate-200;
+}
+
+.dark
+	.select2-container--default
+	.select2-selection--single
+	.select2-selection__rendered {
+	@apply text-slate-200;
+}
+
+.dark
+	.select2-container--default
+	.select2-selection--single
+	.select2-selection__placeholder,
+.dark
+	.select2-container--default
+	.select2-search--inline
+	.select2-search__field::placeholder {
+	@apply text-slate-400;
+}
+
+.dark
+	.select2-container--default
+	.select2-selection--single
+	.select2-selection__arrow
+	b {
+	@apply border-slate-400;
+}
+
+.dark
+	.select2-container--default
+	.select2-selection--multiple
+	.select2-selection__choice {
+	@apply border-slate-600 text-slate-200;
+}
+
+.dark
+	.select2-container--default
+	.select2-selection--multiple
+	.select2-selection__choice__remove {
+	@apply text-slate-400 border-slate-600 hover:text-slate-200 hover:bg-slate-600;
+}
+
+.dark
+	.select2-container--default
+	.select2-search--dropdown
+	.select2-search__field {
+	@apply border-slate-600 text-slate-200;
+}
+
+.dark .select2-container--default .select2-results__option {
+	@apply text-slate-200;
+}
+
+.dark
+	.select2-container--default
+	.select2-results__option--highlighted.select2-results__option--selectable {
+	@apply bg-primary-dark text-slate-200;
+}
+
+.dark .select2-container--default .select2-results__option--selected {
+	/* @apply; */
+}
+
+.dark
+	.select2-container--default.select2-container--disabled
+	.select2-selection--single,
+.dark
+	.select2-container--default.select2-container--disabled
+	.select2-selection--multiple {
+	@apply border-slate-600;
+}
+
+.dark .select2-container--default .select2-results__option--disabled {
+	@apply text-slate-500;
+}
+
+.dark
+	.select2-container--default
+	.select2-selection--multiple
+	.select2-selection__clear,
+.dark
+	.select2-container--default
+	.select2-selection--single
+	.select2-selection__clear {
+	@apply text-slate-400 hover:text-slate-200;
+}
+
+.dark .select2-container--classic .select2-selection--single {
+	@apply border-slate-600;
+	background-image: none;
+}
+
+.dark .select2-container--classic .select2-selection--multiple {
+	@apply border-slate-600;
+}
+
+.dark .select2-container--classic.select2-container--open .select2-dropdown {
+	@apply border-primary-dark;
+}
+
+.select2-container .select2-selection--single,
+.select2-container .select2-selection--multiple {
+	@apply block w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-md text-slate-900 dark:text-slate-100 focus:outline-none focus:border-primary dark:focus:border-primary-dark focus:ring-1 focus:ring-primary dark:focus:ring-primary-dark;
+}
+
+.select2-container .select2-selection--single:disabled,
+.select2-container .select2-selection--multiple:disabled {
+	@apply text-slate-500 dark:text-slate-400 cursor-not-allowed;
+}
+
+.select2-container .select2-selection--single:read-only,
+.select2-container .select2-selection--multiple:read-only {
+	@apply text-slate-500 dark:text-slate-400 h-full;
+}
+
+.select2-container .select2-selection--single.form-error,
+.select2-container .select2-selection--multiple.form-error {
+	@apply border-danger dark:border-danger-dark focus:border-danger dark:focus:border-danger-dark focus:ring-danger dark:focus:ring-danger-dark;
+}
+
+.select2-container .select2-selection--single.form-valid,
+.select2-container .select2-selection--multiple.form-valid {
+	@apply border-success dark:border-success-dark focus:border-success dark:focus:border-success-dark focus:ring-success dark:focus:ring-success-dark;
+}
+
+.select2-container .select2-selection--single:hover,
+.select2-container .select2-selection--multiple:hover {
+	@apply border-primary dark:border-primary-dark;
+}
+
+.select2-container--default
+	.select2-selection--single
+	.select2-selection__rendered {
+	@apply p-0;
+}
+
+.select2-container--default .select2-search--inline .select2-search__field {
+	@apply border-0 focus:ring-0;
+}

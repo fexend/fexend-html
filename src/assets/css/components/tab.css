@@ -1,0 +1,38 @@
+.tab {
+	/*  */
+}
+
+.tab .tab-button {
+	@apply block overflow-x-auto;
+}
+
+.tab-button::-webkit-scrollbar {
+	display: none;
+}
+.tab nav {
+	@apply flex gap-2 md:gap-4;
+}
+
+.tab.tab-bordered .tab-button {
+	@apply border-b border-gray-200 dark:border-gray-800;
+}
+
+.tab-content {
+	@apply mt-4 transition-transform duration-200;
+}
+
+.tab-content .tab-item {
+	@apply transition-transform duration-200;
+}
+
+.tab-link {
+	@apply px-4 py-2 border-b border-transparent dark:border-transparent;
+}
+
+.tab-link.tab-link-icon {
+	@apply flex items-center gap-2;
+}
+
+.tab-link.active {
+	@apply text-primary dark:text-primary-dark border-primary dark:border-primary-dark;
+}

@@ -1,0 +1,235 @@
+.flatpickr-calendar {
+	background: transparent;
+	@apply opacity-0 hidden text-center invisible p-0;
+	@apply font-sans text-sm leading-6 rounded-lg absolute;
+	@apply bg-[var(--color-foreground)] dark:bg-[var(--color-foreground-dark)] w-[307.875px] box-border;
+	@apply shadow-lg border border-background dark:border-background-dark;
+	animation: none;
+	direction: ltr;
+	touch-action: manipulation;
+}
+
+.flatpickr-calendar.open,
+.flatpickr-calendar.inline {
+	@apply opacity-100 visible;
+	max-height: 640px;
+}
+
+.flatpickr-calendar.open {
+	@apply inline-block z-50;
+}
+
+.flatpickr-calendar.animate.open {
+	animation: fpFadeInDown 300ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.flatpickr-calendar.inline {
+	@apply block relative top-0.5;
+}
+
+.flatpickr-calendar.static {
+	@apply absolute;
+	top: calc(100% + 2px);
+}
+
+.flatpickr-calendar.static.open {
+	@apply z-10 block;
+}
+
+.flatpickr-days {
+	@apply relative overflow-hidden flex items-start;
+	width: 307.875px;
+}
+
+.dayContainer {
+	@apply p-0 outline-none text-left;
+	@apply inline-flex flex-wrap justify-around;
+	@apply transform-gpu opacity-100;
+	width: 307.875px;
+	min-width: 307.875px;
+	max-width: 307.875px;
+}
+
+.flatpickr-day {
+	background: transparent;
+	@apply border border-transparent rounded-full box-border;
+	@apply text-dark dark:text-white-dark cursor-pointer font-normal;
+	@apply inline-block relative justify-center text-center;
+	width: 14.2857143%;
+	flex-basis: 14.2857143%;
+	max-width: 39px;
+	height: 39px;
+	line-height: 39px;
+	margin: 0;
+}
+
+.flatpickr-day.inRange,
+.flatpickr-day:hover,
+.flatpickr-day:focus {
+	@apply cursor-pointer outline-none;
+	@apply bg-background dark:bg-background-dark;
+	@apply border-background dark:border-background-dark;
+}
+
+.flatpickr-day.today {
+	@apply border-[var(--color-primary)] dark:border-[var(--color-primary-dark)];
+}
+
+.flatpickr-day.today:hover,
+.flatpickr-day.today:focus {
+	@apply border-[var(--color-primary)] dark:border-[var(--color-primary-dark)];
+	@apply bg-[var(--color-primary)] dark:bg-[var(--color-primary-dark)];
+	@apply text-[var(--color-foreground)] dark:text-[var(--color-foreground-dark)];
+}
+
+.flatpickr-day.selected,
+.flatpickr-day.startRange,
+.flatpickr-day.endRange {
+	@apply bg-[var(--color-primary)] dark:bg-[var(--color-primary-dark)] shadow-none;
+	@apply text-[var(--color-foreground)] dark:text-[var(--color-foreground-dark)];
+	@apply border-[var(--color-primary)] dark:border-[var(--color-primary-dark)];
+}
+
+.flatpickr-day.selected.startRange,
+.flatpickr-day.startRange.startRange,
+.flatpickr-day.endRange.startRange {
+	@apply rounded-r-none;
+}
+
+.flatpickr-day.selected.endRange,
+.flatpickr-day.startRange.endRange,
+.flatpickr-day.endRange.endRange {
+	@apply rounded-l-none;
+}
+
+.flatpickr-day.inRange {
+	@apply rounded-none;
+	box-shadow: -5px 0 0 var(--color-background), 5px 0 0 var(--color-background);
+}
+
+.dark .flatpickr-day.inRange {
+	box-shadow: -5px 0 0 var(--color-background-dark),
+		5px 0 0 var(--color-background-dark);
+}
+
+.flatpickr-day.flatpickr-disabled,
+.flatpickr-day.prevMonthDay,
+.flatpickr-day.nextMonthDay,
+.flatpickr-day.notAllowed {
+	@apply text-gray-400 dark:text-gray-600 border-transparent cursor-default;
+	background: transparent;
+}
+
+.flatpickr-months {
+	@apply flex;
+}
+
+.flatpickr-month {
+	background: transparent;
+	@apply text-dark dark:text-white-dark;
+	@apply fill-current;
+	@apply h-[34px] leading-none text-center relative select-none overflow-hidden flex-1;
+}
+
+.flatpickr-weekdays {
+	background: transparent;
+	@apply text-center overflow-hidden;
+	@apply flex items-center h-[28px];
+}
+
+span.flatpickr-weekday {
+	background: transparent;
+	@apply cursor-default text-[90%];
+	@apply text-[var(--color-dark-secondary)] dark:text-white-dark;
+	@apply leading-none m-0 text-center block flex-1 font-bold;
+}
+
+.flatpickr-months .flatpickr-prev-month.flatpickr-next-month,
+.flatpickr-months .flatpickr-next-month.flatpickr-next-month,
+.flatpickr-months .flatpickr-prev-month.flatpickr-prev-month,
+.flatpickr-months .flatpickr-next-month.flatpickr-prev-month {
+	background: transparent;
+	@apply fill-background-dark dark:fill-background;
+}
+
+.flatpickr-next-month {
+	background: transparent;
+	@apply cursor-pointer text-dark dark:text-white-dark;
+	@apply fill-current;
+	@apply h-[34px] leading-none text-center relative select-none overflow-hidden flex-1;
+}
+
+.flatpickr-current-month {
+	@apply text-[135%] leading-none font-light;
+	@apply text-dark dark:text-white-dark;
+	@apply absolute w-3/4 left-[12.5%] pt-[7.48px] h-[34px] inline-block text-center;
+	@apply transform-gpu;
+	@apply flex justify-between;
+}
+
+.flatpickr-current-month input.cur-year {
+	background: transparent;
+	@apply box-border text-inherit cursor-text;
+	@apply p-0 pl-[0.5ch] m-0 inline-block;
+	@apply text-inherit  font-light;
+	@apply h-auto border-0 rounded-none align-baseline;
+}
+
+.flatpickr-current-month .flatpickr-monthDropdown-months {
+	background: transparent;
+	@apply appearance-none border-none rounded-none;
+	@apply text-inherit cursor-pointer;
+	@apply p-0 pl-[0.5ch] h-auto align-baseline w-auto;
+}
+
+.flatpickr-current-month .flatpickr-monthDropdown-months:hover {
+	@apply bg-background dark:bg-background-dark;
+}
+
+/* Time picker specific styles */
+.flatpickr-time {
+	@apply text-center outline-none block h-10 leading-10 border-t;
+	@apply border-background dark:border-background-dark;
+}
+
+.flatpickr-time input {
+	background: transparent;
+	@apply border-0 text-center;
+	@apply text-dark dark:text-white-dark;
+}
+
+.flatpickr-time .flatpickr-am-pm {
+	@apply text-dark dark:text-white-dark;
+	@apply hover:bg-background dark:hover:bg-background-dark;
+}
+
+.flatpickr-time input:hover,
+.flatpickr-time .flatpickr-am-pm:hover,
+.flatpickr-time input:focus,
+.flatpickr-time .flatpickr-am-pm:focus {
+	@apply bg-foreground dark:bg-foreground-dark;
+}
+
+/* .flatpickr-day .prevMonthDay,
+.flatpickr-day .nextMonthDay {
+	@apply hover:bg-slate-50 hover:dark:bg-slate-950 text-slate-800 dark:text-slate-200 hover:text-slate-900 dark:hover:text-slate-100;
+} */
+
+.flatpickr-day.flatpickr-disabled,
+.flatpickr-day.prevMonthDay,
+.flatpickr-day.nextMonthDay,
+.flatpickr-day.notAllowed {
+	@apply hover:bg-foreground dark:hover:bg-foreground-dark text-slate-500 dark:text-slate-400 border hover:border-slate-300 dark:hover:border-slate-600;
+	background: transparent;
+}
+
+@keyframes fpFadeInDown {
+	from {
+		opacity: 0;
+		transform: translate3d(0, -20px, 0);
+	}
+	to {
+		opacity: 1;
+		transform: translate3d(0, 0, 0);
+	}
+}

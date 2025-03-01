@@ -1,0 +1,27 @@
+.menu-list {
+	@apply space-y-1;
+}
+
+.menu-list-item {
+	@apply flex flex-row items-center justify-between rounded-lg px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-400 transition-transform duration-300 ease-in-out;
+}
+
+.menu-list-item:hover {
+	@apply translate-x-[5px] text-primary dark:text-primary-dark font-normal tracking-wider;
+}
+
+.menu-list-item.active {
+	@apply text-primary dark:text-primary-dark font-semibold;
+}
+
+.menu-list-item .menu-list-icon {
+	@apply flex flex-row items-center gap-2;
+}
+
+.menu-list-item-dropdown {
+	@apply flex w-full items-center justify-between;
+}
+
+.menu-list-nested {
+	@apply mt-5 space-y-1 px-4;
+}

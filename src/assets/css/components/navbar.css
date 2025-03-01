@@ -1,0 +1,16 @@
+/* Navbar Components */
+.navbar-layout {
+	@apply fixed top-0 z-50 w-full bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800;
+}
+
+.navbar-button {
+	@apply p-2 rounded-sm hover:bg-slate-100 dark:hover:bg-slate-800;
+}
+
+.navbar-notification-badge {
+	@apply absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full;
+}
+
+.nav-title {
+	@apply ml-3 text-sm md:text-base lg:text-xl font-semibold dark:text-white whitespace-nowrap text-ellipsis overflow-x-hidden;
+}

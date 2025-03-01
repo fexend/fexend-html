@@ -1,0 +1,39 @@
+.collapse-component {
+	/* @apply ; */
+}
+
+.collapse-bordered {
+	.collapse-header {
+		@apply border-b border-gray-200 dark:border-gray-700;
+	}
+}
+
+.collapse-header svg {
+	@apply transition-transform duration-500;
+}
+
+.collapse-full-bordered {
+	.collapse-header {
+		@apply border border-gray-200 dark:border-gray-700;
+	}
+
+	.collapse-body {
+		@apply border border-gray-200 dark:border-gray-700;
+	}
+}
+
+.collapse-separated {
+	@apply my-4;
+}
+
+.collapse-header {
+	@apply text-lg flex justify-between items-center px-4 py-2 rounded-md hover:cursor-pointer;
+}
+
+.collapse-title {
+	@apply text-lg;
+}
+
+.collapse-body {
+	@apply font-normal text-base px-4 py-2 transition-transform duration-500;
+}

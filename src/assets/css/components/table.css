@@ -1,0 +1,48 @@
+.table-container {
+	@apply relative overflow-x-auto;
+}
+
+.table-container::-webkit-scrollbar {
+	display: none;
+}
+
+table {
+	@apply w-full text-left;
+}
+
+thead {
+	@apply border-b border-slate-200 dark:border-slate-800;
+}
+
+thead.thead-dark {
+	@apply bg-slate-200 dark:bg-slate-900;
+}
+
+table.hover tbody tr {
+	@apply hover:bg-slate-100 dark:hover:bg-slate-800;
+}
+
+table.striped tbody tr:nth-child(odd) {
+	@apply bg-slate-200 dark:bg-slate-800;
+}
+
+th {
+	@apply font-semibold;
+}
+
+tfoot {
+	@apply border-t border-slate-200 dark:border-slate-800;
+}
+
+tfoot tr {
+	@apply border-none;
+}
+
+tr {
+	@apply border-b border-slate-200 dark:border-slate-800;
+}
+
+th,
+td {
+	@apply space-x-4 py-3 whitespace-nowrap px-4;
+}
