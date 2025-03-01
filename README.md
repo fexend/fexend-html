@@ -41,11 +41,4 @@ npm install && npm run dev
 ## Next Release
 
 - [ ] wyswyd input (tinymce or something else)
-- [ ] change the title for each page
 - [ ] add a breadcrumb for each page
-- [ ] flatpickr
-- [ ] Input with icon
-- [ ] input mask (phone, money)
-- [ ] select2
-- [ ] dropdown for file input
-- [ ] Datatable with datatables.net
