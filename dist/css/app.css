@@ -647,9 +647,6 @@
   .my-6 {
     margin-block: calc(var(--spacing) * 6);
   }
-  .me-auto {
-    margin-inline-end: auto;
-  }
   .mt-2 {
     margin-top: calc(var(--spacing) * 2);
   }
@@ -3474,6 +3471,39 @@ h6 {
 .modal-bottom-right {
   align-items: flex-end;
   justify-content: flex-end;
+}
+.modal-sm {
+  max-width: var(--container-sm);
+}
+.modal-md {
+  max-width: var(--container-md);
+}
+.modal-lg {
+  max-width: var(--container-lg);
+}
+.modal-xl {
+  max-width: var(--container-xl);
+}
+.modal-2xl {
+  max-width: var(--container-2xl);
+}
+.modal-3xl {
+  max-width: var(--container-3xl);
+}
+.modal-4xl {
+  max-width: var(--container-4xl);
+}
+.modal-5xl {
+  max-width: var(--container-5xl);
+}
+.modal-6xl {
+  max-width: var(--container-6xl);
+}
+.modal-7xl {
+  max-width: var(--container-7xl);
+}
+.modal-full {
+  width: 100%;
 }
 .pagination {
   display: flex;
@@ -9454,13 +9484,6 @@ body {
 html.dark body {
   background-color: var(--color-background-dark);
   color: var(--color-foreground);
-}
-* {
-  transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to;
-  transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
-  transition-duration: var(--tw-duration, var(--default-transition-duration));
-  --tw-duration: 200ms;
-  transition-duration: 200ms;
 }
 .group:hover span {
   visibility: visible;

@@ -62,3 +62,48 @@
 .modal-bottom-right {
 	@apply items-end justify-end;
 }
+
+/* Modal Size Classes */
+.modal-sm {
+	@apply max-w-sm;
+}
+
+.modal-md {
+	@apply max-w-md;
+}
+
+.modal-lg {
+	@apply max-w-lg;
+}
+
+.modal-xl {
+	@apply max-w-xl;
+}
+
+.modal-2xl {
+	@apply max-w-2xl;
+}
+
+.modal-3xl {
+	@apply max-w-3xl;
+}
+
+.modal-4xl {
+	@apply max-w-4xl;
+}
+
+.modal-5xl {
+	@apply max-w-5xl;
+}
+
+.modal-6xl {
+	@apply max-w-6xl;
+}
+
+.modal-7xl {
+	@apply max-w-7xl;
+}
+
+.modal-full {
+	@apply w-full;
+}
