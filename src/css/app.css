@@ -36,10 +36,6 @@ html.dark body {
 	@apply bg-background-dark text-foreground;
 }
 
-* {
-	@apply transition-colors duration-200;
-}
-
 /* Transitions */
 /* .transition-default {
 	@apply transition-all duration-200;
