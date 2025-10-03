@@ -1243,6 +1243,12 @@
   .text-yellow-500 {
     color: var(--color-yellow-500);
   }
+  .italic {
+    font-style: italic;
+  }
+  .underline {
+    text-decoration-line: underline;
+  }
   .opacity-0 {
     opacity: 0%;
   }
