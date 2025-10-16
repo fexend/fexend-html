@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Switch Component | Fexend</title>
+		<title>Rich Text Editor | Fexend</title>
 		<link rel="stylesheet" defer href="/dist/css/app.css" />
 
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -24,6 +24,18 @@
 			defer
 			src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
 		></script>
+
+		<!-- Rich Text Editor Dependencies -->
+		<!-- Using CDN for simplicity. If you prefer self-hosting, install via npm: -->
+		<!-- npm install quill tinymce @ckeditor/ckeditor5-build-classic -->
+		<!-- Then update the script/link tags below to point to local files -->
+
+		<!-- Quill Editor CSS -->
+		<link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
+
+		<!-- TinyMCE -->
+		<script src="https://cdn.jsdelivr.net/npm/tinymce@6.8.3/tinymce.min.js"></script>
+
 		<script>
 			// Initialize dark mode before Alpine loads
 			if (
@@ -50,6 +62,20 @@
 			}
 			.dark #loading-screen {
 				background-color: var(--color-background-dark);
+			}
+			/* Quill editor styling */
+			.ql-container {
+				min-height: 200px;
+				border-bottom-left-radius: 0.5rem;
+				border-bottom-right-radius: 0.5rem;
+			}
+			.ql-toolbar {
+				border-top-left-radius: 0.5rem;
+				border-top-right-radius: 0.5rem;
+			}
+			/* CKEditor styling */
+			.ck-editor__editable {
+				min-height: 200px;
 			}
 		</style>
 	</head>
@@ -150,114 +176,142 @@
 								<!-- Notifications with Dropdown -->
 								<div
 									class="relative"
-									x-data="{
-										 notificationOpen: false,
-										 activeTab: 'unread',
-									 }"
+									x-data="{ openDropdown: false }"
+									@click.away="openDropdown = false"
 								>
 									<button
-										class="navbar-button relative"
-										@click="notificationOpen = !notificationOpen"
+										@click="openDropdown = !openDropdown"
+										class="navbar-button"
 									>
-										<!-- Tabler bell icon -->
 										<svg
 											xmlns="http://www.w3.org/2000/svg"
-											class="icon icon-tabler icon-tabler-bell w-6 h-6 dark:text-gray-200"
 											width="24"
 											height="24"
 											viewBox="0 0 24 24"
-											stroke-width="1.5"
-											stroke="currentColor"
 											fill="none"
+											stroke="currentColor"
+											stroke-width="2"
 											stroke-linecap="round"
 											stroke-linejoin="round"
+											class="icon icon-tabler icons-tabler-outline icon-tabler-bell"
 										>
 											<path stroke="none" d="M0 0h24v24H0z" fill="none" />
 											<path
-												d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a1 1 0 0 0 .293 .707l1 1a1 1 0 0 1 -.707 1.707h-14a1 1 0 0 1 -.707 -1.707l1 -1a1 1 0 0 0 .293 -.707v-3a7 7 0 0 1 4 -6"
+												d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6"
 											/>
-											<path d="M9 17h6" />
+											<path d="M9 17v1a3 3 0 0 0 6 0v-1" />
 										</svg>
-										<span class="navbar-notification-badge"></span>
+										<span class="navbar-badge">5</span>
 									</button>
+
 									<div
-										x-show="notificationOpen"
-										@click.away="notificationOpen = false"
+										x-show="openDropdown"
 										x-transition
-										class="absolute right-0 mt-2 w-80 bg-white dark:bg-gray-800 rounded-lg shadow-lg z-10"
+										class="navbar-dropdown"
 									>
 										<div
-											class="p-4 border-b border-gray-200 dark:border-gray-700"
+											class="px-4 py-3 text-sm text-gray-900 dark:text-white font-bold"
 										>
-											<div>
-												<button
-													@click="activeTab = 'unread'"
-													:class="{'font-bold': activeTab==='unread'}"
-													class="mr-4"
-												>
-													Unread
-												</button>
-												<button
-													@click="activeTab = 'read'"
-													:class="{'font-bold': activeTab==='read'}"
-												>
-													Read
-												</button>
-											</div>
+											Notification
 										</div>
-										<div class="max-h-64 overflow-y-auto p-4">
-											<template x-if="activeTab==='unread'">
-												<div>
-													<div class="text-sm mb-2">
-														<button class="hover:underline">
-															Mark all as read
-														</button>
-													</div>
-													<ul>
-														<li class="p-2 text-gray-500">
-															No unread notifications.
-														</li>
-													</ul>
-												</div>
-											</template>
-											<template x-if="activeTab==='read'">
-												<div>
-													<div class="text-sm mb-2">
-														<button class="mr-2 hover:underline">Clear</button>
-													</div>
-													<ul>
-														<li class="p-2 text-gray-500">
-															No read notifications.
-														</li>
-													</ul>
-												</div>
-											</template>
+										<ul
+											class="py-2 text-sm text-gray-700 dark:text-gray-200"
+											aria-labelledby="dropdownUserButton"
+										>
+											<li>
+												<a href="#" class="navbar-dropdown-link"
+													>Dashboard</a
+												>
+											</li>
+											<li>
+												<a href="#" class="navbar-dropdown-link"
+													>Settings</a
+												>
+											</li>
+											<li>
+												<a href="#" class="navbar-dropdown-link"
+													>Earnings</a
+												>
+											</li>
+										</ul>
+										<div class="py-2">
+											<a href="#" class="navbar-dropdown-link">Sign out</a>
 										</div>
 									</div>
 								</div>
-								<!-- Dark Mode Toggle -->
+
+								<!-- Profile Dropdown -->
+								<div
+									class="relative"
+									x-data="{ openDropdown: false }"
+									@click.away="openDropdown = false"
+								>
+									<button @click="openDropdown = !openDropdown" class="flex">
+										<span class="sr-only">Open user menu</span>
+										<img
+											class="w-8 h-8 rounded-full"
+											src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+											alt="user photo"
+										/>
+									</button>
+
+									<div
+										x-show="openDropdown"
+										x-transition
+										class="navbar-dropdown"
+									>
+										<div
+											class="px-4 py-3 text-sm text-gray-900 dark:text-white"
+										>
+											<div>Bonnie Green</div>
+											<div class="font-medium truncate">
+												name@flowbite.com
+											</div>
+										</div>
+										<ul
+											class="py-2 text-sm text-gray-700 dark:text-gray-200"
+											aria-labelledby="dropdownUserButton"
+										>
+											<li>
+												<a href="#" class="navbar-dropdown-link"
+													>Dashboard</a
+												>
+											</li>
+											<li>
+												<a href="#" class="navbar-dropdown-link"
+													>Settings</a
+												>
+											</li>
+											<li>
+												<a href="#" class="navbar-dropdown-link"
+													>Earnings</a
+												>
+											</li>
+										</ul>
+										<div class="py-2">
+											<a href="#" class="navbar-dropdown-link">Sign out</a>
+										</div>
+									</div>
+								</div>
 								<button @click="toggleDarkMode()" class="navbar-button">
-									<!-- Tabler sun icon for light mode -->
 									<svg
 										x-show="!darkMode"
 										xmlns="http://www.w3.org/2000/svg"
-										class="icon icon-tabler icon-tabler-sun w-6 h-6"
 										width="24"
 										height="24"
 										viewBox="0 0 24 24"
-										stroke-width="1.5"
-										stroke="currentColor"
 										fill="none"
+										stroke="currentColor"
+										stroke-width="2"
 										stroke-linecap="round"
 										stroke-linejoin="round"
+										class="icon icon-tabler icons-tabler-outline icon-tabler-moon"
 									>
 										<path stroke="none" d="M0 0h24v24H0z" fill="none" />
-										<circle cx="12" cy="12" r="4" />
 										<path
-											d="M3 12h1M20 12h1M12 3v1M12 20v1M5.64 5.64l.707 .707M17.657 17.657l.707 .707M5.64 18.36l.707 -.707M17.657 6.343l.707 -.707"
+											d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z"
 										/>
 									</svg>
-									<!-- Tabler moon icon for dark mode -->
 									<svg
 										x-show="darkMode"
 										xmlns="http://www.w3.org/2000/svg"
@@ -269,54 +323,20 @@
 										stroke-width="2"
 										stroke-linecap="round"
 										stroke-linejoin="round"
-										class="icon icon-tabler icons-tabler-outline icon-tabler-moon w-6 h-6 dark:text-gray-200"
+										class="icon icon-tabler icons-tabler-outline icon-tabler-sun"
 									>
 										<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+										<circle cx="12" cy="12" r="4" />
 										<path
-											d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z"
+											d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7"
 										/>
 									</svg>
 								</button>
-
-								<!-- Profile Dropdown -->
-								<div x-data="{ profileOpen: false }" class="relative">
-									<button
-										@click="profileOpen = !profileOpen"
-										class="navbar-button"
-									>
-										<img
-											src="https://ui-avatars.com/api/?name=Zera+App&background=615fff&color=fff"
-											alt="User avatar"
-											class="w-8 h-8 rounded-full"
-										/>
-									</button>
-									<div
-										x-show="profileOpen"
-										@click.away="profileOpen = false"
-										x-transition
-										class="absolute right-0 mt-2 w-40 bg-foreground dark:bg-foreground-dark rounded-lg shadow-lg z-10"
-									>
-										<a
-											href="/src/pages/profile.html"
-											class="block px-4 py-2 text-sm"
-											>Profile</a
-										>
-										<a
-											href="/src/settings/index.html"
-											class="block px-4 py-2 text-sm"
-											>Settings</a
-										>
-										<a href="/src/index.html" class="block px-4 py-2 text-sm"
-											>Logout</a
-										>
-									</div>
-								</div>
 							</div>
 						</div>
 					</div>
 				</nav>
 			</header>
-			<!-- Navbar -->
 
 			<!-- Sidebar -->
 			<aside class="flex mt-16 fixed top-0 left-0 isolated z-10 h-full">
@@ -421,7 +441,9 @@
 											>
 												<path stroke="none" d="M0 0h24v24H0z" fill="none" />
 												<path d="M14 3v4a1 1 0 0 0 1 1h4" />
-												<path d="M5 12v-7a2 2 0 0 1 2 -2h7l5 5v4" />
+												<path
+													d="M5 12v-7a2 2 0 0 1 2 -2h7l5 5v4"
+												/>
 												<path d="M2 21v-6" />
 												<path d="M5 15v6" />
 												<path d="M2 18h3" />
@@ -441,13 +463,13 @@
 
 									<li>
 										<a
-											href="/src/components/accordion.html"
+											href="/src/components/index.html"
 											x-data="{ tooltip: false }"
 											@mouseover="tooltip = true"
 											@mouseleave="tooltip = false"
 											class="group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-primary dark:hover:bg-primary-dark dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
 										>
-											<!-- Component Icon -->
+											<!-- Component -->
 											<svg
 												xmlns="http://www.w3.org/2000/svg"
 												width="24"
@@ -483,7 +505,7 @@
 											@mouseleave="tooltip = false"
 											class="group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-primary dark:hover:bg-primary-dark dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
 										>
-											<!-- Pages Icon -->
+											<!-- Page -->
 											<svg
 												xmlns="http://www.w3.org/2000/svg"
 												width="24"
@@ -494,21 +516,19 @@
 												stroke-width="2"
 												stroke-linecap="round"
 												stroke-linejoin="round"
-												class="icon icon-tabler icons-tabler-outline icon-tabler-article"
+												class="icon icon-tabler icons-tabler-outline icon-tabler-file"
 											>
-												<path stroke="none" d="M0 0h24h24H0z" fill="none" />
+												<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+												<path d="M14 3v4a1 1 0 0 0 1 1h4" />
 												<path
-													d="M3 4m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z"
+													d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"
 												/>
-												<path d="M7 8h10" />
-												<path d="M7 12h10" />
-												<path d="M7 16h10" />
 											</svg>
 											<span
 												x-show="tooltip"
 												x-transition
 												class="absolute left-full ml-2 top-1/2 transform -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal"
-												>Pages</span
+												>Page</span
 											>
 										</a>
 									</li>
@@ -516,82 +536,40 @@
 							</div>
 						</div>
 					</div>
-
-					<div
-						class="sticky inset-x-0 bottom-0 border-t border-gray-100 dark:border-gray-700 bg-foreground dark:bg-background-dark p-2"
-					>
-						<!-- Logout -->
-						<div class="relative" x-data="{ tooltip: false }">
-							<form action="#">
-								<button
-									type="submit"
-									class="group relative flex w-full justify-center rounded-sm px-2 py-1.5 text-sm text-gray-500 hover:bg-primary dark:hover:bg-primary-dark dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
-									@mouseover="tooltip = true"
-									@mouseleave="tooltip = false"
-								>
-									<!-- Logout Icon -->
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										class="size-5 opacity-75"
-										fill="none"
-										viewBox="0 0 24 24"
-										stroke="currentColor"
-										stroke-width="2"
-									>
-										<path
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-										/>
-									</svg>
-								</button>
-								<span
-									x-show="tooltip"
-									x-transition
-									class="absolute left-full ml-2 top-1/2 transform -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal"
-								>
-									Logout
-								</span>
-							</form>
-						</div>
-					</div>
 				</div>
-				<!-- Icon Sidebar - Hidden on mobile, visible on tablet and up -->
 
 				<!-- Expanded Sidebar - Mobile overlay, normal sidebar on larger screens -->
-				<div class="relative z-10">
+				<div class="sidebar-wrapper">
 					<div
-						x-cloak
 						x-show="sidebarOpen"
-						x-transition:enter="transform transition duration-300 ease-in-out"
-						x-transition:enter-start="translate-x-[-100%]"
+						x-transition:enter="transition-all ease-linear duration-300"
+						x-transition:enter-start="-translate-x-full"
 						x-transition:enter-end="translate-x-0"
-						x-transition:leave="transform transition duration-300 ease-in-out"
+						x-transition:leave="transition-all ease-linear duration-300"
 						x-transition:leave-start="translate-x-0"
-						x-transition:leave-end="translate-x-[-100%]"
+						x-transition:leave-end="-translate-x-full"
 						class="sidebar-layout overflow-y-auto max-h-screen"
 					>
-						<div class="px-4 py-6">
-							<ul class="space-y-1" x-data="{ selected: null }">
-								<li>
+						<div class="px-3 pb-4 overflow-y-auto">
+							<ul class="space-y-2 font-medium">
+								<li x-data="{ open: false }">
 									<a href="/src/elements/index.html" class="sidebar-link"
 										>Element</a
 									>
 								</li>
-								<li>
+								<li x-data="{ open: true }">
 									<a href="/src/elements/button.html" class="sidebar-link"
 										>Button</a
 									>
 								</li>
 								<li x-data="{ open: true }">
 									<button @click="open = !open" class="sidebar-dropdown-button">
-										<span class="text-sm font-medium">Input</span>
+										<span>Form</span>
 										<svg
-											xmlns="http://www.w3.org/2000/svg"
 											class="sidebar-dropdown-icon"
-											:class="{ 'open': open }"
-											viewBox="0 0 20 20"
+											xmlns="http://www.w3.org/2000/svg"
 											fill="currentColor"
+											viewBox="0 0 20 20"
 										>
 											<path
 												fill-rule="evenodd"
@@ -646,7 +624,7 @@
 										<li>
 											<a
 												href="/src/elements/forms/switch.html"
-												class="sidebar-nested-link sidebar-nested-link-active"
+												class="sidebar-nested-link"
 												>Switch</a
 											>
 										</li>
@@ -660,7 +638,7 @@
 										<li>
 											<a
 												href="/src/elements/forms/richtext.html"
-												class="sidebar-nested-link"
+												class="sidebar-nested-link sidebar-nested-link-active"
 												>Rich Text</a
 											>
 										</li>
@@ -698,308 +676,203 @@
 			>
 				<div class="card">
 					<div class="card-header">
-						<h2 class="card-title">Switch</h2>
+						<h2 class="card-title">Quill Editor</h2>
+						<p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
+							A powerful rich text editor with a clean interface
+						</p>
 					</div>
 					<div class="card-body">
-						<div class="flex flex-row">
-							<input
-								class="input-switch input-switch-primary"
-								type="checkbox"
-								role="switch"
-								id="flexSwitchCheckPrimary"
-							/>
-							<label
-								class="inline-block ps-[0.15rem] hover:cursor-pointer"
-								for="flexSwitchCheckPrimary"
-								>Primary switch checkbox input</label
-							>
-						</div>
-						<div class="flex flex-row">
-							<input
-								class="input-switch input-switch-secondary"
-								type="checkbox"
-								role="switch"
-								id="flexSwitchCheckSecondary"
-							/>
-							<label
-								class="inline-block ps-[0.15rem] hover:cursor-pointer"
-								for="flexSwitchCheckSecondary"
-								>Secondary switch checkbox input</label
-							>
-						</div>
-						<div class="flex flex-row">
-							<input
-								class="input-switch input-switch-warning"
-								type="checkbox"
-								role="switch"
-								id="flexSwitchCheckWarning"
-							/>
-							<label
-								class="inline-block ps-[0.15rem] hover:cursor-pointer"
-								for="flexSwitchCheckWarning"
-								>Warning switch checkbox input</label
-							>
-						</div>
-						<div class="flex flex-row">
-							<input
-								class="input-switch input-switch-success"
-								type="checkbox"
-								role="switch"
-								id="flexSwitchCheckSuccess"
-							/>
-							<label
-								class="inline-block ps-[0.15rem] hover:cursor-pointer"
-								for="flexSwitchCheckSuccess"
-								>Success switch checkbox input</label
-							>
-						</div>
-						<div class="flex flex-row">
-							<input
-								class="input-switch input-switch-danger"
-								type="checkbox"
-								role="switch"
-								id="flexSwitchCheckDanger"
-							/>
-							<label
-								class="inline-block ps-[0.15rem] hover:cursor-pointer"
-								for="flexSwitchCheckDanger"
-								>Danger switch checkbox input</label
-							>
-						</div>
-						<div class="flex flex-row">
-							<input
-								class="input-switch input-switch-info"
-								type="checkbox"
-								role="switch"
-								id="flexSwitchCheckInfo"
-							/>
-							<label
-								class="inline-block ps-[0.15rem] hover:cursor-pointer"
-								for="flexSwitchCheckInfo"
-								>Info switch checkbox input</label
-							>
-						</div>
-						<div class="flex flex-row">
-							<input
-								class="input-switch input-switch-white"
-								type="checkbox"
-								role="switch"
-								id="flexSwitchCheckWhite"
-							/>
-							<label
-								class="inline-block ps-[0.15rem] hover:cursor-pointer"
-								for="flexSwitchCheckWhite"
-								>White switch checkbox input</label
-							>
-						</div>
-						<div class="flex flex-row">
-							<input
-								class="input-switch input-switch-dark"
-								type="checkbox"
-								role="switch"
-								id="flexSwitchCheckDark"
-							/>
-							<label
-								class="inline-block ps-[0.15rem] hover:cursor-pointer"
-								for="flexSwitchCheckDark"
-								>Dark switch checkbox input</label
-							>
+						<div class="form-group">
+							<label>Content <span class="text-danger">*</span></label>
+							<div id="quill-editor"></div>
 						</div>
 					</div>
 				</div>
-			</div>
 
-			<!-- Mobile Bottom Menu -->
-			<div
-				x-show="isMobile"
-				x-transition:enter="transition ease-out duration-200"
-				x-transition:enter-start="opacity-0"
-				x-transition:enter-end="opacity-100"
-				class="mobile-menu flex justify-center lg:hidden"
-			>
-				<button
-					@click="mobileMenuOpen = !mobileMenuOpen"
-					class="button button-primary button-rounded flex items-center space-x-2 px-4 py-2 rounded-lg"
-				>
-					<!-- Tabler menu icon -->
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						width="24"
-						height="24"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						class="icon icon-tabler icons-tabler-outline icon-tabler-layout-dashboard"
-					>
-						<path stroke="none" d="M0 0h24h24H0z" fill="none" />
-						<path
-							d="M5 4h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1"
-						/>
-						<path
-							d="M5 16h4a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-2a1 1 0 0 1 1 -1"
-						/>
-						<path
-							d="M15 12h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1"
-						/>
-						<path
-							d="M15 4h4a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-2a1 1 0 0 1 1 -1"
-						/>
-					</svg>
-					<span class="text-sm font-medium">Menu</span>
-				</button>
-			</div>
+				<div class="card mt-4">
+					<div class="card-header">
+						<h2 class="card-title">TinyMCE Editor</h2>
+						<p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
+							A feature-rich WYSIWYG editor with extensive customization options
+						</p>
+					</div>
+					<div class="card-body">
+						<div class="form-group">
+							<label>Content <span class="text-danger">*</span></label>
+							<textarea id="tinymce-editor">
+								<p>Welcome to TinyMCE!</p>
+								<p>This is a powerful rich text editor with many features.</p>
+								<ul>
+									<li>Easy to use</li>
+									<li>Highly customizable</li>
+									<li>Feature-rich</li>
+								</ul>
+							</textarea>
+						</div>
+					</div>
+				</div>
 
-			<!-- Mobile Menu Popup -->
-			<div
-				x-show="isMobile && mobileMenuOpen"
-				x-transition:enter="transition ease-out duration-200"
-				x-transition:enter-start="opacity-0 transform translate-y-8"
-				x-transition:enter-end="opacity-100 transform translate-y-0"
-				x-transition:leave="transition ease-in duration-200"
-				x-transition:leave-start="opacity-100 transform translate-y-0"
-				x-transition:leave-end="opacity-0 transform translate-y-8"
-				@click.away="mobileMenuOpen = false"
-				class="mobile-menu-popup block lg:hidden"
-			>
-				<div class="space-y-4 py-2">
-					<!-- Dashboard -->
-					<a
-						href="/src/dashboard/dashboard.html"
-						class="flex items-center space-x-3 px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"
-					>
-						<!-- Dashboard -->
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							class="h-5 w-5 opacity-75"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke="currentColor"
-							stroke-width="2"
-						>
-							<path stroke="none" d="M0 0h24h24H0z" fill="none" />
-							<path d="M5 12l-2 0l9 -9l9 9l-2 0" />
-							<path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
-							<path d="M10 12h4v4h-4z" />
-						</svg>
-						<span>Dashboard</span>
-					</a>
+				<div class="card mt-4">
+					<div class="card-header">
+						<h2 class="card-title">CKEditor 5</h2>
+						<p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
+							Modern editing experience with collaborative features
+						</p>
+					</div>
+					<div class="card-body">
+						<div class="form-group">
+							<label>Content <span class="text-danger">*</span></label>
+							<div id="ckeditor"></div>
+						</div>
+					</div>
+				</div>
 
-					<!-- Element -->
-					<a
-						href="/src/elements/index.html"
-						class="flex items-center space-x-3 px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"
-					>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							width="24"
-							height="24"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="2"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							class="icon icon-tabler icons-tabler-outline icon-tabler-file-type-html"
-						>
-							<path stroke="none" d="M0 0h24h24H0z" fill="none" />
-							<path d="M14 3v4a1 1 0 0 0 1 1h4" />
-							<path d="M5 12v-7a2 2 0 0 1 2 -2h7l5 5v4" />
-							<path d="M2 21v-6" />
-							<path d="M5 15v6" />
-							<path d="M2 18h3" />
-							<path d="M20 15v6h2" />
-							<path d="M13 21v-6l2 3l2 -3v6" />
-							<path d="M7.5 15h3" />
-							<path d="M9 15v6" />
-						</svg>
-						<span>Element</span>
-					</a>
-
-					<!-- Component -->
-					<a
-						href="/src/components/accordion.html"
-						class="flex items-center space-x-3 px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"
-					>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							width="24"
-							height="24"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="2"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							class="icon icon-tabler icons-tabler-outline icon-tabler-components"
-						>
-							<path stroke="none" d="M0 0h24h24H0z" fill="none" />
-							<path d="M3 12l3 3l3 -3l-3 -3z" />
-							<path d="M15 12l3 3l3 -3l-3 -3z" />
-							<path d="M9 6l3 3l3 -3l-3 -3z" />
-							<path d="M9 18l3 3l3 -3l-3 -3z" />
-						</svg>
-						<span>Component</span>
-					</a>
-
-					<!-- Pages -->
-					<a
-						href="/src/pages/index.html"
-						class="flex items-center space-x-3 px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"
-					>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							width="24"
-							height="24"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="2"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							class="icon icon-tabler icons-tabler-outline icon-tabler-article"
-						>
-							<path stroke="none" d="M0 0h24h24H0z" fill="none" />
-							<path
-								d="M3 4m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z"
-							/>
-							<path d="M7 8h10" />
-							<path d="M7 12h10" />
-							<path d="M7 16h10" />
-						</svg>
-						<span>Pages</span>
-					</a>
-
-					<!-- Divider -->
-					<div class="border-t border-gray-200 dark:border-gray-700 my-2"></div>
-
-					<!-- Logout -->
-					<form action="#" class="px-2">
-						<button
-							type="submit"
-							class="flex w-full items-center space-x-3 px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"
-						>
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								class="h-5 w-5"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke="currentColor"
-							>
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									stroke-width="2"
-									d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+				<div class="card mt-4">
+					<div class="card-header">
+						<h2 class="card-title">Form Example with Rich Text</h2>
+						<p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
+							Complete form using rich text editor
+						</p>
+					</div>
+					<div class="card-body">
+						<form>
+							<div class="form-group">
+								<label>Title <span class="text-danger">*</span></label>
+								<input
+									type="text"
+									placeholder="Enter title"
+									required
 								/>
-							</svg>
-							<span>Logout</span>
-						</button>
-					</form>
+							</div>
+							<div class="form-group">
+								<label>Category <span class="text-danger">*</span></label>
+								<select required>
+									<option value="">Select category</option>
+									<option value="blog">Blog Post</option>
+									<option value="news">News</option>
+									<option value="documentation">Documentation</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label>Content <span class="text-danger">*</span></label>
+								<div id="quill-editor-form"></div>
+							</div>
+							<div class="form-group">
+								<label>Tags</label>
+								<input
+									type="text"
+									placeholder="Separate tags with commas"
+								/>
+							</div>
+							<div class="flex gap-2">
+								<button type="submit" class="btn btn-primary">
+									Save Draft
+								</button>
+								<button type="submit" class="btn btn-success">
+									Publish
+								</button>
+								<button type="button" class="btn btn-secondary">
+									Cancel
+								</button>
+							</div>
+						</form>
+					</div>
 				</div>
 			</div>
 		</main>
+
+		<!-- Quill Editor JS -->
+		<script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+
+		<!-- CKEditor -->
+		<script src="https://cdn.ckeditor.com/ckeditor5/40.2.0/classic/ckeditor.js"></script>
+
+		<script>
+			// Initialize editors after page loads
+			document.addEventListener('DOMContentLoaded', function() {
+				// Initialize Quill Editor
+				const quillEditor = new Quill('#quill-editor', {
+					theme: 'snow',
+					placeholder: 'Write something amazing...',
+					modules: {
+						toolbar: [
+							[{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+							[{ 'font': [] }],
+							[{ 'size': ['small', false, 'large', 'huge'] }],
+							['bold', 'italic', 'underline', 'strike'],
+							[{ 'color': [] }, { 'background': [] }],
+							[{ 'script': 'sub'}, { 'script': 'super' }],
+							[{ 'list': 'ordered'}, { 'list': 'bullet' }],
+							[{ 'indent': '-1'}, { 'indent': '+1' }],
+							[{ 'align': [] }],
+							['blockquote', 'code-block'],
+							['link', 'image', 'video'],
+							['clean']
+						]
+					}
+				});
+
+				// Initialize Quill Editor for form
+				const quillEditorForm = new Quill('#quill-editor-form', {
+					theme: 'snow',
+					placeholder: 'Write your content here...',
+					modules: {
+						toolbar: [
+							[{ 'header': [1, 2, 3, false] }],
+							['bold', 'italic', 'underline'],
+							[{ 'list': 'ordered'}, { 'list': 'bullet' }],
+							['link', 'image'],
+							['clean']
+						]
+					}
+				});
+
+				// Initialize TinyMCE
+				tinymce.init({
+					selector: '#tinymce-editor',
+					height: 400,
+					menubar: true,
+					plugins: [
+						'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+						'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+						'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
+					],
+					toolbar: 'undo redo | blocks | ' +
+						'bold italic forecolor | alignleft aligncenter ' +
+						'alignright alignjustify | bullist numlist outdent indent | ' +
+						'removeformat | help',
+					content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+				});
+
+				// Initialize CKEditor
+				ClassicEditor
+					.create(document.querySelector('#ckeditor'), {
+						toolbar: {
+							items: [
+								'heading', '|',
+								'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|',
+								'outdent', 'indent', '|',
+								'imageUpload', 'blockQuote', 'insertTable', 'mediaEmbed', '|',
+								'undo', 'redo'
+							]
+						},
+						language: 'en',
+						image: {
+							toolbar: [
+								'imageTextAlternative', 'toggleImageCaption', 'imageStyle:inline',
+								'imageStyle:block', 'imageStyle:side'
+							]
+						},
+						table: {
+							contentToolbar: [
+								'tableColumn', 'tableRow', 'mergeTableCells'
+							]
+						}
+					})
+					.catch(error => {
+						console.error(error);
+					});
+			});
+		</script>
 	</body>
 </html>
