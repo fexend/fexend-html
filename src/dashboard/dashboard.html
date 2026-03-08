@@ -1296,6 +1296,8 @@
 				infoColor,
 				dangerColor,
 				warningColor;
+			let horizontalBarChart; // exposed so we can update options on dark mode toggle
+
 			const getPrimaryColor = () => {
 				primaryColor =
 					getComputedStyle(document.documentElement)
@@ -1323,9 +1325,52 @@
 						.trim() || "#ffc107";
 			};
 
+			// helper to detect dark mode
+			const isDarkMode = () =>
+				document.documentElement.classList.contains("dark") ||
+				localStorage.getItem("darkMode") === "true";
+
+			// pick hover filter depending on mode: lighten for dark mode (so hover stands out), darken for light mode
+			const getHoverFilter = () => ({
+				type: isDarkMode() ? "lighten" : "darken",
+				value: isDarkMode() ? 0.12 : 0.15,
+			});
+
 			document.addEventListener("DOMContentLoaded", function () {
 				getPrimaryColor();
 				initChart();
+
+				// Observe changes to the root class (dark toggle) and update charts live
+				const observer = new MutationObserver((mutations) => {
+					mutations.forEach((m) => {
+						if (m.attributeName === "class") {
+							getPrimaryColor();
+							// update charts if they've been initialized
+							if (typeof barChartFirstTab !== "undefined" && barChartFirstTab) {
+								barChartFirstTab.updateOptions({
+									colors: [primaryColor],
+									theme: { mode: isDarkMode() ? "dark" : "light" },
+									states: { hover: { filter: getHoverFilter() } },
+								});
+							}
+							if (
+								typeof horizontalBarChart !== "undefined" &&
+								horizontalBarChart
+							) {
+								horizontalBarChart.updateOptions({
+									colors: [primaryColor],
+									theme: { mode: isDarkMode() ? "dark" : "light" },
+									states: { hover: { filter: getHoverFilter() } },
+								});
+							}
+						}
+					});
+				});
+
+				observer.observe(document.documentElement, {
+					attributes: true,
+					attributeFilter: ["class"],
+				});
 			});
 		</script>
 
@@ -1339,6 +1384,8 @@
 						height: 350,
 						toolbar: { show: false },
 					},
+					theme: { mode: isDarkMode() ? "dark" : "light" },
+					states: { hover: { filter: getHoverFilter() } },
 					plotOptions: {
 						bar: {
 							borderRadius: 8,
@@ -1578,8 +1625,10 @@
 						],
 					},
 					colors: [primaryColor || "#0d6efd"],
+					theme: { mode: isDarkMode() ? "dark" : "light" },
+					states: { hover: { filter: getHoverFilter() } },
 				};
-				var horizontalBarChart = new ApexCharts(
+				horizontalBarChart = new ApexCharts(
 					document.querySelector("#horizontalBarChart"),
 					options,
 				);
