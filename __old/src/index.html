@@ -1,0 +1,1607 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Dashboard | Fexend</title>
+		<link rel="stylesheet" defer href="/dist/css/app.css" />
+
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+			rel="stylesheet"
+		/>
+
+		<!-- Alpine Plugins -->
+		<script
+			defer
+			src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"
+		></script>
+
+		<!-- Alpine Core -->
+		<script
+			defer
+			src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
+		></script>
+		<script>
+			// Initialize dark mode before Alpine loads
+			if (
+				localStorage.getItem("darkMode") === "true" ||
+				(!localStorage.getItem("darkMode") &&
+					window.matchMedia("(prefers-color-scheme: dark)").matches)
+			) {
+				document.documentElement.classList.add("dark");
+			}
+		</script>
+		<style>
+			#loading-screen {
+				position: fixed;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				background-color: var(--color-background);
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				z-index: 9999;
+				transition: opacity 0.3s ease-out;
+			}
+			.dark #loading-screen {
+				background-color: var(--color-background-dark);
+			}
+		</style>
+	</head>
+	<body
+		x-data="{ 
+        darkMode: localStorage.getItem('darkMode') === 'true' || (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches),
+        sidebarOpen: false,
+        mobileMenuOpen: false,
+        isMobile: window.innerWidth < 768,
+        toggleDarkMode() {
+            this.darkMode = !this.darkMode;
+            localStorage.setItem('darkMode', this.darkMode);
+            if (this.darkMode) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        }
+    }"
+		x-init="
+        window.addEventListener('resize', () => { 
+            if(window.innerWidth < 1024) sidebarOpen = false;
+            isMobile = window.innerWidth < 768;
+            if(!isMobile) mobileMenuOpen = false;
+        });
+        setTimeout(() => {
+            document.getElementById('loading-screen').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('loading-screen').style.display = 'none';
+            }, 300);
+        }, 500);
+    "
+	>
+		<!-- Loading Screen -->
+		<div
+			id="loading-screen"
+			class="fixed inset-0 bg-background dark:bg-background-dark flex justify-center items-center z-[9999] transition-opacity duration-300"
+		>
+			<div class="flex space-x-2">
+				<div class="loading-dot"></div>
+				<div class="loading-dot"></div>
+				<div class="loading-dot"></div>
+			</div>
+		</div>
+
+		<main class="main-content">
+			<!-- Navbar -->
+			<header class="navbar-layout">
+				<nav>
+					<div class="px-3 py-3 lg:px-5 lg:pl-3">
+						<div class="flex items-center justify-between">
+							<div class="flex items-center">
+								<button
+									@click="sidebarOpen = !sidebarOpen"
+									class="navbar-button"
+								>
+									<!-- Tabler menu icon -->
+									<svg
+										x-show="!sidebarOpen"
+										x-transition
+										xmlns="http://www.w3.org/2000/svg"
+										class="icon icon-tabler icon-tabler-menu-2 w-6 h-6 dark:text-gray-200"
+										width="24"
+										height="24"
+										viewBox="0 0 24 24"
+										stroke-width="1.5"
+										stroke="currentColor"
+										fill="none"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									>
+										<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+										<line x1="4" y1="6" x2="20" y2="6" />
+										<line x1="4" y1="12" x2="20" y2="12" />
+										<line x1="4" y1="18" x2="20" y2="18" />
+									</svg>
+									<svg
+										x-show="sidebarOpen"
+										x-transition
+										xmlns="http://www.w3.org/2000/svg"
+										width="24"
+										height="24"
+										viewBox="0 0 24 24"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="2"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										class="icon icon-tabler icons-tabler-outline icon-tabler-x"
+									>
+										<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+										<path d="M18 6l-12 12" />
+										<path d="M6 6l12 12" />
+									</svg>
+								</button>
+								<span class="nav-title"><a href="/src">Fexend</a></span>
+							</div>
+
+							<div class="flex items-center gap-4">
+								<!-- Notifications with Dropdown -->
+								<div
+									class="relative"
+									x-data="{
+										 notificationOpen: false,
+										 activeTab: 'unread',
+									 }"
+								>
+									<button
+										class="navbar-button relative"
+										@click="notificationOpen = !notificationOpen"
+									>
+										<!-- Tabler bell icon -->
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											class="icon icon-tabler icon-tabler-bell w-6 h-6 dark:text-gray-200"
+											width="24"
+											height="24"
+											viewBox="0 0 24 24"
+											stroke-width="1.5"
+											stroke="currentColor"
+											fill="none"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+										>
+											<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+											<path
+												d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a1 1 0 0 0 .293 .707l1 1a1 1 0 0 1 -.707 1.707h-14a1 1 0 0 1 -.707 -1.707l1 -1a1 1 0 0 0 .293 -.707v-3a7 7 0 0 1 4 -6"
+											/>
+											<path d="M9 17h6" />
+										</svg>
+										<span class="navbar-notification-badge"></span>
+									</button>
+									<div
+										x-show="notificationOpen"
+										@click.away="notificationOpen = false"
+										x-transition
+										class="absolute right-0 mt-2 w-80 bg-white dark:bg-gray-800 rounded-lg shadow-lg z-10"
+									>
+										<div
+											class="p-4 border-b border-gray-200 dark:border-gray-700"
+										>
+											<div>
+												<button
+													@click="activeTab = 'unread'"
+													:class="{'font-bold': activeTab==='unread'}"
+													class="mr-4"
+												>
+													Unread
+												</button>
+												<button
+													@click="activeTab = 'read'"
+													:class="{'font-bold': activeTab==='read'}"
+												>
+													Read
+												</button>
+											</div>
+										</div>
+										<div class="max-h-64 overflow-y-auto p-4">
+											<template x-if="activeTab==='unread'">
+												<div>
+													<div class="text-sm mb-2">
+														<button class="hover:underline">
+															Mark all as read
+														</button>
+													</div>
+													<ul>
+														<li class="p-2 text-gray-500">
+															No unread notifications.
+														</li>
+													</ul>
+												</div>
+											</template>
+											<template x-if="activeTab==='read'">
+												<div>
+													<div class="text-sm mb-2">
+														<button class="mr-2 hover:underline">Clear</button>
+													</div>
+													<ul>
+														<li class="p-2 text-gray-500">
+															No read notifications.
+														</li>
+													</ul>
+												</div>
+											</template>
+										</div>
+									</div>
+								</div>
+								<!-- Dark Mode Toggle -->
+								<button @click="toggleDarkMode()" class="navbar-button">
+									<!-- Tabler sun icon for light mode -->
+									<svg
+										x-show="!darkMode"
+										xmlns="http://www.w3.org/2000/svg"
+										class="icon icon-tabler icon-tabler-sun w-6 h-6"
+										width="24"
+										height="24"
+										viewBox="0 0 24 24"
+										stroke-width="1.5"
+										stroke="currentColor"
+										fill="none"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									>
+										<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+										<circle cx="12" cy="12" r="4" />
+										<path
+											d="M3 12h1M20 12h1M12 3v1M12 20v1M5.64 5.64l.707 .707M17.657 17.657l.707 .707M5.64 18.36l.707 -.707M17.657 6.343l.707 -.707"
+										/>
+									</svg>
+									<!-- Tabler moon icon for dark mode -->
+									<svg
+										x-show="darkMode"
+										xmlns="http://www.w3.org/2000/svg"
+										width="24"
+										height="24"
+										viewBox="0 0 24 24"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="2"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										class="icon icon-tabler icons-tabler-outline icon-tabler-moon w-6 h-6 dark:text-gray-200"
+									>
+										<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+										<path
+											d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z"
+										/>
+									</svg>
+								</button>
+
+								<!-- Profile Dropdown -->
+								<div x-data="{ profileOpen: false }" class="relative">
+									<button
+										@click="profileOpen = !profileOpen"
+										class="navbar-button"
+									>
+										<img
+											src="https://ui-avatars.com/api/?name=Zera+App&background=615fff&color=fff"
+											alt="User avatar"
+											class="w-8 h-8 rounded-full"
+										/>
+									</button>
+									<div
+										x-show="profileOpen"
+										@click.away="profileOpen = false"
+										x-transition
+										class="absolute right-0 mt-2 w-40 bg-foreground dark:bg-foreground-dark rounded-lg shadow-lg z-10"
+									>
+										<a
+											href="/src/pages/profile.html"
+											class="block px-4 py-2 text-sm"
+											>Profile</a
+										>
+										<a
+											href="/src/settings/index.html"
+											class="block px-4 py-2 text-sm"
+											>Settings</a
+										>
+										<a href="/src/index.html" class="block px-4 py-2 text-sm"
+											>Logout</a
+										>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</nav>
+			</header>
+			<!-- Navbar -->
+
+			<!-- Sidebar -->
+			<aside>
+				<!-- Icon Sidebar - Hidden on mobile, visible on tablet and up -->
+				<div class="sidebar-icon z-20">
+					<div>
+						<div class="inline-flex h-16 w-16 items-center justify-center">
+							<a
+								href="/src/settings/index.html"
+								x-data="{ tooltip: false }"
+								@mouseover="tooltip = true"
+								@mouseleave="tooltip = false"
+								class="group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-primary dark:hover:bg-primary-dark dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+							>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="24"
+									height="24"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									class="icon icon-tabler icons-tabler-outline icon-tabler-settings"
+								>
+									<path stroke="none" d="M0 0h24h24H0z" fill="none" />
+									<path
+										d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z"
+									/>
+									<path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
+								</svg>
+								<span
+									x-show="tooltip"
+									x-transition
+									class="absolute left-full ml-2 top-1/2 transform -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal"
+									>Settings</span
+								>
+							</a>
+						</div>
+
+						<div class="border-t border-gray-100 dark:border-gray-700">
+							<div class="px-2">
+								<ul
+									class="space-y-1 border-t border-gray-100 dark:border-gray-700 pt-4"
+								>
+									<li>
+										<a
+											href="/src/dashboard/dashboard.html"
+											x-data="{ tooltip: false }"
+											@mouseover="tooltip = true"
+											@mouseleave="tooltip = false"
+											class="group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-primary dark:hover:bg-primary-dark dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+										>
+											<!-- Dashboard -->
+											<svg
+												xmlns="http://www.w3.org/2000/svg"
+												width="24"
+												height="24"
+												viewBox="0 0 24 24"
+												fill="none"
+												stroke="currentColor"
+												stroke-width="2"
+												stroke-linecap="round"
+												stroke-linejoin="round"
+												class="icon icon-tabler icons-tabler-outline icon-tabler-home-2"
+											>
+												<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+												<path d="M5 12l-2 0l9 -9l9 9l-2 0" />
+												<path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+												<path d="M10 12h4v4h-4z" />
+											</svg>
+											<span
+												x-show="tooltip"
+												x-transition
+												class="absolute left-full ml-2 top-1/2 transform -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal"
+												>Dashboard</span
+											>
+										</a>
+									</li>
+
+									<li>
+										<a
+											href="/src/elements/index.html"
+											x-data="{ tooltip: false }"
+											@mouseover="tooltip = true"
+											@mouseleave="tooltip = false"
+											class="group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-primary dark:hover:bg-primary-dark dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+										>
+											<!-- Element -->
+											<svg
+												xmlns="http://www.w3.org/2000/svg"
+												width="24"
+												height="24"
+												viewBox="0 0 24 24"
+												fill="none"
+												stroke="currentColor"
+												stroke-width="2"
+												stroke-linecap="round"
+												stroke-linejoin="round"
+												class="icon icon-tabler icons-tabler-outline icon-tabler-file-type-html"
+											>
+												<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+												<path d="M14 3v4a1 1 0 0 0 1 1h4" />
+												<path d="M5 12v-7a2 2 0 0 1 2 -2h7l5 5v4" />
+												<path d="M2 21v-6" />
+												<path d="M5 15v6" />
+												<path d="M2 18h3" />
+												<path d="M20 15v6h2" />
+												<path d="M13 21v-6l2 3l2 -3v6" />
+												<path d="M7.5 15h3" />
+												<path d="M9 15v6" />
+											</svg>
+											<span
+												x-show="tooltip"
+												x-transition
+												class="absolute left-full ml-2 top-1/2 transform -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal"
+												>Element</span
+											>
+										</a>
+									</li>
+
+									<li>
+										<a
+											href="/src/components/accordion.html"
+											x-data="{ tooltip: false }"
+											@mouseover="tooltip = true"
+											@mouseleave="tooltip = false"
+											class="group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-primary dark:hover:bg-primary-dark dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+										>
+											<!-- Component Icon -->
+											<svg
+												xmlns="http://www.w3.org/2000/svg"
+												width="24"
+												height="24"
+												viewBox="0 0 24 24"
+												fill="none"
+												stroke="currentColor"
+												stroke-width="2"
+												stroke-linecap="round"
+												stroke-linejoin="round"
+												class="icon icon-tabler icons-tabler-outline icon-tabler-components"
+											>
+												<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+												<path d="M3 12l3 3l3 -3l-3 -3z" />
+												<path d="M15 12l3 3l3 -3l-3 -3z" />
+												<path d="M9 6l3 3l3 -3l-3 -3z" />
+												<path d="M9 18l3 3l3 -3l-3 -3z" />
+											</svg>
+											<span
+												x-show="tooltip"
+												x-transition
+												class="absolute left-full ml-2 top-1/2 transform -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal"
+												>Component</span
+											>
+										</a>
+									</li>
+
+									<li>
+										<a
+											href="/src/pages/index.html"
+											x-data="{ tooltip: false }"
+											@mouseover="tooltip = true"
+											@mouseleave="tooltip = false"
+											class="group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-primary dark:hover:bg-primary-dark dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+										>
+											<!-- Pages Icon -->
+											<svg
+												xmlns="http://www.w3.org/2000/svg"
+												width="24"
+												height="24"
+												viewBox="0 0 24 24"
+												fill="none"
+												stroke="currentColor"
+												stroke-width="2"
+												stroke-linecap="round"
+												stroke-linejoin="round"
+												class="icon icon-tabler icons-tabler-outline icon-tabler-article"
+											>
+												<path stroke="none" d="M0 0h24h24H0z" fill="none" />
+												<path
+													d="M3 4m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z"
+												/>
+												<path d="M7 8h10" />
+												<path d="M7 12h10" />
+												<path d="M7 16h10" />
+											</svg>
+											<span
+												x-show="tooltip"
+												x-transition
+												class="absolute left-full ml-2 top-1/2 transform -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal"
+												>Pages</span
+											>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+
+					<div
+						class="sticky inset-x-0 bottom-0 border-t border-gray-100 dark:border-gray-700 bg-foreground dark:bg-background-dark p-2"
+					>
+						<!-- Logout -->
+						<div class="relative" x-data="{ tooltip: false }">
+							<form action="#">
+								<button
+									type="submit"
+									class="group relative flex w-full justify-center rounded-sm px-2 py-1.5 text-sm text-gray-500 hover:bg-primary dark:hover:bg-primary-dark dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+									@mouseover="tooltip = true"
+									@mouseleave="tooltip = false"
+								>
+									<!-- Logout Icon -->
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										class="size-5 opacity-75"
+										fill="none"
+										viewBox="0 0 24 24"
+										stroke="currentColor"
+										stroke-width="2"
+									>
+										<path
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+										/>
+									</svg>
+								</button>
+								<span
+									x-show="tooltip"
+									x-transition
+									class="absolute left-full ml-2 top-1/2 transform -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal"
+								>
+									Logout
+								</span>
+							</form>
+						</div>
+					</div>
+				</div>
+				<!-- Icon Sidebar - Hidden on mobile, visible on tablet and up -->
+
+				<!-- Expanded Sidebar - Mobile overlay, normal sidebar on larger screens -->
+				<div class="relative z-10">
+					<div
+						x-cloak
+						x-show="sidebarOpen"
+						x-transition:enter="transform transition duration-300 ease-in-out"
+						x-transition:enter-start="translate-x-[-100%]"
+						x-transition:enter-end="translate-x-0"
+						x-transition:leave="transform transition duration-300 ease-in-out"
+						x-transition:leave-start="translate-x-0"
+						x-transition:leave-end="translate-x-[-100%]"
+						class="sidebar-layout overflow-y-auto max-h-screen"
+					>
+						<div class="px-4 py-6">
+							<ul class="space-y-1" x-data="{ selected: null }">
+								<li>
+									<a
+										href="/src/dashboard/dashboard.html"
+										class="sidebar-link sidebar-link-active"
+										>Dashboard</a
+									>
+								</li>
+								<li>
+									<a href="/src/dashboard/dashboard2.html" class="sidebar-link"
+										>Dashboard 2</a
+									>
+								</li>
+								<li>
+									<a href="/src/dashboard/dashboard3.html" class="sidebar-link"
+										>Dashboard 3</a
+									>
+								</li>
+							</ul>
+						</div>
+					</div>
+
+					<!-- Backdrop for mobile -->
+					<div
+						x-show="sidebarOpen"
+						x-transition:enter="transition-all ease-linear duration-300"
+						x-transition:enter-start="opacity-0 backdrop-blur-none"
+						x-transition:enter-end="opacity-100 backdrop-blur-sm"
+						x-transition:leave="transition-all ease-linear duration-300"
+						x-transition:leave-start="opacity-100 backdrop-blur-sm"
+						x-transition:leave-end="opacity-0 backdrop-blur-none"
+						class="sidebar-backdrop"
+						@click="sidebarOpen = false"
+					></div>
+				</div>
+				<!-- Expanded Sidebar - Mobile overlay, normal sidebar on larger screens -->
+			</aside>
+			<!-- Sidebar -->
+
+			<!-- Main content -->
+			<div
+				class="main-container"
+				:class="{
+                    'md:ml-80': sidebarOpen, 
+                    'md:ml-16': !sidebarOpen,
+                    'ml-0': true
+                }"
+			>
+				<div class="">
+					<nav aria-label="Breadcrumb" class="breadcrumb">
+						<h2 class="title">Dashboard</h2>
+						<ol>
+							<li>
+								<a href="/src/dashboard/dashboard.html">
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										class="size-4"
+										fill="none"
+										viewBox="0 0 24 24"
+										stroke="currentColor"
+									>
+										<path
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											stroke-width="2"
+											d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+										/>
+									</svg>
+									Dashboard
+								</a>
+							</li>
+						</ol>
+					</nav>
+				</div>
+
+				<div class="tab tab-bordered mt-4" x-data="{ activeTab: 'overview' }">
+					<div class="tab-button">
+						<nav aria-label="Tabs">
+							<a
+								href="#"
+								@click="activeTab = 'overview'"
+								x-bind:class="activeTab === 'overview' ? 'active' : ''"
+								class="tab-link tab-link-icon"
+							>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="24"
+									height="24"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									class="icon icon-tabler icons-tabler-outline icon-tabler-menu-3"
+								>
+									<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+									<path d="M10 6h10" />
+									<path d="M4 12h16" />
+									<path d="M7 12h13" />
+									<path d="M4 18h10" />
+								</svg>
+								Overview
+							</a>
+
+							<a
+								href="#"
+								@click="activeTab = 'ads_overview'"
+								x-bind:class="activeTab === 'ads_overview' ? 'active' : ''"
+								class="tab-link tab-link-icon"
+							>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="24"
+									height="24"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									class="icon icon-tabler icons-tabler-outline icon-tabler-ad"
+								>
+									<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+									<path
+										d="M3 5m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z"
+									/>
+									<path d="M7 15v-4a2 2 0 0 1 4 0v4" />
+									<path d="M7 13l4 0" />
+									<path d="M17 9v6h-1.5a1.5 1.5 0 1 1 1.5 -1.5" />
+								</svg>
+								Ads Overview
+							</a>
+						</nav>
+					</div>
+
+					<div class="tab-content">
+						<div
+							class="tab-item"
+							x-transition
+							x-show="activeTab === 'overview'"
+						>
+							<div class="grid grid-cols-12 gap-4">
+								<div
+									class="card col-span-12 md:col-span-6 lg:col-span-3 card-primary"
+								>
+									<div
+										class="card-body whitespace-nowrap text-ellipsis overflow-x-hidden"
+									>
+										<h4>Total Revenue</h4>
+										<h2
+											class="flex items-center justify-start flex-wrap my-6 font-bold gap-2"
+										>
+											<span class="md:text-4xl">$125,000</span>
+											<span
+												class="badge badge-success badge-rounded inline-flex items-center"
+											>
+												<svg
+													xmlns="http://www.w3.org/2000/svg"
+													class="icon icon-tabler icon-tabler-arrow-up mr-1"
+													width="16"
+													height="16"
+													viewBox="0 0 24 24"
+													stroke-width="2"
+													stroke="currentColor"
+													fill="none"
+													stroke-linecap="round"
+													stroke-linejoin="round"
+												>
+													<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+													<line x1="12" y1="19" x2="12" y2="5" />
+													<line x1="5" y1="12" x2="12" y2="5" />
+													<line x1="19" y1="12" x2="12" y2="5" />
+												</svg>
+												+5%
+											</span>
+										</h2>
+										<p class="text-slate-300 font-light tracking-wider">
+											Revenue generated this month
+										</p>
+									</div>
+								</div>
+								<div class="card col-span-12 md:col-span-6 lg:col-span-3">
+									<div
+										class="card-body whitespace-nowrap text-ellipsis overflow-x-hidden"
+									>
+										<h4>New Customers</h4>
+										<h2
+											class="flex items-center justify-start flex-wrap my-6 font-bold gap-2"
+										>
+											<span class="md:text-4xl">350</span>
+											<span
+												class="badge badge-success badge-rounded inline-flex items-center"
+											>
+												<svg
+													xmlns="http://www.w3.org/2000/svg"
+													class="icon icon-tabler icon-tabler-arrow-up mr-1"
+													width="16"
+													height="16"
+													viewBox="0 0 24 24"
+													stroke-width="2"
+													stroke="currentColor"
+													fill="none"
+													stroke-linecap="round"
+													stroke-linejoin="round"
+												>
+													<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+													<line x1="12" y1="19" x2="12" y2="5" />
+													<line x1="5" y1="12" x2="12" y2="5" />
+													<line x1="19" y1="12" x2="12" y2="5" />
+												</svg>
+												+5%
+											</span>
+										</h2>
+										<p
+											class="text-slate-300 dark:text-slate-700 font-light tracking-wider"
+										>
+											Since Last Month
+										</p>
+									</div>
+								</div>
+
+								<div class="card col-span-12 md:col-span-6 lg:col-span-3">
+									<div
+										class="card-body whitespace-nowrap text-ellipsis overflow-x-hidden"
+									>
+										<h4>Total Sales</h4>
+										<h2
+											class="flex items-center justify-start flex-wrap my-6 font-bold gap-2"
+										>
+											<span class="md:text-4xl">$75,000</span>
+											<span
+												class="badge badge-danger badge-rounded inline-flex items-center"
+											>
+												<svg
+													xmlns="http://www.w3.org/2000/svg"
+													class="icon icon-tabler icon-tabler-arrow-down mr-1"
+													width="16"
+													height="16"
+													viewBox="0 0 24 24"
+													stroke-width="2"
+													stroke="currentColor"
+													fill="none"
+													stroke-linecap="round"
+													stroke-linejoin="round"
+												>
+													<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+													<line x1="12" y1="5" x2="12" y2="19" />
+													<line x1="5" y1="12" x2="12" y2="19" />
+													<line x1="19" y1="12" x2="12" y2="19" />
+												</svg>
+												-3%
+											</span>
+										</h2>
+										<p
+											class="text-slate-300 dark:text-slate-700 font-light tracking-wider"
+										>
+											Since Last Month
+										</p>
+									</div>
+								</div>
+
+								<div class="card col-span-12 md:col-span-6 lg:col-span-3">
+									<div
+										class="card-body whitespace-nowrap text-ellipsis overflow-x-hidden"
+									>
+										<h4>Profit Margin</h4>
+										<h2
+											class="flex items-center justify-start flex-wrap my-6 font-bold gap-2"
+										>
+											<span class="md:text-4xl">15%</span>
+										</h2>
+										<p
+											class="text-slate-300 dark:text-slate-700 font-light tracking-wider"
+										>
+											Since Last Month
+										</p>
+									</div>
+								</div>
+
+								<div class="card col-span-12 md:col-span-8">
+									<div class="card-body">
+										<div class="flex items-center justify-between mb-4">
+											<h4 class="font-semibold">Sales Overview</h4>
+											<div
+												class="flex space-x-2"
+												x-data="{ activeFilter: 'daily' }"
+											>
+												<button
+													class="badge badge-primary-soft cursor-pointer"
+													:class="{ 'badge-primary': activeFilter==='daily' }"
+													@click="activeFilter='daily'; updateLineChartFirstTab('daily')"
+												>
+													Daily
+												</button>
+												<button
+													class="badge badge-primary-soft cursor-pointer"
+													:class="{ 'badge-primary': activeFilter==='weekly' }"
+													@click="activeFilter='weekly'; updateLineChartFirstTab('weekly')"
+												>
+													Weekly
+												</button>
+												<button
+													class="badge badge-primary-soft cursor-pointer"
+													:class="{ 'badge-primary': activeFilter==='monthly' }"
+													@click="activeFilter='monthly'; updateLineChartFirstTab('monthly')"
+												>
+													Monthly
+												</button>
+											</div>
+										</div>
+									</div>
+									<div id="lineChart"></div>
+								</div>
+
+								<div class="card col-span-12 md:col-span-4">
+									<div class="card-body">
+										<h4>Pie Chart</h4>
+										<p>Sales distribution for various products.</p>
+										<div id="pieChart"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div
+						class="tab-item"
+						x-transition
+						x-show="activeTab === 'ads_overview'"
+					>
+						<div class="grid gap-4 grid-cols-12">
+							<div class="col-span-12 lg:col-span-8 h-full">
+								<div class="card h-full">
+									<div class="card-body h-full flex flex-col">
+										<h2>Engagement</h2>
+										<div id="engagementChart" class="flex-grow"></div>
+									</div>
+								</div>
+							</div>
+							<div class="col-span-12 lg:col-span-4 h-full">
+								<div class="card max-h-[500px] overflow-y-auto hide-scroll">
+									<div class="card-body flex flex-col">
+										<div class="flex-grow">
+											<h2>Demographic</h2>
+											<ul class="space-y-2 list-none">
+												<li class="card-sm p-3">
+													<div class="flex justify-between items-center">
+														<h6 class="font-semibold">United States</h6>
+														<span class="badge badge-success">+10%</span>
+													</div>
+													<p class="text-xs text-gray-500">
+														Largest market in the region
+													</p>
+												</li>
+												<li class="card-sm p-3">
+													<div class="flex justify-between items-center">
+														<h6 class="font-semibold">Canada</h6>
+														<span class="badge badge-success">+10%</span>
+													</div>
+													<p class="text-xs text-gray-500">
+														Rapidly growing economy
+													</p>
+												</li>
+												<li class="card-sm p-3">
+													<div class="flex justify-between items-center">
+														<h6 class="font-semibold">United Kingdom</h6>
+														<span class="badge badge-success">+10%</span>
+													</div>
+													<p class="text-xs text-gray-500">
+														Stable and mature market
+													</p>
+												</li>
+												<li class="card-sm p-3">
+													<div class="flex justify-between items-center">
+														<h6 class="font-semibold">Germany</h6>
+														<span class="badge badge-success">+10%</span>
+													</div>
+													<p class="text-xs text-gray-500">
+														Industrial and robust economy
+													</p>
+												</li>
+												<li class="card-sm p-3">
+													<div class="flex justify-between items-center">
+														<h6 class="font-semibold">France</h6>
+														<span class="badge badge-success">+10%</span>
+													</div>
+													<p class="text-xs text-gray-500">
+														Diverse market trends
+													</p>
+												</li>
+												<li class="card-sm p-3">
+													<div class="flex justify-between items-center">
+														<h6 class="font-semibold">Spain</h6>
+														<span class="badge badge-success">+10%</span>
+													</div>
+													<p class="text-xs text-gray-500">
+														Emerging growth market
+													</p>
+												</li>
+												<li class="card-sm p-3">
+													<div class="flex justify-between items-center">
+														<h6 class="font-semibold">Italy</h6>
+														<span class="badge badge-success">+10%</span>
+													</div>
+													<p class="text-xs text-gray-500">
+														Consistent performance
+													</p>
+												</li>
+												<li class="card-sm p-3">
+													<div class="flex justify-between items-center">
+														<h6 class="font-semibold">Australia</h6>
+														<span class="badge badge-success">+10%</span>
+													</div>
+													<p class="text-xs text-gray-500">
+														High consumer engagement
+													</p>
+												</li>
+												<li class="card-sm p-3">
+													<div class="flex justify-between items-center">
+														<h6 class="font-semibold">Brazil</h6>
+														<span class="badge badge-success">+10%</span>
+													</div>
+													<p class="text-xs text-gray-500">
+														Expanding digital market
+													</p>
+												</li>
+												<li class="card-sm p-3">
+													<div class="flex justify-between items-center">
+														<h6 class="font-semibold">India</h6>
+														<span class="badge badge-success">+10%</span>
+													</div>
+													<p class="text-xs text-gray-500">
+														Fastest growing segment
+													</p>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-span-12 lg:col-span-4 grid grid-cols-2 gap-4">
+								<div class="card bg-gradient-to-bl from-primary to-secondary">
+									<div class="card-body">
+										<h4>Cost</h4>
+										<div class="flex items-center gap-2 my-4">
+											<h2 class="card-title">$199</h2>
+											<span
+												class="badge badge-success badge-rounded inline-flex items-center"
+											>
+												+5%
+											</span>
+										</div>
+										<p class="text-slate-700 dark:text-slate-300 text-sm">
+											Total Cost This Month
+										</p>
+									</div>
+								</div>
+								<div class="card">
+									<div class="card-body">
+										<h4>New Followers</h4>
+										<div class="flex items-center gap-2 my-4">
+											<h2 class="card-title">123</h2>
+											<span
+												class="badge badge-success badge-rounded inline-flex items-center"
+											>
+												+5%
+											</span>
+										</div>
+										<p class="text-slate-700 dark:text-slate-300 text-sm">
+											New Followers Gain
+										</p>
+									</div>
+								</div>
+								<div class="card">
+									<div class="card-body">
+										<h4>Total Engagement</h4>
+										<div class="flex items-center gap-2 my-4">
+											<h2 class="card-title">789</h2>
+											<span
+												class="badge badge-success badge-rounded inline-flex items-center"
+											>
+												+5%
+											</span>
+										</div>
+										<p class="text-slate-700 dark:text-slate-300 text-sm">
+											Total Engagement
+										</p>
+									</div>
+								</div>
+								<div class="card">
+									<div class="card-body">
+										<h4>Total Clicks</h4>
+										<div class="flex items-center gap-2 my-4">
+											<h2 class="card-title">101</h2>
+											<span
+												class="badge badge-success badge-rounded inline-flex items-center"
+											>
+												+5%
+											</span>
+										</div>
+										<p class="text-slate-700 dark:text-slate-300 text-sm">
+											Total Clicks this Month
+										</p>
+									</div>
+								</div>
+							</div>
+
+							<div class="card col-span-12 lg:col-span-4">
+								<div class="card-body">
+									<div id="radialBarChart" style="height: 350px"></div>
+								</div>
+							</div>
+							<div class="card col-span-12 lg:col-span-4">
+								<h4>Social Engagement</h4>
+								<div id="horizontalBarChart"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Mobile Bottom Menu -->
+			<div
+				x-show="isMobile"
+				x-transition:enter="transition ease-out duration-200"
+				x-transition:enter-start="opacity-0"
+				x-transition:enter-end="opacity-100"
+				class="mobile-menu flex justify-center lg:hidden"
+			>
+				<button
+					@click="mobileMenuOpen = !mobileMenuOpen"
+					class="button button-primary button-rounded flex items-center space-x-2 px-4 py-2 rounded-lg"
+				>
+					<!-- Tabler menu icon -->
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="24"
+						height="24"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						class="icon icon-tabler icons-tabler-outline icon-tabler-layout-dashboard"
+					>
+						<path stroke="none" d="M0 0h24h24H0z" fill="none" />
+						<path
+							d="M5 4h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1"
+						/>
+						<path
+							d="M5 16h4a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-2a1 1 0 0 1 1 -1"
+						/>
+						<path
+							d="M15 12h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1"
+						/>
+						<path
+							d="M15 4h4a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-2a1 1 0 0 1 1 -1"
+						/>
+					</svg>
+					<span class="text-sm font-medium">Menu</span>
+				</button>
+			</div>
+
+			<!-- Mobile Menu Popup -->
+			<div
+				x-show="isMobile && mobileMenuOpen"
+				x-transition:enter="transition ease-out duration-200"
+				x-transition:enter-start="opacity-0 transform translate-y-8"
+				x-transition:enter-end="opacity-100 transform translate-y-0"
+				x-transition:leave="transition ease-in duration-200"
+				x-transition:leave-start="opacity-100 transform translate-y-0"
+				x-transition:leave-end="opacity-0 transform translate-y-8"
+				@click.away="mobileMenuOpen = false"
+				class="mobile-menu-popup block lg:hidden"
+			>
+				<div class="space-y-4 py-2">
+					<!-- Dashboard -->
+					<a
+						href="/src/dashboard/dashboard.html"
+						class="flex items-center space-x-3 px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"
+					>
+						<!-- Dashboard -->
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							class="h-5 w-5 opacity-75"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+							stroke-width="2"
+						>
+							<path stroke="none" d="M0 0h24h24H0z" fill="none" />
+							<path d="M5 12l-2 0l9 -9l9 9l-2 0" />
+							<path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+							<path d="M10 12h4v4h-4z" />
+						</svg>
+						<span>Dashboard</span>
+					</a>
+
+					<!-- Element -->
+					<a
+						href="/src/elements/index.html"
+						class="flex items-center space-x-3 px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"
+					>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="24"
+							height="24"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							class="icon icon-tabler icons-tabler-outline icon-tabler-file-type-html"
+						>
+							<path stroke="none" d="M0 0h24h24H0z" fill="none" />
+							<path d="M14 3v4a1 1 0 0 0 1 1h4" />
+							<path d="M5 12v-7a2 2 0 0 1 2 -2h7l5 5v4" />
+							<path d="M2 21v-6" />
+							<path d="M5 15v6" />
+							<path d="M2 18h3" />
+							<path d="M20 15v6h2" />
+							<path d="M13 21v-6l2 3l2 -3v6" />
+							<path d="M7.5 15h3" />
+							<path d="M9 15v6" />
+						</svg>
+						<span>Element</span>
+					</a>
+
+					<!-- Component -->
+					<a
+						href="/src/components/accordion.html"
+						class="flex items-center space-x-3 px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"
+					>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="24"
+							height="24"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							class="icon icon-tabler icons-tabler-outline icon-tabler-components"
+						>
+							<path stroke="none" d="M0 0h24h24H0z" fill="none" />
+							<path d="M3 12l3 3l3 -3l-3 -3z" />
+							<path d="M15 12l3 3l3 -3l-3 -3z" />
+							<path d="M9 6l3 3l3 -3l-3 -3z" />
+							<path d="M9 18l3 3l3 -3l-3 -3z" />
+						</svg>
+						<span>Component</span>
+					</a>
+
+					<!-- Pages -->
+					<a
+						href="/src/pages/index.html"
+						class="flex items-center space-x-3 px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"
+					>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="24"
+							height="24"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							class="icon icon-tabler icons-tabler-outline icon-tabler-article"
+						>
+							<path stroke="none" d="M0 0h24h24H0z" fill="none" />
+							<path
+								d="M3 4m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z"
+							/>
+							<path d="M7 8h10" />
+							<path d="M7 12h10" />
+							<path d="M7 16h10" />
+						</svg>
+						<span>Pages</span>
+					</a>
+
+					<!-- Divider -->
+					<div class="border-t border-gray-200 dark:border-gray-700 my-2"></div>
+
+					<!-- Logout -->
+					<form action="#" class="px-2">
+						<button
+							type="submit"
+							class="flex w-full items-center space-x-3 px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"
+						>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								class="h-5 w-5"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+								/>
+							</svg>
+							<span>Logout</span>
+						</button>
+					</form>
+				</div>
+			</div>
+		</main>
+
+		<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+		<script>
+			let primaryColor,
+				secondaryColor,
+				successColor,
+				infoColor,
+				dangerColor,
+				warningColor;
+			const getPrimaryColor = () => {
+				primaryColor =
+					getComputedStyle(document.documentElement)
+						.getPropertyValue("--color-primary")
+						.trim() || "#0d6efd";
+				secondaryColor =
+					getComputedStyle(document.documentElement)
+						.getPropertyValue("--color-secondary")
+						.trim() || "#6c757d";
+				successColor =
+					getComputedStyle(document.documentElement)
+						.getPropertyValue("--color-success")
+						.trim() || "#198754";
+				infoColor =
+					getComputedStyle(document.documentElement)
+						.getPropertyValue("--color-info")
+						.trim() || "#0dcaf0";
+				dangerColor =
+					getComputedStyle(document.documentElement)
+						.getPropertyValue("--color-danger")
+						.trim() || "#dc3545";
+				warningColor =
+					getComputedStyle(document.documentElement)
+						.getPropertyValue("--color-warning")
+						.trim() || "#ffc107";
+			};
+
+			document.addEventListener("DOMContentLoaded", function () {
+				getPrimaryColor();
+				initChart();
+			});
+		</script>
+
+		<!-- FIRST TAB CHART -->
+		<script>
+			let barChartFirstTab;
+			function initBarChartFirstTab(data, labels) {
+				const options = {
+					chart: {
+						type: "bar",
+						height: 350,
+						toolbar: { show: false },
+					},
+					plotOptions: {
+						bar: {
+							borderRadius: 8,
+						},
+					},
+					colors: [primaryColor],
+					series: [
+						{
+							name: "Sales",
+							data: data,
+						},
+					],
+					xaxis: {
+						categories: labels,
+					},
+					yaxis: {
+						title: {
+							text: "Sales",
+						},
+					},
+					tooltip: {
+						y: {
+							formatter: function (val) {
+								return "$" + val + "k";
+							},
+						},
+					},
+				};
+				barChartFirstTab = new ApexCharts(
+					document.querySelector("#lineChart"),
+					options,
+				);
+				barChartFirstTab.render();
+			}
+
+			function initPieChartFirstTab() {
+				const pieChartOptions = {
+					chart: {
+						type: "pie",
+						height: 350,
+					},
+					series: [44, 55, 13, 43, 22],
+					labels: [
+						"Product A",
+						"Product B",
+						"Product C",
+						"Product D",
+						"Product E",
+					],
+					colors: [
+						primaryColor,
+						warningColor,
+						infoColor,
+						dangerColor,
+						successColor,
+					],
+					tooltip: {
+						y: {
+							formatter: function (val) {
+								return "$" + val + "k";
+							},
+						},
+					},
+				};
+				const pieChart = new ApexCharts(
+					document.querySelector("#pieChart"),
+					pieChartOptions,
+				);
+				pieChart.render();
+			}
+
+			function updateLineChartFirstTab(filter) {
+				let newData, newLabels;
+				switch (filter) {
+					case "daily":
+						newData = [10, 15, 14, 20, 25, 22, 30];
+						newLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+						break;
+					case "weekly":
+						newData = [70, 75, 80, 90, 85, 95, 100];
+						newLabels = [
+							"Week 1",
+							"Week 2",
+							"Week 3",
+							"Week 4",
+							"Week 5",
+							"Week 6",
+							"Week 7",
+						];
+						break;
+					case "monthly":
+						newData = [
+							300, 320, 310, 330, 340, 360, 380, 370, 390, 400, 420, 410,
+						];
+						newLabels = [
+							"January",
+							"February",
+							"March",
+							"April",
+							"May",
+							"June",
+							"July",
+							"August",
+							"September",
+							"October",
+							"November",
+							"December",
+						];
+						break;
+					default:
+						newData = [10, 15, 14, 20, 25, 22, 30];
+						newLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+				}
+				barChartFirstTab.updateSeries([{ data: newData }]);
+				barChartFirstTab.updateOptions({
+					xaxis: {
+						categories: newLabels,
+					},
+				});
+			}
+		</script>
+		<!-- FIRST TAB CHART -->
+
+		<!-- SECOND TAB CHART -->
+		<script>
+			function initLineChartSecondTab() {
+				var engagementOptions = {
+					chart: {
+						height: 400,
+						type: "line",
+						toolbar: { show: false },
+					},
+					series: [
+						{ name: "TikTok", data: [30, 40, 35, 50, 49, 60, 70] },
+						{ name: "Instagram", data: [20, 30, 25, 40, 35, 50, 60] },
+						{ name: "Facebook", data: [15, 25, 20, 30, 28, 40, 45] },
+						{ name: "Twitter", data: [10, 20, 15, 25, 22, 30, 35] },
+					],
+					xaxis: {
+						categories: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+					},
+					colors: [primaryColor, warningColor, infoColor, dangerColor],
+					stroke: {
+						curve: "smooth",
+					},
+					tooltip: {
+						shared: true,
+						intersect: false,
+						y: {
+							formatter: function (val) {
+								return val;
+							},
+						},
+					},
+				};
+				var engagementChart = new ApexCharts(
+					document.querySelector("#engagementChart"),
+					engagementOptions,
+				);
+				engagementChart.render();
+			}
+
+			function initRadialChartSecondTab() {
+				var options = {
+					chart: {
+						height: 350,
+						type: "radialBar",
+					},
+					series: [70, 90, 80, 74],
+					plotOptions: {
+						radialBar: {
+							hollow: {
+								size: "70%",
+							},
+							dataLabels: {
+								name: {
+									fontSize: "22px",
+								},
+								value: {
+									fontSize: "16px",
+								},
+								total: {
+									show: true,
+									label: "Total",
+									formatter: function () {
+										return "70%";
+									},
+								},
+							},
+						},
+					},
+					labels: ["Completion", "Engagement", "Revenue", "Profit"],
+					colors: [
+						primaryColor || "#0d6efd",
+						secondaryColor || "#6c757d",
+						successColor,
+						infoColor,
+					],
+				};
+
+				var chart = new ApexCharts(
+					document.querySelector("#radialBarChart"),
+					options,
+				);
+				chart.render();
+			}
+
+			function initBarChartSecondTab() {
+				var options = {
+					chart: {
+						type: "bar",
+						height: 350,
+					},
+					plotOptions: {
+						bar: {
+							horizontal: true,
+							barHeight: "50%",
+							borderRadius: 4,
+						},
+					},
+					dataLabels: {
+						enabled: false,
+					},
+					series: [
+						{
+							name: "Engagement",
+							data: [80, 90, 70, 85, 75],
+						},
+					],
+					xaxis: {
+						categories: [
+							"Facebook",
+							"Instagram",
+							"Twitter",
+							"LinkedIn",
+							"YouTube",
+						],
+					},
+					colors: [primaryColor || "#0d6efd"],
+				};
+				var horizontalBarChart = new ApexCharts(
+					document.querySelector("#horizontalBarChart"),
+					options,
+				);
+				horizontalBarChart.render();
+			}
+		</script>
+		<!-- SECOND TAB CHART -->
+
+		<script>
+			const initChart = () => {
+				initBarChartFirstTab(
+					[10, 15, 14, 20, 25, 22, 30],
+					["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+				);
+				initPieChartFirstTab();
+
+				initLineChartSecondTab();
+				initRadialChartSecondTab();
+				initBarChartSecondTab();
+			};
+		</script>
+	</body>
+</html>
