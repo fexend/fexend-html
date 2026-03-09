@@ -1,23 +1,26 @@
 {
-  "name": "fexend",
-  "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "dev": "bunx tailwindcss -i ./src/css/app.css -o ./dist/css/app.css --watch",
-    "build": "bunx tailwindcss -i ./src/css/app.css -o ./dist/css/app.css --minify"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
-  "dependencies": {
-    "@tailwindcss/cli": "^4.2.1"
-  },
-  "private": true,
-  "devDependencies": {
-    "@types/bun": "latest"
-  },
-  "peerDependencies": {
-    "typescript": "^5"
-  }
+	"name": "fexend",
+	"version": "1.0.0",
+	"main": "index.js",
+	"scripts": {
+		"dev": "bunx tailwindcss -i ./src/css/app.css -o ./dist/css/app.css --watch",
+		"build": "bunx tailwindcss -i ./src/css/app.css -o ./dist/css/app.css --minify"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"description": "",
+	"dependencies": {
+		"@tailwindcss/cli": "^4.2.1",
+		"autoprefixer": "^10.4.27",
+		"postcss": "^8.5.8",
+		"tailwindcss": "^4.2.1"
+	},
+	"private": true,
+	"devDependencies": {
+		"@types/bun": "latest"
+	},
+	"peerDependencies": {
+		"typescript": "^5"
+	}
 }
