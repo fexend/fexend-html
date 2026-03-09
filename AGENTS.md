@@ -48,6 +48,9 @@ fexend-html/
 │   ├── layouts/                  # Dashboard layout variants
 │   ├── dashboard/                # Dashboard page variants
 │   └── settings/                 # Settings pages
+├── public/                       # Static assets served as-is
+│   ├── images/
+│   └── fonts/
 ├── dist/
 │   └── css/app.css               # Compiled CSS output — DO NOT EDIT DIRECTLY
 ├── skills/                       # AI skills for project-specific guidance
