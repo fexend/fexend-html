@@ -2,7 +2,7 @@
 name: fexend
 displayName: Fexend UI (Tailwind v4 + Alpine.js)
 description: Fexend dashboard component patterns using Tailwind CSS v4 and Alpine.js. Use when creating or modifying HTML pages, components, elements, or styles in the Fexend project — including buttons, cards, forms, badges, dark mode, and Alpine.js interactivity.
-version: 1.0.0
+version: 2.0.0
 ---
 
 # Fexend UI — Tailwind CSS v4 + Alpine.js Guidelines
@@ -13,9 +13,55 @@ This skill covers conventions and patterns specific to the Fexend HTML dashboard
 
 - **Tailwind CSS v4** — CSS-first config via `@theme {}` in `src/css/app.css`
 - **Alpine.js v3** — All interactivity is inline; no separate JS source files
-- **Alpine Collapse plugin** — for accordion/collapsible components
+- **Alpine Collapse plugin** — for accordion/collapsible components (bundled)
+- **jQuery + DataTables** — bundled via `src/js/app.js`
+- **Select2** — bundled via `src/js/app.js`
+- **Flatpickr** — bundled via `src/js/app.js`
 - **Icons** — Tabler Icons as inline SVG
 - **Font** — Lexend (Google Fonts, loaded via CDN)
+
+---
+
+## CSS — Separation of Concerns
+
+CSS is organized into **four distinct layers**. Place every CSS file in the correct layer:
+
+| Layer | Folder | Barrel | Purpose |
+|---|---|---|---|
+| **Components** | `src/css/components/` | `src/css/components.css` | UI components — modal, button, card, dropdown, etc. |
+| **Forms** | `src/css/forms/` | `src/css/forms.css` | Form elements — label, input, checkbox, radio, switch |
+| **Libs** | `src/css/libs/` | `src/css/libs.css` | Third-party library theming — select2, flatpickr, datatable |
+| **Layouts** | `src/css/layouts/` | `src/css/layouts.css` | Page structure — navbar, sidebar, layout wrapper |
+| **Utilities** | `src/css/utilities/` | `src/css/utilities.css` | Base element styles — headings, links, lists, paragraphs |
+
+### Rules
+
+- **UI components** (modal, button, card, badge, tab, table, alert, etc.) → `src/css/components/<name>.css`
+- **Form elements** (input fields, labels, checkboxes, radios, toggles) → `src/css/forms/<name>.css`
+- **Third-party library themes** (select2 dropdown, flatpickr calendar, datatable UI) → `src/css/libs/<name>.css`
+- **Never mix** — do not put form styles in `components/`, library styles in `forms/`, etc.
+- **Always import** the new file in its barrel (`components.css`, `forms.css`, or `libs.css`)
+- **Never style bare HTML elements** in `components/` or `forms/` — always use opt-in classes
+
+### Adding CSS — step by step
+
+**New UI component:**
+```bash
+touch src/css/components/<name>.css
+# Add: @import "./components/<name>.css"; in src/css/components.css
+```
+
+**New form element:**
+```bash
+touch src/css/forms/<name>.css
+# Add: @import "./forms/<name>.css"; in src/css/forms.css
+```
+
+**New library theme:**
+```bash
+touch src/css/libs/<name>.css
+# Add: @import "./libs/<name>.css"; in src/css/libs.css
+```
 
 ---
 
@@ -35,14 +81,7 @@ This skill covers conventions and patterns specific to the Fexend HTML dashboard
 }
 ```
 
-The `tailwind.config.js` file exists but theme customization lives in `@theme {}`.
 Dark mode is **class-based** using `.dark` on `<html>`, **not** `media` strategy.
-
-### Adding a new CSS component
-
-1. Create `src/css/components/<name>.css`
-2. Add `@import "./components/<name>.css";` in `src/css/components.css`
-3. Use `@apply` with Tailwind utilities + theme tokens
 
 ---
 
@@ -63,7 +102,7 @@ Always use semantic tokens, never raw hex values:
 
 ---
 
-## Component Class Naming Convention
+## UI Component Class Naming
 
 **Pattern:** `.{component}`, `.{component}-{color}`, `.{component}-{color}-{style}`, `.{component}-{size}`
 
@@ -113,37 +152,224 @@ Available styles: (none = filled), `-outline`, `-soft`
 
 ## Form Elements
 
-Form inputs are globally styled in `src/css/components/input.css`. Use these classes:
+Form elements use **opt-in classes** — bare `input`, `select`, `textarea`, and `label` elements are NOT globally styled. Always add the appropriate class.
+
+### Basic Usage
 
 ```html
-<!-- Basic input -->
+<!-- Label -->
+<label class="label">Field name</label>
+<label class="label label-required">Required field</label>  <!-- adds * -->
+<label class="label label-error">Error state</label>
+<label class="label label-valid">Valid state</label>
+
+<!-- Input -->
+<input type="text" class="input" placeholder="Enter text">
+<input type="text" class="input input-sm" placeholder="Small">
+<input type="text" class="input input-lg" placeholder="Large">
+<input type="text" class="input input-rounded" placeholder="Pill shape">
+<input type="text" class="input input-error" placeholder="Error state">
+<input type="text" class="input input-valid" placeholder="Valid state">
+<input type="text" class="input" disabled placeholder="Disabled">
+<input type="file" class="input input-file">
+
+<!-- Select -->
+<select class="select">
+  <option>Option 1</option>
+</select>
+
+<!-- Textarea -->
+<textarea class="textarea" rows="4" placeholder="Enter text..."></textarea>
+
+<!-- Feedback messages -->
+<span class="form-feedback">Helper text</span>
+<span class="form-feedback form-feedback-error">This field is required</span>
+<span class="form-feedback form-feedback-valid">Looks good!</span>
+```
+
+### Form Group
+
+```html
 <div class="form-group">
-  <label for="name">Name</label>
-  <input type="text" id="name" placeholder="Enter name" />
+  <label class="label label-required" for="email">Email</label>
+  <input type="email" id="email" class="input input-error" placeholder="you@example.com">
+  <span class="form-feedback form-feedback-error">Please enter a valid email</span>
 </div>
+```
 
-<!-- Input sizes -->
-<input class="form-sm" type="text" />
-<input class="form-lg" type="text" />
-<input class="form-rounded" type="text" />
+### Input with Icons
 
-<!-- Validation states -->
-<label class="form-error">Email</label>
-<input class="form-error" type="email" />
-
-<label class="form-valid">Username</label>
-<input class="form-valid" type="text" />
-
-<!-- Icon inside input -->
+```html
+<!-- Icon left -->
 <div class="input-icon-left">
-  <input type="text" placeholder="Search..." />
-  <svg><!-- Tabler icon --></svg>
+  <span class="input-icon">
+    <svg class="w-5 h-5"><!-- Tabler icon --></svg>
+  </span>
+  <input type="text" class="input" placeholder="Search...">
 </div>
 
+<!-- Icon right -->
 <div class="input-icon-right">
-  <input type="password" />
-  <svg><!-- eye icon --></svg>
+  <input type="password" class="input" placeholder="Password">
+  <span class="input-icon">
+    <svg class="w-5 h-5"><!-- eye icon --></svg>
+  </span>
 </div>
+```
+
+### Input Group (addon)
+
+```html
+<div class="input-group">
+  <span class="input-addon">https://</span>
+  <input type="text" class="input" placeholder="yoursite.com">
+</div>
+
+<div class="input-group">
+  <input type="text" class="input" placeholder="Amount">
+  <span class="input-addon">USD</span>
+</div>
+
+<div class="input-group">
+  <span class="input-addon">$</span>
+  <input type="number" class="input">
+  <span class="input-addon">.00</span>
+</div>
+```
+
+### Checkbox
+
+```html
+<!-- Basic checkbox — use .checkbox class -->
+<label class="label-checkbox">
+  <input type="checkbox" class="checkbox">
+  Accept terms
+</label>
+
+<!-- Color variants -->
+<input type="checkbox" class="checkbox checkbox-success" checked>
+<input type="checkbox" class="checkbox checkbox-danger" checked>
+<input type="checkbox" class="checkbox checkbox-warning" checked>
+
+<!-- Divider-style label -->
+<div class="label-checkbox-divider">
+  <input type="checkbox" class="checkbox">
+  <div>
+    <p>Enable notifications</p>
+    <span>Receive updates via email</span>
+  </div>
+</div>
+
+<!-- Card-style label -->
+<label class="label-checkbox-card">
+  <input type="checkbox" class="checkbox">
+  <div>
+    <p>Option label</p>
+    <span>Description text</span>
+  </div>
+</label>
+
+<!-- Card color variants (add alongside .label-checkbox-card) -->
+<label class="label-checkbox-card label-checkbox-card-success">...</label>
+<label class="label-checkbox-card label-checkbox-card-danger">...</label>
+```
+
+### Radio
+
+```html
+<!-- Basic radio -->
+<label class="label-radio">
+  <input type="radio" class="radio" name="group">
+  Option A
+</label>
+
+<!-- Color variants -->
+<input type="radio" class="radio radio-success" checked>
+<input type="radio" class="radio radio-danger">
+
+<!-- Card style -->
+<label class="radio-card">
+  <input type="radio" name="plan">
+  <div>Plan name</div>
+</label>
+
+<!-- Button style -->
+<label class="radio-button">
+  <input type="radio" name="size">
+  Small
+</label>
+<label class="radio-button radio-button-secondary">
+  <input type="radio" name="size">
+  Medium
+</label>
+```
+
+### Switch (Toggle)
+
+```html
+<!-- Basic switch — checkbox with .switch class -->
+<input type="checkbox" class="switch">
+<input type="checkbox" class="switch" checked>
+
+<!-- Color variants -->
+<input type="checkbox" class="switch switch-success" checked>
+<input type="checkbox" class="switch switch-danger" checked>
+<input type="checkbox" class="switch switch-warning" checked>
+<input type="checkbox" class="switch switch-info" checked>
+
+<!-- With label -->
+<label class="label-checkbox">
+  <input type="checkbox" class="switch switch-success">
+  Enable feature
+</label>
+```
+
+---
+
+## Third-Party Libraries
+
+All libraries are bundled in `public/js/app.js` — no CDN scripts needed on pages.
+
+### Select2
+
+```html
+<!-- Select2 applies its classes automatically when initialized -->
+<select id="my-select" class="select2">
+  <option>Option 1</option>
+</select>
+
+<script>
+  $(document).ready(function () {
+    $('#my-select').select2();
+  });
+</script>
+```
+
+### Flatpickr
+
+```html
+<input type="text" class="input" id="datepicker" placeholder="Pick a date">
+
+<script>
+  flatpickr('#datepicker', {
+    dateFormat: 'Y-m-d',
+  });
+</script>
+```
+
+### DataTables
+
+```html
+<table id="my-table" class="w-full">
+  <thead>...</thead>
+  <tbody>...</tbody>
+</table>
+
+<script>
+  $(document).ready(function () {
+    $('#my-table').DataTable();
+  });
+</script>
 ```
 
 ---
@@ -170,7 +396,7 @@ Form inputs are globally styled in `src/css/components/input.css`. Use these cla
 
 ## Page Boilerplate (Alpine.js)
 
-Every page uses this standard body setup:
+Every page uses this standard setup (`src/index.html` is the reference):
 
 ```html
 <!DOCTYPE html>
@@ -179,19 +405,14 @@ Every page uses this standard body setup:
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Page Title | Fexend</title>
-  <link rel="stylesheet" defer href="/dist/css/app.css" />
+  <link rel="stylesheet" href="/public/css/app.css" />
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet" />
 
-  <!-- Alpine Plugins (must load before Alpine core) -->
-  <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
-  <!-- Alpine Core -->
-  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
-  <!-- Dark mode init (prevents flash) -->
+  <!-- Dark mode init (prevents FOUC) -->
   <script>
     if (
       localStorage.getItem("darkMode") === "true" ||
@@ -246,6 +467,8 @@ Every page uses this standard body setup:
   </div>
 
   <!-- Navbar + Sidebar + main content here -->
+
+  <script src="/public/js/app.js"></script>
 </body>
 </html>
 ```
@@ -270,19 +493,12 @@ Every page uses this standard body setup:
 </button>
 ```
 
-### Sidebar toggle
-
-```html
-<button @click="sidebarOpen = !sidebarOpen">Menu</button>
-<aside x-show="sidebarOpen" x-transition>...</aside>
-```
-
 ### Component-local state
 
 ```html
 <div x-data="{ tab: 'overview' }">
-  <button @click="tab = 'overview'" :class="tab === 'overview' ? 'tab-active' : ''">Overview</button>
-  <button @click="tab = 'details'" :class="tab === 'details' ? 'tab-active' : ''">Details</button>
+  <button @click="tab = 'overview'" :class="tab === 'overview' ? 'active' : ''">Overview</button>
+  <button @click="tab = 'details'" :class="tab === 'details' ? 'active' : ''">Details</button>
   <div x-show="tab === 'overview'">...</div>
   <div x-show="tab === 'details'">...</div>
 </div>
@@ -292,7 +508,7 @@ Every page uses this standard body setup:
 
 ## Icons (Tabler Icons)
 
-Use inline SVG. Standard sizing: `w-5 h-5` or `w-6 h-6`. Stroke-based, so use `stroke-current`.
+Use inline SVG. Standard sizing: `w-5 h-5` or `w-6 h-6`. Stroke-based only.
 
 ```html
 <svg xmlns="http://www.w3.org/2000/svg"
@@ -325,14 +541,3 @@ Mobile-first with Alpine.js breakpoint awareness:
 <!-- Mobile popup panel -->
 <div class="mobile-menu-popup" x-show="mobileMenuOpen" x-transition>...</div>
 ```
-
----
-
-## Adding a New Component
-
-1. `src/css/components/<name>.css` — styles using `@apply` + theme tokens
-2. `src/css/components.css` — add `@import "./components/<name>.css";`
-3. `src/components/<name>.html` — full page with multiple usage examples
-4. Optionally `src/elements/<name>.html` — standalone element showcase
-
-Open a GitHub issue first to avoid duplicate work with other contributors.

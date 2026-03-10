@@ -1,0 +1,81 @@
+.radio {
+	@apply size-4 cursor-pointer rounded-full
+	accent-primary dark:accent-primary-dark
+	focus:outline-none focus:ring-2 focus:ring-primary/40 dark:focus:ring-primary-dark/40;
+}
+
+.radio-secondary { @apply accent-secondary dark:accent-secondary-dark; }
+.radio-success   { @apply accent-success dark:accent-success-dark; }
+.radio-danger    { @apply accent-danger dark:accent-danger-dark; }
+.radio-warning   { @apply accent-warning dark:accent-warning-dark; }
+.radio-info      { @apply accent-info dark:accent-info-dark; }
+
+.label-radio {
+	@apply inline-flex items-center gap-2 cursor-pointer select-none
+	text-slate-800 dark:text-slate-200;
+}
+
+.radio-card {
+	@apply block cursor-pointer select-none
+	rounded-lg border border-slate-200 dark:border-slate-700
+	bg-foreground dark:bg-foreground-dark
+	p-4 text-sm font-medium transition-colors duration-150
+	hover:border-slate-300 dark:hover:border-slate-600
+	has-[:checked]:border-primary has-[:checked]:bg-primary/5
+	has-[:checked]:ring-1 has-[:checked]:ring-primary
+	dark:has-[:checked]:border-primary-dark dark:has-[:checked]:bg-primary-dark/10
+	dark:has-[:checked]:ring-primary-dark;
+}
+
+.radio-card input[type="radio"] {
+	@apply sr-only;
+}
+
+.radio-button {
+	@apply flex cursor-pointer items-center justify-center select-none
+	rounded-md border border-primary dark:border-primary-dark
+	text-primary dark:text-primary-dark text-sm font-medium
+	px-3 py-2 transition-colors duration-150
+	hover:bg-primary/10 dark:hover:bg-primary-dark/10
+	has-[:checked]:bg-primary dark:has-[:checked]:bg-primary-dark
+	has-[:checked]:text-white;
+}
+
+.radio-button-secondary {
+	@apply border-secondary dark:border-secondary-dark text-secondary dark:text-secondary-dark
+	hover:bg-secondary/10 dark:hover:bg-secondary-dark/10
+	has-[:checked]:bg-secondary dark:has-[:checked]:bg-secondary-dark
+	has-[:checked]:border-secondary dark:has-[:checked]:border-secondary-dark;
+}
+
+.radio-button-success {
+	@apply border-success dark:border-success-dark text-success dark:text-success-dark
+	hover:bg-success/10 dark:hover:bg-success-dark/10
+	has-[:checked]:bg-success dark:has-[:checked]:bg-success-dark
+	has-[:checked]:border-success dark:has-[:checked]:border-success-dark;
+}
+
+.radio-button-danger {
+	@apply border-danger dark:border-danger-dark text-danger dark:text-danger-dark
+	hover:bg-danger/10 dark:hover:bg-danger-dark/10
+	has-[:checked]:bg-danger dark:has-[:checked]:bg-danger-dark
+	has-[:checked]:border-danger dark:has-[:checked]:border-danger-dark;
+}
+
+.radio-button-warning {
+	@apply border-warning dark:border-warning-dark text-warning dark:text-warning-dark
+	hover:bg-warning/10 dark:hover:bg-warning-dark/10
+	has-[:checked]:bg-warning dark:has-[:checked]:bg-warning-dark
+	has-[:checked]:border-warning dark:has-[:checked]:border-warning-dark;
+}
+
+.radio-button-info {
+	@apply border-info dark:border-info-dark text-info dark:text-info-dark
+	hover:bg-info/10 dark:hover:bg-info-dark/10
+	has-[:checked]:bg-info dark:has-[:checked]:bg-info-dark
+	has-[:checked]:border-info dark:has-[:checked]:border-info-dark;
+}
+
+.radio-button input[type="radio"] {
+	@apply sr-only;
+}

@@ -50,16 +50,36 @@ When working on rewrite tasks (see `AGENTS.md` Rewrite Plan):
 - **Always include dark mode variants** for new CSS classes
 - **Prefer editing existing files** over creating new ones
 - **Do not add comments** unless logic is non-obvious
+- **Never style bare `input`, `select`, `textarea`, `label` elements** — use `.input`, `.label`, `.select`, `.textarea` opt-in classes
 
 ### Common Tasks
 
-**Add a new component:**
+**Add a new UI component:**
 ```bash
 # 1. Create the CSS
 touch src/css/components/<name>.css
 # 2. Import in components.css
-# 3. Create the HTML page
-touch src/components/<name>.html
+echo '@import "./components/<name>.css";' >> src/css/components.css
+# 3. Create the HTML showcase page
+cp src/index.html src/components/<name>.html
+```
+
+**Add a new form element:**
+```bash
+# 1. Create the CSS (use opt-in classes — no bare element selectors)
+touch src/css/forms/<name>.css
+# 2. Import in forms.css
+echo '@import "./forms/<name>.css";' >> src/css/forms.css
+# 3. Create the HTML showcase
+cp src/index.html src/elements/<name>.html
+```
+
+**Add a third-party library theme:**
+```bash
+# 1. Create the CSS
+touch src/css/libs/<name>.css
+# 2. Import in libs.css
+echo '@import "./libs/<name>.css";' >> src/css/libs.css
 ```
 
 **Compile CSS + JS:**
@@ -67,10 +87,13 @@ touch src/components/<name>.html
 bun run dev    # watches both CSS (→ public/css/app.css) and JS (→ public/js/app.js)
 ```
 
-**Check what components exist:**
+**Check what exists:**
 ```bash
-ls src/components/
-ls src/elements/
+ls src/components/       # UI component HTML pages
+ls src/elements/         # Form/element HTML pages
+ls src/css/components/   # UI component CSS
+ls src/css/forms/        # Form element CSS
+ls src/css/libs/         # Library CSS
 ```
 
 **New layout/utility CSS:**

@@ -16,6 +16,7 @@ A static HTML component library using **Tailwind CSS v4**, **Alpine.js v3**, and
 4. **Alpine.js bundled** — `src/js/app.js` is the entry point (compiled to `public/js/app.js`); all interactivity is inline `x-data`, `x-show`, `@click` in HTML
 5. **Tabler Icons only** — inline SVG from tabler.io, `w-5 h-5`, `stroke="currentColor"`, no emoji icons
 6. **4-space indentation** — HTML, CSS, and JS all use 4-space tabs
+7. **No bare form element selectors** — use `.input`, `.label`, `.select`, `.textarea`, `.checkbox`, `.radio`, `.switch` classes
 
 ### Tailwind v4 Patterns
 
@@ -39,6 +40,28 @@ Configuration is in `src/css/app.css` via `@theme {}` — not in `tailwind.confi
 .{component}-rounded            → pill/rounded
 ```
 
+### Form Class Naming
+
+```html
+<div class="form-group">
+  <label class="label label-required">Email</label>
+  <div class="input-icon-left">
+    <span class="input-icon"><!-- svg --></span>
+    <input type="email" class="input" placeholder="you@example.com">
+  </div>
+  <span class="form-feedback-error">Required field</span>
+</div>
+
+<input type="checkbox" class="checkbox">
+<input type="radio" class="radio">
+<input type="checkbox" class="switch">
+
+<div class="input-group">
+  <span class="input-addon">https://</span>
+  <input type="text" class="input">
+</div>
+```
+
 ### Alpine.js Body Boilerplate
 
 ```html
@@ -59,8 +82,12 @@ Configuration is in `src/css/app.css` via `@theme {}` — not in `tailwind.confi
 ### File Structure
 
 ```
-src/css/components/<name>.css     ← Component styles
-src/css/components.css            ← Import barrel (add @import here)
+src/css/components/<name>.css     ← UI component styles
+src/css/components.css            ← Component import barrel
+src/css/forms/<name>.css          ← Form element styles (opt-in classes)
+src/css/forms.css                 ← Forms import barrel
+src/css/libs/<name>.css           ← Third-party library theming
+src/css/libs.css                  ← Libs import barrel
 src/css/layouts/<name>.css        ← Layout styles (navbar, sidebar, etc.)
 src/css/layouts.css               ← Layout import barrel
 src/css/utilities/<name>.css      ← Utility/base styles

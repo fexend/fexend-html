@@ -18,6 +18,7 @@ A static HTML component library. Stack: **Tailwind CSS v4** + **Alpine.js v3** +
 | Interactivity | Alpine.js bundled via `src/js/app.js` → `public/js/app.js`; all interactivity inline in HTML |
 | Icons | Tabler Icons inline SVG only — no emoji, no icon fonts |
 | Indentation | 4 spaces (HTML, CSS, JS) |
+| Form elements | Use `.input`, `.label`, `.select`, `.textarea`, `.checkbox`, `.radio`, `.switch` — **never style bare HTML elements** |
 
 ### Theme Color Tokens
 
@@ -58,9 +59,21 @@ Config lives in **CSS**, not JS:
 }
 ```
 
+### Form Pattern
+
+```css
+/* src/css/forms/<name>.css — opt-in classes only */
+.my-input {
+  @apply block w-full px-4 py-2 border border-slate-300 dark:border-slate-600;
+}
+```
+
 ```html
-<!-- src/components/<name>.html -->
-<!-- Full page with navbar + sidebar + multiple usage examples -->
+<!-- Use opt-in classes, never bare element selectors -->
+<label class="label">Email</label>
+<input type="email" class="input input-sm input-error">
+<input type="checkbox" class="checkbox checkbox-primary">
+<input type="checkbox" class="switch switch-success">
 ```
 
 ### Development
@@ -75,7 +88,6 @@ bun run build   # One-time build
 This project is being actively rewritten. Before starting any task, check `AGENTS.md` for:
 - Current rewrite phase and progress
 - New components to be added
-- Migration from npm → Bun
 - Component standards and patterns
 
 ### Key Directories
@@ -83,7 +95,12 @@ This project is being actively rewritten. Before starting any task, check `AGENT
 | Path | Purpose |
 |---|---|
 | `src/css/app.css` | Tailwind entry + color tokens |
-| `src/css/components/` | Per-component CSS |
+| `src/css/components/` | UI component CSS (button, card, modal, etc.) |
+| `src/css/components.css` | Component import barrel |
+| `src/css/forms/` | Form element CSS (label, input, checkbox, radio, switch) |
+| `src/css/forms.css` | Forms import barrel |
+| `src/css/libs/` | Third-party library theming (select2, flatpickr, datatable) |
+| `src/css/libs.css` | Libs import barrel |
 | `src/css/layouts/` | Layout CSS (navbar, sidebar, layout, loading) |
 | `src/css/utilities/` | Base/utility CSS (a, heading, list, p) |
 | `src/js/app.js` | Alpine.js entry point |

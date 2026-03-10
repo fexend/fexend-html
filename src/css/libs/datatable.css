@@ -1,0 +1,307 @@
+:root {
+	--dt-row-selected: var(--color-primary);
+	--dt-row-selected-text: 255, 255, 255;
+	--dt-row-selected-link: var(--color-primary-dark);
+	--dt-row-stripe: 226, 232, 240;
+	--dt-row-hover: 203, 213, 225;
+	--dt-column-ordering: 148, 163, 184;
+	--dt-row-hover-alpha: 0.035;
+	--dt-row-stripe-alpha: 0.023;
+	--dt-column-ordering-alpha: 0.019;
+	--dt-row-selected-stripe-alpha: 0.923;
+	--dt-row-selected-column-ordering-alpha: 0.919;
+	--dt-html-background: white;
+}
+
+.dark {
+	--dt-row-selected: var(--color-primary-dark);
+	--dt-row-selected-link: var(--color-primary);
+	--dt-row-stripe: 30, 41, 59;
+	--dt-row-hover: 255, 255, 255;
+	--dt-column-ordering: 255, 255, 255;
+	--dt-html-background: rgb(15, 23, 42);
+}
+
+table.dataTable {
+	@apply w-full border-collapse border-spacing-0;
+}
+
+table.dataTable thead th,
+table.dataTable tfoot th {
+	@apply font-semibold;
+}
+
+table.dataTable > thead > tr > th,
+table.dataTable > thead > tr > td {
+	@apply px-4 py-3 text-left border-b border-slate-300 dark:border-slate-600;
+}
+
+table.dataTable > tfoot > tr > th,
+table.dataTable > tfoot > tr > td {
+	@apply px-4 py-3 border-t border-slate-300 dark:border-slate-600;
+}
+
+table.dataTable > tbody > tr > th,
+table.dataTable > tbody > tr > td {
+	@apply px-4 py-3 align-middle;
+}
+
+table.dataTable > tbody > tr {
+	@apply border-b border-slate-200 dark:border-slate-700;
+}
+
+table.dataTable > tbody > tr:last-child > * {
+	@apply border-b-0;
+}
+
+table.dataTable.stripe > tbody > tr:nth-child(odd) > *,
+table.dataTable.display > tbody > tr:nth-child(odd) > * {
+	box-shadow: inset 0 0 0 9999px rgba(var(--dt-row-stripe), var(--dt-row-stripe-alpha));
+}
+
+table.dataTable.hover > tbody > tr:hover > *,
+table.dataTable.display > tbody > tr:hover > * {
+	box-shadow: inset 0 0 0 9999px rgba(var(--dt-row-hover), var(--dt-row-hover-alpha));
+}
+
+table.dataTable > tbody > tr.selected > * {
+	@apply bg-primary/90 dark:bg-primary-dark/90 text-white;
+}
+
+table.dataTable.nowrap th,
+table.dataTable.nowrap td {
+	@apply whitespace-nowrap;
+}
+
+table.dataTable th,
+table.dataTable td {
+	@apply box-border;
+}
+
+table.dataTable th.dt-type-numeric,
+table.dataTable th.dt-type-date,
+table.dataTable td.dt-type-numeric,
+table.dataTable td.dt-type-date {
+	@apply text-right;
+}
+
+table.dataTable th.dt-left,
+table.dataTable td.dt-left {
+	@apply text-left;
+}
+
+table.dataTable th.dt-center,
+table.dataTable td.dt-center {
+	@apply text-center;
+}
+
+table.dataTable th.dt-right,
+table.dataTable td.dt-right {
+	@apply text-right;
+}
+
+table.dataTable thead > tr > th:active,
+table.dataTable thead > tr > td:active {
+	outline: none;
+}
+
+table.dataTable thead > tr > th.dt-orderable-asc,
+table.dataTable thead > tr > th.dt-orderable-desc,
+table.dataTable thead > tr > th.dt-ordering-asc,
+table.dataTable thead > tr > th.dt-ordering-desc,
+table.dataTable thead > tr > td.dt-orderable-asc,
+table.dataTable thead > tr > td.dt-orderable-desc,
+table.dataTable thead > tr > td.dt-ordering-asc,
+table.dataTable thead > tr > td.dt-ordering-desc {
+	@apply relative pr-8 cursor-pointer;
+}
+
+table.dataTable thead > tr > th.dt-orderable-asc:hover,
+table.dataTable thead > tr > th.dt-orderable-desc:hover,
+table.dataTable thead > tr > td.dt-orderable-asc:hover,
+table.dataTable thead > tr > td.dt-orderable-desc:hover {
+	@apply bg-slate-50 dark:bg-slate-800/50;
+}
+
+span.dt-column-order {
+	@apply absolute right-3 top-0 bottom-0 w-3 text-slate-400 dark:text-slate-500;
+}
+
+span.dt-column-order:before,
+span.dt-column-order:after {
+	position: absolute;
+	left: 0;
+	opacity: 0.2;
+	line-height: 9px;
+	font-size: 0.8em;
+}
+
+table.dataTable thead > tr > th.dt-orderable-asc span.dt-column-order:before,
+table.dataTable thead > tr > td.dt-orderable-asc span.dt-column-order:before {
+	bottom: 50%;
+	content: "▲";
+}
+
+table.dataTable thead > tr > th.dt-orderable-desc span.dt-column-order:after,
+table.dataTable thead > tr > td.dt-orderable-desc span.dt-column-order:after {
+	top: 50%;
+	content: "▼";
+}
+
+table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order:before,
+table.dataTable thead > tr > td.dt-ordering-asc span.dt-column-order:before {
+	opacity: 0.6;
+}
+
+table.dataTable thead > tr > th.dt-ordering-desc span.dt-column-order:after,
+table.dataTable thead > tr > td.dt-ordering-desc span.dt-column-order:after {
+	opacity: 0.6;
+}
+
+table.dataTable td.dt-control {
+	@apply text-center cursor-pointer;
+}
+
+table.dataTable td.dt-control:before {
+	display: inline-block;
+	box-sizing: border-box;
+	content: "";
+	border-top: 5px solid transparent;
+	border-left: 10px solid rgba(0, 0, 0, 0.5);
+	border-bottom: 5px solid transparent;
+}
+
+.dark table.dataTable td.dt-control:before {
+	border-left-color: rgba(255, 255, 255, 0.5);
+}
+
+table.dataTable tr.dt-hasChild td.dt-control:before {
+	border-top: 10px solid rgba(0, 0, 0, 0.5);
+	border-left: 5px solid transparent;
+	border-bottom: 0;
+}
+
+.dark table.dataTable tr.dt-hasChild td.dt-control:before {
+	border-top-color: rgba(255, 255, 255, 0.5);
+	border-left-color: transparent;
+}
+
+table.dataTable tfoot:empty {
+	display: none;
+}
+
+div.dt-scroll {
+	width: 100%;
+}
+
+div.dt-scroll-body thead tr,
+div.dt-scroll-body tfoot tr {
+	height: 0;
+}
+
+div.dt-scroll-body thead tr th,
+div.dt-scroll-body thead tr td,
+div.dt-scroll-body tfoot tr th,
+div.dt-scroll-body tfoot tr td {
+	height: 0 !important;
+	padding-top: 0 !important;
+	padding-bottom: 0 !important;
+	border-top-width: 0 !important;
+	border-bottom-width: 0 !important;
+	overflow: hidden;
+}
+
+div.dt-container {
+	@apply relative clear-both;
+}
+
+div.dt-container div.dt-layout-row {
+	@apply flex justify-between items-center w-full my-3;
+}
+
+div.dt-container div.dt-layout-row div.dt-layout-cell {
+	@apply flex items-center;
+}
+
+div.dt-container div.dt-layout-row div.dt-layout-cell.dt-layout-start {
+	@apply pl-4;
+	justify-content: flex-start;
+	margin-right: auto;
+}
+
+div.dt-container div.dt-layout-row div.dt-layout-cell.dt-layout-end {
+	@apply pr-4;
+	justify-content: flex-end;
+	margin-left: auto;
+}
+
+div.dt-container div.dt-layout-row div.dt-layout-cell:empty {
+	display: none;
+}
+
+div.dt-container div.dt-layout-full {
+	@apply w-full;
+}
+
+div.dt-container div.dt-layout-start > *:not(:last-child) {
+	margin-right: 1em;
+}
+
+div.dt-container div.dt-layout-end > *:not(:first-child) {
+	margin-left: 1em;
+}
+
+div.dt-container .dt-search input,
+div.dt-container .dt-length select,
+div.dt-container .dt-input {
+	@apply px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md
+	bg-foreground dark:bg-foreground-dark
+	text-slate-900 dark:text-slate-100
+	focus:outline-none focus:border-primary dark:focus:border-primary-dark;
+}
+
+div.dt-container .dt-paging .dt-paging-button {
+	@apply inline-block min-w-[1.5em] px-3 py-2 mx-0.5 text-center cursor-pointer
+	rounded-md border border-transparent
+	text-slate-700 dark:text-slate-300
+	hover:bg-slate-100 dark:hover:bg-slate-700 hover:border-slate-200 dark:hover:border-slate-600;
+	text-decoration: none !important;
+}
+
+div.dt-container .dt-paging .dt-paging-button.current,
+div.dt-container .dt-paging .dt-paging-button.current:hover {
+	@apply bg-primary dark:bg-primary-dark text-white border-primary dark:border-primary-dark;
+}
+
+div.dt-container .dt-paging .dt-paging-button.disabled,
+div.dt-container .dt-paging .dt-paging-button.disabled:hover,
+div.dt-container .dt-paging .dt-paging-button.disabled:active {
+	@apply opacity-40 cursor-not-allowed bg-transparent border-transparent;
+}
+
+div.dt-container .dt-paging .ellipsis {
+	@apply px-4 py-2 text-slate-500 dark:text-slate-400;
+}
+
+div.dt-processing {
+	@apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center z-10
+	px-4 py-2 bg-foreground dark:bg-foreground-dark rounded-lg shadow-lg;
+}
+
+@media (max-width: 767px) {
+	div.dt-container div.dt-layout-row:not(.dt-layout-table) {
+		display: block;
+	}
+
+	div.dt-container div.dt-layout-row:not(.dt-layout-table) div.dt-layout-cell {
+		display: block;
+		text-align: center;
+		padding: 0.25rem 0;
+	}
+
+	div.dt-container div.dt-layout-row:not(.dt-layout-table) div.dt-layout-cell.dt-layout-start,
+	div.dt-container div.dt-layout-row:not(.dt-layout-table) div.dt-layout-cell.dt-layout-end {
+		margin: 0;
+		justify-content: center;
+	}
+}

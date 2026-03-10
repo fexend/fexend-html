@@ -1,5 +1,5 @@
 .sidebar-layout {
-	@apply fixed w-full md:absolute left-0 top-16 md:top-0 z-40 flex h-[calc(100vh-4rem)] md:w-64 flex-col justify-between border-e bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 ease-in-out transition-transform duration-300;
+	@apply fixed w-full md:absolute left-0 top-16 md:top-0 z-40 flex h-[calc(100vh-4rem)] md:w-64 flex-col justify-between border-e bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 ease-in-out transition-transform duration-300 overflow-y-auto;
 }
 
 .sidebar-layout::-webkit-scrollbar {
@@ -25,7 +25,7 @@
 }
 
 .sidebar-icon {
-	@apply hidden md:flex h-[calc(100vh-4rem)] w-16 flex-shrink-0 flex-col justify-between border-e bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800;
+	@apply hidden md:flex h-[calc(100vh-4rem)] w-16 flex-shrink-0 flex-col justify-between border-e bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 z-20;
 }
 
 .sidebar-icon-button {

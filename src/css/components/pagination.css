@@ -1,0 +1,15 @@
+.pagination {
+	@apply flex flex-row justify-center gap-2 text-base;
+}
+
+.pagination-link {
+	@apply block size-8 rounded-sm border border-gray-100 dark:border-slate-700 bg-white dark:bg-dark text-center leading-8;
+}
+
+.pagination-page {
+	@apply flex items-center justify-center;
+}
+
+.pagination-link.active {
+	@apply bg-primary text-white dark:bg-primary-dark;
+}

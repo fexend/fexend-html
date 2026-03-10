@@ -1,0 +1,11 @@
+.dropdown {
+	@apply absolute z-10 isolate mt-2 w-auto rounded-md bg-foreground dark:bg-foreground-dark shadow-md border border-slate-300 dark:border-slate-800;
+}
+
+.dropdown-content {
+	@apply p-2;
+}
+
+.dropdown-item {
+	@apply block px-4 py-2 text-sm text-slate-900 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800;
+}
