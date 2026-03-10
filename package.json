@@ -3,8 +3,8 @@
 	"version": "1.0.0",
 	"main": "index.js",
 	"scripts": {
-		"dev": "bunx tailwindcss -i ./src/css/app.css -o ./dist/css/app.css --watch",
-		"build": "bunx tailwindcss -i ./src/css/app.css -o ./dist/css/app.css --minify"
+		"dev": "concurrently \"bunx tailwindcss -i ./src/css/app.css -o ./public/css/app.css --watch\" \"bun build ./src/js/app.js --outdir ./public/js --watch\"",
+		"build": "concurrently \"bunx tailwindcss -i ./src/css/app.css -o ./public/css/app.css --minify\" \"bun build ./src/js/app.js --outdir ./public/js --minify\""
 	},
 	"keywords": [],
 	"author": "",
@@ -12,13 +12,15 @@
 	"description": "",
 	"dependencies": {
 		"@tailwindcss/cli": "^4.2.1",
+		"alpinejs": "^3.15.8",
 		"autoprefixer": "^10.4.27",
 		"postcss": "^8.5.8",
 		"tailwindcss": "^4.2.1"
 	},
 	"private": true,
 	"devDependencies": {
-		"@types/bun": "latest"
+		"@types/bun": "latest",
+		"concurrently": "^9.2.1"
 	},
 	"peerDependencies": {
 		"typescript": "^5"

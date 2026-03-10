@@ -13,7 +13,7 @@ A static HTML component library using **Tailwind CSS v4**, **Alpine.js v3**, and
 1. **Use Bun** — never npm/yarn/pnpm. Use `bun install`, `bun run dev`, `bun add <pkg>`
 2. **No raw hex colors** — always use `@theme` tokens: `text-primary`, `bg-foreground`, `border-warning`
 3. **Always pair dark mode** — every `bg-white` needs `dark:bg-slate-800`; every `text-slate-900` needs `dark:text-slate-100`
-4. **Inline Alpine.js only** — no separate JS files; use `x-data`, `x-show`, `@click` inline
+4. **Alpine.js bundled** — `src/js/app.js` is the entry point (compiled to `public/js/app.js`); all interactivity is inline `x-data`, `x-show`, `@click` in HTML
 5. **Tabler Icons only** — inline SVG from tabler.io, `w-5 h-5`, `stroke="currentColor"`, no emoji icons
 6. **4-space indentation** — HTML, CSS, and JS all use 4-space tabs
 
@@ -61,8 +61,16 @@ Configuration is in `src/css/app.css` via `@theme {}` — not in `tailwind.confi
 ```
 src/css/components/<name>.css     ← Component styles
 src/css/components.css            ← Import barrel (add @import here)
+src/css/layouts/<name>.css        ← Layout styles (navbar, sidebar, etc.)
+src/css/layouts.css               ← Layout import barrel
+src/css/utilities/<name>.css      ← Utility/base styles
+src/css/utilities.css             ← Utility import barrel
+src/js/app.js                     ← Alpine.js entry (compiled → public/js/app.js)
+src/index.html                    ← Page boilerplate (copy for new pages)
 src/components/<name>.html        ← Full page showcase
 src/elements/<name>.html          ← Standalone element showcase
+public/css/app.css                ← Compiled CSS output — DO NOT EDIT
+public/js/app.js                  ← Compiled JS output — DO NOT EDIT
 ```
 
 ### Rewrite Status

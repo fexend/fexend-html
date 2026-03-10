@@ -37,7 +37,7 @@ When working on rewrite tasks (see `AGENTS.md` Rewrite Plan):
 
 1. Check `AGENTS.md` for current phase and status
 2. Update the checkbox in `AGENTS.md` when a task is completed
-3. Follow the existing component patterns in `src/components/` as the reference
+3. Use `src/index.html` as the page boilerplate reference (navbar + sidebar + loading screen)
 4. Test dark mode manually for every change
 5. Use `bun run dev` to watch for CSS changes during development
 
@@ -62,13 +62,19 @@ touch src/css/components/<name>.css
 touch src/components/<name>.html
 ```
 
-**Compile CSS:**
+**Compile CSS + JS:**
 ```bash
-bun run dev
+bun run dev    # watches both CSS (→ public/css/app.css) and JS (→ public/js/app.js)
 ```
 
 **Check what components exist:**
 ```bash
 ls src/components/
 ls src/elements/
+```
+
+**New layout/utility CSS:**
+```bash
+# Layouts go in src/css/layouts/<name>.css — import in src/css/layouts.css
+# Utilities go in src/css/utilities/<name>.css — import in src/css/utilities.css
 ```

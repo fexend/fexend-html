@@ -40,19 +40,26 @@ fexend-html/
 │   ├── css/
 │   │   ├── app.css               # Tailwind entry point + @theme tokens
 │   │   ├── components.css        # @import barrel for all component CSS
-│   │   ├── utilities.css         # Custom utility classes
-│   │   └── components/           # Per-component CSS files
+│   │   ├── layouts.css           # @import barrel for layout CSS
+│   │   ├── utilities.css         # @import barrel for utility CSS
+│   │   ├── components/           # Per-component CSS files
+│   │   ├── layouts/              # Layout CSS files (navbar, sidebar, layout, loading)
+│   │   └── utilities/            # Utility CSS files (a, heading, list, p)
+│   ├── js/
+│   │   └── app.js                # Alpine.js entry point (bundled by Bun)
+│   ├── index.html                # Root dashboard page with full layout boilerplate
 │   ├── components/               # Full page showcases for each component
 │   ├── elements/                 # Standalone element pages (buttons, forms, etc.)
 │   ├── pages/                    # Auth pages (login, signup, forgot-password, etc.)
 │   ├── layouts/                  # Dashboard layout variants
 │   ├── dashboard/                # Dashboard page variants
 │   └── settings/                 # Settings pages
-├── public/                       # Static assets served as-is
+├── public/                       # Compiled output + static assets — DO NOT EDIT CSS/JS DIRECTLY
+│   ├── css/app.css               # Compiled Tailwind CSS output
+│   ├── js/app.js                 # Compiled Alpine.js bundle
 │   ├── images/
-│   └── fonts/
-├── dist/
-│   └── css/app.css               # Compiled CSS output — DO NOT EDIT DIRECTLY
+│   ├── fonts/
+│   └── favicon*, site.webmanifest, *.png
 ├── skills/                       # AI skills for project-specific guidance
 ├── AGENTS.md                     # This file — shared by all AI agents
 ├── CLAUDE.md                     # Claude Code specific instructions (references AGENTS.md)
@@ -80,7 +87,7 @@ fexend-html/
 
 **Dark mode:** Class-based (`.dark` on `<html>`), persisted via `localStorage` key `darkMode`, with system preference fallback. Use `dark:` Tailwind prefix throughout.
 
-**Alpine.js:** All interactivity is inline Alpine.js. No separate JS source files.
+**Alpine.js:** Bundled from npm via `src/js/app.js` (Bun builds to `public/js/app.js`). All interactivity is inline Alpine.js in HTML — no logic in the JS source file.
 
 **Icons:** Tabler Icons as inline SVG with `w-5 h-5` or `w-6 h-6`, `stroke="currentColor"`.
 
@@ -102,12 +109,13 @@ fexend-html/
 8. **Improve accessibility** — ARIA roles, keyboard navigation, focus states
 9. **Add more chart types** using ApexCharts
 
-### Phase 1 — Foundation (Bun + Build)
+### Phase 1 — Foundation (Bun + Build) ✅
 
-- [ ] Replace `package.json` npm scripts with Bun equivalents
-- [ ] Add `bunfig.toml` if needed
-- [ ] Verify `bun run dev` and `bun run build` work correctly
-- [ ] Update all documentation to reference `bun` instead of `npm`
+- [x] Replace `package.json` npm scripts with Bun equivalents
+- [x] Verify `bun run dev` and `bun run build` work correctly (builds CSS + JS in parallel via `concurrently`)
+- [x] Update all documentation to reference `bun` instead of `npm`
+- [x] Bundle Alpine.js via `src/js/app.js` → `public/js/app.js`
+- [x] Restructure CSS into `layouts/` and `utilities/` subdirectories
 
 ### Phase 2 — Component Audit & Cleanup
 
@@ -154,8 +162,8 @@ Priority order:
 ## Adding a New Component
 
 1. Create `src/css/components/<component-name>.css` using `@apply` + theme tokens
-2. Import it in `src/css/components.css`
-3. Create `src/components/<component-name>.html` with full boilerplate, navbar, sidebar, and multiple usage examples
+2. Import it in `src/css/components.css` (add `@import "./components/<component-name>.css";`)
+3. Create `src/components/<component-name>.html` — copy `src/index.html` as the boilerplate base
 4. Optionally create `src/elements/<component-name>.html` for a standalone showcase
 5. Open a GitHub issue before starting to avoid duplicate work
 

@@ -1,0 +1,21 @@
+.main-content {
+	@apply relative flex flex-row;
+}
+
+.main-content aside {
+	@apply flex fixed left-0 top-0 z-10 mt-16 h-full bg-white dark:bg-slate-900 transition-all duration-300 ease-in-out;
+	width: fit-content;
+	isolation: isolate;
+}
+
+.main-container {
+	@apply mt-16 bg-background dark:bg-background-dark p-4 md:p-8 transition-[margin] duration-200 ease-out w-full;
+}
+
+.mobile-menu {
+	@apply fixed bottom-0 left-0 right-0 p-2 flex justify-center z-50;
+}
+
+.mobile-menu-popup {
+	@apply bg-foreground dark:bg-foreground-dark fixed bottom-[60px] -translate-x-[50%] left-1/2 w-11/12 max-w-sm rounded-lg shadow-md z-50 transition-transform duration-200 ease-in-out;
+}

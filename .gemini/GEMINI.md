@@ -15,7 +15,7 @@ A static HTML component library. Stack: **Tailwind CSS v4** + **Alpine.js v3** +
 | Package manager | **Bun only** — `bun install`, `bun run dev`, `bun add <pkg>` |
 | Colors | Use `@theme` tokens only — no raw hex values |
 | Dark mode | Always include `dark:` variants for every color/bg class |
-| Interactivity | Inline Alpine.js only — no external JS files |
+| Interactivity | Alpine.js bundled via `src/js/app.js` → `public/js/app.js`; all interactivity inline in HTML |
 | Icons | Tabler Icons inline SVG only — no emoji, no icon fonts |
 | Indentation | 4 spaces (HTML, CSS, JS) |
 
@@ -84,8 +84,13 @@ This project is being actively rewritten. Before starting any task, check `AGENT
 |---|---|
 | `src/css/app.css` | Tailwind entry + color tokens |
 | `src/css/components/` | Per-component CSS |
+| `src/css/layouts/` | Layout CSS (navbar, sidebar, layout, loading) |
+| `src/css/utilities/` | Base/utility CSS (a, heading, list, p) |
+| `src/js/app.js` | Alpine.js entry point |
+| `src/index.html` | Page boilerplate template |
 | `src/components/` | Full page HTML showcases |
 | `src/elements/` | Standalone element demos |
 | `src/pages/` | Auth pages |
 | `src/layouts/` | Dashboard layout variants |
-| `dist/css/app.css` | Compiled output — do not edit |
+| `public/css/app.css` | Compiled CSS output — do not edit |
+| `public/js/app.js` | Compiled JS output — do not edit |
