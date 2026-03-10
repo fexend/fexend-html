@@ -1,5 +1,5 @@
 .modal-backdrop {
-	@apply fixed inset-0 z-40 bg-gray-600/30;
+	@apply fixed inset-0 z-40 bg-slate-600/30;
 }
 
 .modal-backdrop.blur {
@@ -27,7 +27,8 @@
 }
 
 .modal-close-button {
-	@apply text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 cursor-pointer;
+	@apply text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 cursor-pointer
+	focus-visible:outline-2 focus-visible:outline-primary dark:focus-visible:outline-primary-dark focus-visible:outline-offset-2 rounded-sm;
 }
 
 .modal-top-left {

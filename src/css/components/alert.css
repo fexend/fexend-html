@@ -11,7 +11,8 @@
 }
 
 .alert-close {
-	@apply float-right cursor-pointer;
+	@apply float-right cursor-pointer
+	focus-visible:outline-2 focus-visible:outline-current focus-visible:outline-offset-2 rounded-sm;
 }
 
 .alert-primary {

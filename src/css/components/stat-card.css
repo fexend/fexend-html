@@ -1,0 +1,77 @@
+.stat-card {
+	@apply relative bg-foreground dark:bg-foreground-dark rounded-lg p-6 shadow-md
+	transition-all duration-200;
+}
+
+.stat-card-hover:hover {
+	@apply transform scale-[1.02] shadow-lg;
+}
+
+.stat-card-icon {
+	@apply w-12 h-12 rounded-lg flex items-center justify-center shrink-0;
+}
+
+.stat-card-icon-primary   { @apply bg-primary/10 dark:bg-primary-dark/10 text-primary dark:text-primary-dark; }
+.stat-card-icon-secondary { @apply bg-secondary/10 dark:bg-secondary-dark/10 text-secondary dark:text-secondary-dark; }
+.stat-card-icon-success   { @apply bg-success/10 dark:bg-success-dark/10 text-success dark:text-success-dark; }
+.stat-card-icon-danger    { @apply bg-danger/10 dark:bg-danger-dark/10 text-danger dark:text-danger-dark; }
+.stat-card-icon-warning   { @apply bg-warning/10 dark:bg-warning-dark/10 text-warning dark:text-warning-dark; }
+.stat-card-icon-info      { @apply bg-info/10 dark:bg-info-dark/10 text-info dark:text-info-dark; }
+
+.stat-card-value {
+	@apply text-2xl font-bold text-slate-900 dark:text-slate-100;
+}
+
+.stat-card-label {
+	@apply text-sm text-slate-500 dark:text-slate-400;
+}
+
+.stat-card-trend {
+	@apply inline-flex items-center gap-1 text-sm font-medium mt-1;
+}
+
+.stat-card-trend-up {
+	@apply text-success dark:text-success-dark;
+}
+
+.stat-card-trend-down {
+	@apply text-danger dark:text-danger-dark;
+}
+
+.stat-card-trend-neutral {
+	@apply text-slate-500 dark:text-slate-400;
+}
+
+.stat-card-primary   { @apply bg-primary dark:bg-primary-dark text-white; }
+.stat-card-secondary { @apply bg-secondary dark:bg-secondary-dark text-white; }
+.stat-card-success   { @apply bg-success dark:bg-success-dark text-white; }
+.stat-card-danger    { @apply bg-danger dark:bg-danger-dark text-white; }
+.stat-card-warning   { @apply bg-warning dark:bg-warning-dark text-white; }
+.stat-card-info      { @apply bg-info dark:bg-info-dark text-white; }
+
+.stat-card-primary .stat-card-label,
+.stat-card-secondary .stat-card-label,
+.stat-card-success .stat-card-label,
+.stat-card-danger .stat-card-label,
+.stat-card-warning .stat-card-label,
+.stat-card-info .stat-card-label {
+	@apply text-white/80;
+}
+
+.stat-card-primary .stat-card-value,
+.stat-card-secondary .stat-card-value,
+.stat-card-success .stat-card-value,
+.stat-card-danger .stat-card-value,
+.stat-card-warning .stat-card-value,
+.stat-card-info .stat-card-value {
+	@apply text-white;
+}
+
+.stat-card-primary .stat-card-icon,
+.stat-card-secondary .stat-card-icon,
+.stat-card-success .stat-card-icon,
+.stat-card-danger .stat-card-icon,
+.stat-card-warning .stat-card-icon,
+.stat-card-info .stat-card-icon {
+	@apply bg-white/20 text-white;
+}

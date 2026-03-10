@@ -1,5 +1,6 @@
 .button {
-	@apply px-6 py-2 rounded-md font-normal cursor-pointer shadow-md text-base tracking-wide;
+	@apply px-6 py-2 rounded-md font-normal cursor-pointer shadow-md text-base tracking-wide
+	focus-visible:outline-2 focus-visible:outline-offset-2;
 }
 
 .button:disabled {

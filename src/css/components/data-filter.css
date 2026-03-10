@@ -1,0 +1,74 @@
+.data-filter {
+	@apply flex flex-wrap items-center gap-3 p-4
+	bg-foreground dark:bg-foreground-dark
+	border-b border-slate-200 dark:border-slate-700;
+}
+
+.data-filter-vertical {
+	@apply flex-col items-stretch;
+}
+
+.data-filter-group {
+	@apply flex items-center gap-2;
+}
+
+.data-filter-label {
+	@apply text-sm font-medium text-slate-600 dark:text-slate-400 whitespace-nowrap;
+}
+
+.data-filter-chip {
+	@apply inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm
+	border border-slate-200 dark:border-slate-700
+	bg-foreground dark:bg-foreground-dark
+	text-slate-700 dark:text-slate-300
+	cursor-pointer select-none transition-colors duration-150
+	hover:border-primary dark:hover:border-primary-dark
+	hover:text-primary dark:hover:text-primary-dark;
+}
+
+.data-filter-chip.active {
+	@apply bg-primary/10 dark:bg-primary-dark/10
+	border-primary dark:border-primary-dark
+	text-primary dark:text-primary-dark;
+}
+
+.data-filter-chip-remove {
+	@apply w-3.5 h-3.5 rounded-full hover:bg-slate-200 dark:hover:bg-slate-600
+	inline-flex items-center justify-center cursor-pointer;
+}
+
+.data-filter-search {
+	@apply flex items-center gap-2 px-3 py-1.5
+	border border-slate-200 dark:border-slate-700
+	rounded-lg bg-foreground dark:bg-foreground-dark;
+}
+
+.data-filter-search-icon {
+	@apply w-4 h-4 text-slate-400 dark:text-slate-500 shrink-0;
+}
+
+.data-filter-search-input {
+	@apply w-full bg-transparent border-none outline-none text-sm
+	text-slate-900 dark:text-slate-100
+	placeholder:text-slate-400 dark:placeholder:text-slate-500;
+}
+
+.data-filter-actions {
+	@apply flex items-center gap-2 ml-auto;
+}
+
+.data-filter-clear {
+	@apply text-sm text-slate-500 dark:text-slate-400
+	hover:text-danger dark:hover:text-danger-dark
+	cursor-pointer transition-colors duration-150;
+}
+
+.data-filter-count {
+	@apply text-xs font-medium text-slate-500 dark:text-slate-400
+	bg-slate-100 dark:bg-slate-800
+	px-2 py-0.5 rounded-full;
+}
+
+.data-filter-divider {
+	@apply w-px h-6 bg-slate-200 dark:bg-slate-700;
+}
