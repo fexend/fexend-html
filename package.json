@@ -4,7 +4,8 @@
 	"main": "index.js",
 	"scripts": {
 		"dev": "concurrently \"bunx tailwindcss -i ./src/css/app.css -o ./public/css/app.css --watch\" \"bun build ./src/js/app.js --outdir ./public/js --watch\"",
-		"build": "concurrently \"bunx tailwindcss -i ./src/css/app.css -o ./public/css/app.css --minify\" \"bun build ./src/js/app.js --outdir ./public/js --minify\""
+		"build": "concurrently \"bunx tailwindcss -i ./src/css/app.css -o ./public/css/app.css --minify\" \"bun build ./src/js/app.js --outdir ./public/js --minify\"",
+		"format": "prettier --write \"src/**/*.{html,css,js}\""
 	},
 	"keywords": [],
 	"author": "",
@@ -24,7 +25,8 @@
 	"private": true,
 	"devDependencies": {
 		"@types/bun": "latest",
-		"concurrently": "^9.2.1"
+		"concurrently": "^9.2.1",
+		"prettier": "^3.8.1"
 	},
 	"peerDependencies": {
 		"typescript": "^5"

@@ -74,11 +74,13 @@ fexend-html/
 ### Key Patterns
 
 **UI component CSS class naming** — BEM-like with size/color/style variants:
+
 - `.button`, `.button-sm`, `.button-primary`, `.button-primary-outline`, `.button-primary-soft`
 - `.badge`, `.badge-success-soft`, `.badge-danger-outline`
 - `.card`, `.card-hover`, `.card-table`, `.card-sm`, `.card-lg`
 
 **Form element CSS class naming** — opt-in classes, never bare element selectors:
+
 - `.label`, `.label-required`, `.label-error`, `.label-valid`
 - `.input`, `.select`, `.textarea` — base field styles
 - `.input-sm`, `.input-lg`, `.input-rounded`, `.input-error`, `.input-valid`, `.input-file`
@@ -96,14 +98,14 @@ fexend-html/
 
 **Color system** (defined in `src/css/app.css` via `@theme {}`):
 
-| Token | Light | Dark |
-|---|---|---|
-| `primary` / `primary-dark` | `#615fff` | `#7c86ff` |
-| `secondary` / `secondary-dark` | `#9333ea` | `#c27aff` |
-| `success` / `success-dark` | `#00c950` | `#05df72` |
-| `danger` / `danger-dark` | `#fb2c36` | `#ff6467` |
-| `warning` / `warning-dark` | `#f59e08` | `#ffb900` |
-| `info` / `info-dark` | `#00b8db` | `#00d3f2` |
+| Token                            | Light     | Dark      |
+| -------------------------------- | --------- | --------- |
+| `primary` / `primary-dark`       | `#615fff` | `#7c86ff` |
+| `secondary` / `secondary-dark`   | `#9333ea` | `#c27aff` |
+| `success` / `success-dark`       | `#00c950` | `#05df72` |
+| `danger` / `danger-dark`         | `#fb2c36` | `#ff6467` |
+| `warning` / `warning-dark`       | `#f59e08` | `#ffb900` |
+| `info` / `info-dark`             | `#00b8db` | `#00d3f2` |
 | `foreground` / `foreground-dark` | `#ffffff` | `#0f172a` |
 | `background` / `background-dark` | `#f1f5f9` | `#020617` |
 
@@ -154,58 +156,66 @@ fexend-html/
 
 Priority order:
 
-| Component | Status | Notes |
-|---|---|---|
-| Breadcrumb | [x] done | `src/css/components/breadcrumb.css` |
-| WYSIWYG Input | [x] done | `src/css/libs/wysiwyg.css` — toolbar, editor content, size variants |
-| Stepper / Wizard | [x] done | `src/css/components/stepper.css` — horizontal/vertical, color variants |
-| Timeline | [x] done | `src/css/components/timeline.css` — vertical/horizontal, color dots |
-| Stat Cards | [x] done | `src/css/components/stat-card.css` — icon variants, trends, filled colors |
-| File Upload | [x] done | `src/css/components/file-upload.css` — drag & drop, file list, progress |
-| Avatar Group | [x] done | `src/css/components/avatar.css` — sizes, status, stacked groups |
-| Command Palette | [x] done | `src/css/components/command-palette.css` — search overlay, keyboard shortcuts |
-| Toast / Notification | [x] done | `src/css/components/toast.css` — auto-dismiss, color variants, animations |
-| Data Filters | [x] done | `src/css/components/data-filter.css` — filter chips, search, actions |
+| Component            | Status   | Notes                                                                         |
+| -------------------- | -------- | ----------------------------------------------------------------------------- |
+| Breadcrumb           | [x] done | `src/css/components/breadcrumb.css`                                           |
+| WYSIWYG Input        | [x] done | `src/css/libs/wysiwyg.css` — toolbar, editor content, size variants           |
+| Stepper / Wizard     | [x] done | `src/css/components/stepper.css` — horizontal/vertical, color variants        |
+| Timeline             | [x] done | `src/css/components/timeline.css` — vertical/horizontal, color dots           |
+| Stat Cards           | [x] done | `src/css/components/stat-card.css` — icon variants, trends, filled colors     |
+| File Upload          | [x] done | `src/css/components/file-upload.css` — drag & drop, file list, progress       |
+| Avatar Group         | [x] done | `src/css/components/avatar.css` — sizes, status, stacked groups               |
+| Command Palette      | [x] done | `src/css/components/command-palette.css` — search overlay, keyboard shortcuts |
+| Toast / Notification | [x] done | `src/css/components/toast.css` — auto-dismiss, color variants, animations     |
+| Data Filters         | [x] done | `src/css/components/data-filter.css` — filter chips, search, actions          |
 
 ### Phase 4 — HTML Pages ✅
 
 Create a full page for every component in `src/components/` and `src/elements/`, using `src/index.html` as the boilerplate base. Update all asset paths from old `/dist/` to `/public/`.
 
-| Page | Status |
-|---|---|
-| `src/components/accordion.html` | [x] done |
-| `src/components/alert.html` | [x] done |
-| `src/components/avatar.html` | [x] done |
-| `src/components/badge.html` | [x] done |
-| `src/components/breadcrumb.html` | [x] done |
-| `src/components/button.html` | [x] done |
-| `src/components/card.html` | [x] done |
-| `src/components/collapse.html` | [x] done |
+| Page                                  | Status   |
+| ------------------------------------- | -------- |
+| `src/components/accordion.html`       | [x] done |
+| `src/components/alert.html`           | [x] done |
+| `src/components/avatar.html`          | [x] done |
+| `src/components/badge.html`           | [x] done |
+| `src/components/breadcrumb.html`      | [x] done |
+| `src/components/button.html`          | [x] done |
+| `src/components/card.html`            | [x] done |
+| `src/components/collapse.html`        | [x] done |
 | `src/components/command-palette.html` | [x] done |
-| `src/components/data-filter.html` | [x] done |
-| `src/components/divider.html` | [x] done |
-| `src/components/drawer.html` | [x] done |
-| `src/components/dropdown.html` | [x] done |
-| `src/components/file-upload.html` | [x] done |
-| `src/components/menu-list.html` | [x] done |
-| `src/components/modal.html` | [x] done |
-| `src/components/pagination.html` | [x] done |
-| `src/components/popover.html` | [x] done |
-| `src/components/stat-card.html` | [x] done |
-| `src/components/stepper.html` | [x] done |
-| `src/components/tab.html` | [x] done |
-| `src/components/table.html` | [x] done |
-| `src/components/timeline.html` | [x] done |
-| `src/components/toast.html` | [x] done |
-| `src/components/tooltip.html` | [x] done |
-| `src/elements/checkbox.html` | [x] done |
-| `src/elements/datatable.html` | [x] done |
-| `src/elements/flatpickr.html` | [x] done |
-| `src/elements/input.html` | [x] done |
-| `src/elements/radio.html` | [x] done |
-| `src/elements/select2.html` | [x] done |
-| `src/elements/switch.html` | [x] done |
-| `src/elements/wysiwyg.html` | [x] done |
+| `src/components/data-filter.html`     | [x] done |
+| `src/components/divider.html`         | [x] done |
+| `src/components/drawer.html`          | [x] done |
+| `src/components/dropdown.html`        | [x] done |
+| `src/components/file-upload.html`     | [x] done |
+| `src/components/menu-list.html`       | [x] done |
+| `src/components/modal.html`           | [x] done |
+| `src/components/pagination.html`      | [x] done |
+| `src/components/popover.html`         | [x] done |
+| `src/components/stat-card.html`       | [x] done |
+| `src/components/stepper.html`         | [x] done |
+| `src/components/tab.html`             | [x] done |
+| `src/components/table.html`           | [x] done |
+| `src/components/timeline.html`        | [x] done |
+| `src/components/toast.html`           | [x] done |
+| `src/components/tooltip.html`         | [x] done |
+| `src/elements/checkbox.html`          | [x] done |
+| `src/elements/datatable.html`         | [x] done |
+| `src/elements/flatpickr.html`         | [x] done |
+| `src/elements/input.html`             | [x] done |
+| `src/elements/radio.html`             | [x] done |
+| `src/elements/select2.html`           | [x] done |
+| `src/elements/switch.html`            | [x] done |
+| `src/elements/wysiwyg.html`           | [x] done |
+
+### Phase 4.1
+
+- [x] Input Password (With Password Criteria) — show/hide toggle + live criteria checklist in `src/css/forms/input.css`, showcased in `src/elements/input.html`
+- [x] Modal Delete/Confirm — `.modal-confirm` variants in `src/css/components/modal.css`, showcased in `src/components/modal.html`
+- [x] Add Prettier — `prettier` devDependency, `.prettierrc`, `.prettierignore`, `bun run format` script
+- [x] Sidebar JS config — `src/js/sidebar-config.js` (full nav data) + `fexendSidebar` Alpine component registered in `src/js/app.js`
+- [x] Auth Pages — `src/pages/login.html`, `register.html`, `forgot-password.html`, `reset-password.html`, `verify-email.html`
 
 ### Phase 5 — New Pages & Layouts
 
