@@ -1,0 +1,872 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Breadcrumb | Fexend</title>
+
+		<link
+			rel="icon"
+			type="image/png"
+			href="/public/favicon-96x96.png"
+			sizes="96x96"
+		/>
+		<link rel="icon" type="image/svg+xml" href="/public/favicon.svg" />
+		<link rel="shortcut icon" href="/public/favicon.ico" />
+		<link
+			rel="apple-touch-icon"
+			sizes="180x180"
+			href="/public/apple-touch-icon.png"
+		/>
+		<meta name="apple-mobile-web-app-title" content="Fexend" />
+		<link rel="manifest" href="/public/site.webmanifest" />
+
+		<link rel="stylesheet" href="/public/css/app.css" />
+		<script defer src="/public/js/app.js"></script>
+
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+			rel="stylesheet"
+		/>
+
+		<script>
+			if (
+				localStorage.getItem("darkMode") === "true" ||
+				(!localStorage.getItem("darkMode") &&
+					window.matchMedia("(prefers-color-scheme: dark)").matches)
+			) {
+				document.documentElement.classList.add("dark");
+			}
+		</script>
+		<style>
+			[x-cloak] {
+				display: none !important;
+			}
+			#loading-screen {
+				position: fixed;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				background-color: #f1f5f9;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				z-index: 9999;
+				transition: opacity 0.3s ease-out;
+			}
+			.dark #loading-screen {
+				background-color: #020617;
+			}
+		</style>
+	</head>
+	<body
+		x-data="{
+			darkMode: localStorage.getItem('darkMode') === 'true' || (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches),
+			sidebarOpen: false,
+			mobileMenuOpen: false,
+			isMobile: window.innerWidth < 768,
+			toggleDarkMode() {
+				this.darkMode = !this.darkMode;
+				localStorage.setItem('darkMode', this.darkMode);
+				if (this.darkMode) {
+					document.documentElement.classList.add('dark');
+				} else {
+					document.documentElement.classList.remove('dark');
+				}
+			}
+		}"
+		x-init="
+			window.addEventListener('resize', () => {
+				if (window.innerWidth < 1024) sidebarOpen = false;
+				isMobile = window.innerWidth < 768;
+				if (!isMobile) mobileMenuOpen = false;
+			});
+			setTimeout(() => {
+				document.getElementById('loading-screen').style.opacity = '0';
+				setTimeout(() => {
+					document.getElementById('loading-screen').style.display = 'none';
+				}, 300);
+			}, 500);
+		"
+	>
+		<!-- Loading Screen -->
+		<div
+			id="loading-screen"
+			class="fixed inset-0 bg-background dark:bg-background-dark flex justify-center items-center z-9999 transition-opacity duration-300"
+		>
+			<div class="flex space-x-2">
+				<div class="loading-dot"></div>
+				<div class="loading-dot"></div>
+				<div class="loading-dot"></div>
+			</div>
+		</div>
+
+		<main class="main-content">
+			<!-- Navbar -->
+			<header class="navbar-layout">
+				<nav>
+					<div class="px-3 py-3 lg:px-5 lg:pl-3">
+						<div class="flex items-center justify-between">
+							<div class="flex items-center">
+								<button
+									@click="sidebarOpen = !sidebarOpen"
+									:aria-expanded="sidebarOpen"
+									aria-label="Toggle sidebar"
+									class="navbar-button"
+								>
+									<svg
+										x-show="!sidebarOpen"
+										xmlns="http://www.w3.org/2000/svg"
+										class="icon icon-tabler icon-tabler-menu-2 w-6 h-6 dark:text-gray-200"
+										width="24"
+										height="24"
+										viewBox="0 0 24 24"
+										stroke-width="1.5"
+										stroke="currentColor"
+										fill="none"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									>
+										<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+										<line x1="4" y1="6" x2="20" y2="6" />
+										<line x1="4" y1="12" x2="20" y2="12" />
+										<line x1="4" y1="18" x2="20" y2="18" />
+									</svg>
+									<svg
+										x-show="sidebarOpen"
+										xmlns="http://www.w3.org/2000/svg"
+										width="24"
+										height="24"
+										viewBox="0 0 24 24"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="2"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										class="icon icon-tabler icons-tabler-outline icon-tabler-x"
+									>
+										<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+										<path d="M18 6l-12 12" />
+										<path d="M6 6l12 12" />
+									</svg>
+								</button>
+								<span class="nav-title"><a href="/src">Fexend</a></span>
+							</div>
+
+							<div class="flex items-center gap-4">
+								<!-- Notifications -->
+								<div
+									class="relative"
+									x-data="{
+										notificationOpen: false,
+										activeTab: 'unread',
+									}"
+								>
+									<button
+										class="navbar-button relative"
+										@click="notificationOpen = !notificationOpen"
+										:aria-expanded="notificationOpen"
+										aria-label="Notifications"
+									>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											class="icon icon-tabler icon-tabler-bell w-6 h-6 dark:text-gray-200"
+											width="24"
+											height="24"
+											viewBox="0 0 24 24"
+											stroke-width="1.5"
+											stroke="currentColor"
+											fill="none"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+										>
+											<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+											<path
+												d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a1 1 0 0 0 .293 .707l1 1a1 1 0 0 1 -.707 1.707h-14a1 1 0 0 1 -.707 -1.707l1 -1a1 1 0 0 0 .293 -.707v-3a7 7 0 0 1 4 -6"
+											/>
+											<path d="M9 17h6" />
+										</svg>
+										<span class="navbar-notification-badge"></span>
+									</button>
+									<div
+										x-show="notificationOpen"
+										@click.away="notificationOpen = false"
+										x-transition
+										class="fixed inset-x-2 top-16 sm:absolute sm:inset-x-auto sm:right-0 sm:top-auto sm:mt-2 sm:w-80 w-auto bg-white dark:bg-slate-800 rounded-lg shadow-lg z-50"
+									>
+										<div
+											class="p-4 border-b border-slate-200 dark:border-slate-700"
+										>
+											<div>
+												<button
+													@click="activeTab = 'unread'"
+													:class="{'font-bold': activeTab==='unread'}"
+													class="mr-4"
+												>
+													Unread
+												</button>
+												<button
+													@click="activeTab = 'read'"
+													:class="{'font-bold': activeTab==='read'}"
+												>
+													Read
+												</button>
+											</div>
+										</div>
+										<div class="max-h-64 overflow-y-auto p-4">
+											<template x-if="activeTab==='unread'">
+												<div>
+													<div class="text-sm mb-2">
+														<button class="hover:underline">
+															Mark all as read
+														</button>
+													</div>
+													<ul>
+														<li class="p-2 text-slate-500">
+															No unread notifications.
+														</li>
+													</ul>
+												</div>
+											</template>
+											<template x-if="activeTab==='read'">
+												<div>
+													<div class="text-sm mb-2">
+														<button class="mr-2 hover:underline">Clear</button>
+													</div>
+													<ul>
+														<li class="p-2 text-slate-500">
+															No read notifications.
+														</li>
+													</ul>
+												</div>
+											</template>
+										</div>
+									</div>
+								</div>
+
+								<!-- Dark Mode Toggle -->
+								<button
+									@click="toggleDarkMode()"
+									:aria-label="darkMode ? 'Switch to light mode' : 'Switch to dark mode'"
+									class="navbar-button"
+								>
+									<svg
+										x-show="!darkMode"
+										xmlns="http://www.w3.org/2000/svg"
+										class="icon icon-tabler icon-tabler-sun w-6 h-6"
+										width="24"
+										height="24"
+										viewBox="0 0 24 24"
+										stroke-width="1.5"
+										stroke="currentColor"
+										fill="none"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									>
+										<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+										<circle cx="12" cy="12" r="4" />
+										<path
+											d="M3 12h1M20 12h1M12 3v1M12 20v1M5.64 5.64l.707 .707M17.657 17.657l.707 .707M5.64 18.36l.707 -.707M17.657 6.343l.707 -.707"
+										/>
+									</svg>
+									<svg
+										x-show="darkMode"
+										xmlns="http://www.w3.org/2000/svg"
+										width="24"
+										height="24"
+										viewBox="0 0 24 24"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="2"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										class="icon icon-tabler icons-tabler-outline icon-tabler-moon w-6 h-6 dark:text-gray-200"
+									>
+										<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+										<path
+											d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z"
+										/>
+									</svg>
+								</button>
+
+								<!-- Profile Dropdown -->
+								<div x-data="{ profileOpen: false }" class="relative">
+									<button
+										@click="profileOpen = !profileOpen"
+										:aria-expanded="profileOpen"
+										aria-label="User menu"
+										class="navbar-button"
+									>
+										<img
+											src="https://ui-avatars.com/api/?name=Fexend&background=615fff&color=fff"
+											alt="User avatar"
+											class="w-8 h-8 rounded-full"
+										/>
+									</button>
+									<div
+										x-show="profileOpen"
+										@click.away="profileOpen = false"
+										x-transition
+										class="absolute right-0 mt-2 w-40 bg-foreground dark:bg-foreground-dark rounded-lg shadow-lg z-10"
+									>
+										<a
+											href="/src/pages/profile.html"
+											class="block px-4 py-2 text-sm"
+											>Profile</a
+										>
+										<a
+											href="/src/settings/index.html"
+											class="block px-4 py-2 text-sm"
+											>Settings</a
+										>
+										<a href="/src/index.html" class="block px-4 py-2 text-sm"
+											>Logout</a
+										>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</nav>
+			</header>
+			<!-- /Navbar -->
+
+			<!-- Sidebar -->
+			<aside>
+				<!-- Icon Sidebar — hidden on mobile, visible on md+ -->
+				<div class="sidebar-icon">
+					<div>
+						<div class="inline-flex h-16 w-16 items-center justify-center">
+							<a
+								href="/src/settings/index.html"
+								x-data="{ tooltip: false }"
+								@mouseover="tooltip = true"
+								@mouseleave="tooltip = false"
+								class="sidebar-icon-button"
+							>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="24"
+									height="24"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									class="icon icon-tabler icons-tabler-outline icon-tabler-settings"
+								>
+									<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+									<path
+										d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z"
+									/>
+									<path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
+								</svg>
+								<span
+									x-show="tooltip"
+									x-transition
+									class="absolute left-full ml-2 top-1/2 -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal text-sm"
+									>Settings</span
+								>
+							</a>
+						</div>
+
+						<div class="border-t border-slate-100 dark:border-slate-700">
+							<div class="px-2 pt-4">
+								<ul class="space-y-1">
+									<li>
+										<a
+											href="/src/dashboard/dashboard.html"
+											x-data="{ tooltip: false }"
+											@mouseover="tooltip = true"
+											@mouseleave="tooltip = false"
+											class="sidebar-icon-button"
+										>
+											<svg
+												xmlns="http://www.w3.org/2000/svg"
+												width="24"
+												height="24"
+												viewBox="0 0 24 24"
+												fill="none"
+												stroke="currentColor"
+												stroke-width="2"
+												stroke-linecap="round"
+												stroke-linejoin="round"
+												class="icon icon-tabler icons-tabler-outline icon-tabler-home-2"
+											>
+												<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+												<path d="M5 12l-2 0l9 -9l9 9l-2 0" />
+												<path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+												<path d="M10 12h4v4h-4z" />
+											</svg>
+											<span
+												x-show="tooltip"
+												x-transition
+												class="absolute left-full ml-2 top-1/2 -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal text-sm"
+												>Dashboard</span
+											>
+										</a>
+									</li>
+									<li>
+										<a
+											href="/src/elements/index.html"
+											x-data="{ tooltip: false }"
+											@mouseover="tooltip = true"
+											@mouseleave="tooltip = false"
+											class="sidebar-icon-button"
+										>
+											<svg
+												xmlns="http://www.w3.org/2000/svg"
+												width="24"
+												height="24"
+												viewBox="0 0 24 24"
+												fill="none"
+												stroke="currentColor"
+												stroke-width="2"
+												stroke-linecap="round"
+												stroke-linejoin="round"
+												class="icon icon-tabler icons-tabler-outline icon-tabler-file-type-html"
+											>
+												<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+												<path d="M14 3v4a1 1 0 0 0 1 1h4" />
+												<path d="M5 12v-7a2 2 0 0 1 2 -2h7l5 5v4" />
+												<path d="M2 21v-6" />
+												<path d="M5 15v6" />
+												<path d="M2 18h3" />
+												<path d="M20 15v6h2" />
+												<path d="M13 21v-6l2 3l2 -3v6" />
+												<path d="M7.5 15h3" />
+												<path d="M9 15v6" />
+											</svg>
+											<span
+												x-show="tooltip"
+												x-transition
+												class="absolute left-full ml-2 top-1/2 -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal text-sm"
+												>Elements</span
+											>
+										</a>
+									</li>
+									<li>
+										<a
+											href="/src/components/accordion.html"
+											x-data="{ tooltip: false }"
+											@mouseover="tooltip = true"
+											@mouseleave="tooltip = false"
+											class="sidebar-icon-button"
+										>
+											<svg
+												xmlns="http://www.w3.org/2000/svg"
+												width="24"
+												height="24"
+												viewBox="0 0 24 24"
+												fill="none"
+												stroke="currentColor"
+												stroke-width="2"
+												stroke-linecap="round"
+												stroke-linejoin="round"
+												class="icon icon-tabler icons-tabler-outline icon-tabler-components"
+											>
+												<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+												<path d="M3 12l3 3l3 -3l-3 -3z" />
+												<path d="M15 12l3 3l3 -3l-3 -3z" />
+												<path d="M9 6l3 3l3 -3l-3 -3z" />
+												<path d="M9 18l3 3l3 -3l-3 -3z" />
+											</svg>
+											<span
+												x-show="tooltip"
+												x-transition
+												class="absolute left-full ml-2 top-1/2 -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal text-sm"
+												>Components</span
+											>
+										</a>
+									</li>
+									<li>
+										<a
+											href="/src/pages/index.html"
+											x-data="{ tooltip: false }"
+											@mouseover="tooltip = true"
+											@mouseleave="tooltip = false"
+											class="sidebar-icon-button"
+										>
+											<svg
+												xmlns="http://www.w3.org/2000/svg"
+												width="24"
+												height="24"
+												viewBox="0 0 24 24"
+												fill="none"
+												stroke="currentColor"
+												stroke-width="2"
+												stroke-linecap="round"
+												stroke-linejoin="round"
+												class="icon icon-tabler icons-tabler-outline icon-tabler-article"
+											>
+												<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+												<path
+													d="M3 4m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z"
+												/>
+												<path d="M7 8h10" />
+												<path d="M7 12h10" />
+												<path d="M7 16h10" />
+											</svg>
+											<span
+												x-show="tooltip"
+												x-transition
+												class="absolute left-full ml-2 top-1/2 -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal text-sm"
+												>Pages</span
+											>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+
+					<div class="sidebar-footer">
+						<div class="relative" x-data="{ tooltip: false }">
+							<form action="#">
+								<button
+									type="submit"
+									class="sidebar-icon-button w-full justify-center"
+									@mouseover="tooltip = true"
+									@mouseleave="tooltip = false"
+								>
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										class="size-5 opacity-75"
+										fill="none"
+										viewBox="0 0 24 24"
+										stroke="currentColor"
+										stroke-width="2"
+									>
+										<path
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+										/>
+									</svg>
+								</button>
+								<span
+									x-show="tooltip"
+									x-transition
+									class="absolute left-full ml-2 top-1/2 -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal text-sm"
+									>Logout</span
+								>
+							</form>
+						</div>
+					</div>
+				</div>
+				<!-- /Icon Sidebar -->
+
+				<!-- Expanded Sidebar -->
+				<div class="relative z-10">
+					<div
+						x-cloak
+						x-show="sidebarOpen"
+						x-transition:enter="transform transition duration-300 ease-in-out"
+						x-transition:enter-start="-translate-x-full"
+						x-transition:enter-end="translate-x-0"
+						x-transition:leave="transform transition duration-300 ease-in-out"
+						x-transition:leave-start="translate-x-0"
+						x-transition:leave-end="-translate-x-full"
+						class="sidebar-layout"
+					>
+						<div class="px-4 py-6">
+							<ul class="space-y-1">
+								<li>
+									<a
+										href="/src/dashboard/dashboard.html"
+										class="sidebar-link sidebar-link-active"
+										>Dashboard</a
+									>
+								</li>
+								<li>
+									<a href="/src/dashboard/dashboard2.html" class="sidebar-link"
+										>Dashboard 2</a
+									>
+								</li>
+								<li>
+									<a href="/src/dashboard/dashboard3.html" class="sidebar-link"
+										>Dashboard 3</a
+									>
+								</li>
+							</ul>
+						</div>
+					</div>
+
+					<!-- Backdrop for mobile -->
+					<div
+						x-show="sidebarOpen"
+						x-transition:enter="transition-all ease-linear duration-300"
+						x-transition:enter-start="opacity-0 backdrop-blur-none"
+						x-transition:enter-end="opacity-100 backdrop-blur-sm"
+						x-transition:leave="transition-all ease-linear duration-300"
+						x-transition:leave-start="opacity-100 backdrop-blur-sm"
+						x-transition:leave-end="opacity-0 backdrop-blur-none"
+						class="sidebar-backdrop"
+						@click="sidebarOpen = false"
+					></div>
+				</div>
+				<!-- /Expanded Sidebar -->
+			</aside>
+			<!-- /Sidebar -->
+
+
+<!-- Main Content -->
+<div
+class="main-container"
+:class="{
+'md:ml-80': sidebarOpen,
+'md:ml-16': !sidebarOpen,
+'ml-0': true
+}"
+>
+<!-- Breadcrumb -->
+<nav class="breadcrumb mb-6" aria-label="Breadcrumb">
+<ol>
+<li>
+<a href="/src/index.html">Dashboard</a>
+</li>
+<li>
+<span aria-hidden="true"></span>
+<a href="/src/components/breadcrumb.html">Components</a>
+</li>
+<li>
+<span aria-hidden="true"></span>
+<a href="#">Breadcrumb</a>
+</li>
+</ol>
+</nav>
+<h1 class="heading-1 mb-8">Breadcrumb</h1>
+
+<section class="mb-10">
+<h2 class="heading-2 mb-6">Default (Arrow)</h2>
+				<nav class="breadcrumb" aria-label="Breadcrumb example">
+					<ol>
+						<li><a href="#">Home</a></li>
+						<li><span aria-hidden="true"></span><a href="#">Components</a></li>
+						<li><span aria-hidden="true"></span><a href="#">Breadcrumb</a></li>
+					</ol>
+				</nav>
+</section>
+<section class="mb-10">
+<h2 class="heading-2 mb-6">With Icon</h2>
+				<nav class="breadcrumb" aria-label="Breadcrumb with icons">
+					<ol>
+						<li>
+							<a href="#" class="flex items-center gap-1.5">
+								<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l9-9 9 9M5 10v10h4v-6h6v6h4V10"/></svg>
+								Home
+							</a>
+						</li>
+						<li>
+							<span aria-hidden="true"></span>
+							<a href="#">Settings</a>
+						</li>
+						<li>
+							<span aria-hidden="true"></span>
+							<a href="#">Profile</a>
+						</li>
+					</ol>
+				</nav>
+</section>
+<section class="mb-10">
+<h2 class="heading-2 mb-6">With Title</h2>
+				<nav class="breadcrumb" aria-label="Breadcrumb with title">
+					<span class="title">Profile</span>
+					<ol>
+						<li><a href="#">Home</a></li>
+						<li><span aria-hidden="true"></span><a href="#">Users</a></li>
+						<li><span aria-hidden="true"></span><a href="#">Profile</a></li>
+					</ol>
+				</nav>
+</section>
+</div>
+<!-- /Main Content -->
+			<!-- /Main Content -->
+
+			<!-- Mobile Bottom Menu Button -->
+			<div
+				x-show="isMobile"
+				x-transition:enter="transition ease-out duration-200"
+				x-transition:enter-start="opacity-0"
+				x-transition:enter-end="opacity-100"
+				class="mobile-menu lg:hidden"
+			>
+				<button
+					@click="mobileMenuOpen = !mobileMenuOpen"
+					class="flex items-center space-x-2 px-4 py-2 rounded-lg bg-primary text-white"
+				>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="24"
+						height="24"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						class="icon icon-tabler icons-tabler-outline icon-tabler-layout-dashboard"
+					>
+						<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+						<path
+							d="M5 4h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1"
+						/>
+						<path
+							d="M5 16h4a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-2a1 1 0 0 1 1 -1"
+						/>
+						<path
+							d="M15 12h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1"
+						/>
+						<path
+							d="M15 4h4a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-2a1 1 0 0 1 1 -1"
+						/>
+					</svg>
+					<span class="text-sm font-medium">Menu</span>
+				</button>
+			</div>
+
+			<!-- Mobile Menu Popup -->
+			<div
+				x-show="isMobile && mobileMenuOpen"
+				x-transition:enter="transition ease-out duration-200"
+				x-transition:enter-start="opacity-0 translate-y-8"
+				x-transition:enter-end="opacity-100 translate-y-0"
+				x-transition:leave="transition ease-in duration-200"
+				x-transition:leave-start="opacity-100 translate-y-0"
+				x-transition:leave-end="opacity-0 translate-y-8"
+				@click.away="mobileMenuOpen = false"
+				class="mobile-menu-popup lg:hidden"
+			>
+				<div class="space-y-1 py-2">
+					<a
+						href="/src/dashboard/dashboard.html"
+						class="flex items-center space-x-3 px-4 py-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg"
+					>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							class="h-5 w-5"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+							stroke-width="2"
+						>
+							<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+							<path d="M5 12l-2 0l9 -9l9 9l-2 0" />
+							<path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+							<path d="M10 12h4v4h-4z" />
+						</svg>
+						<span>Dashboard</span>
+					</a>
+					<a
+						href="/src/elements/index.html"
+						class="flex items-center space-x-3 px-4 py-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg"
+					>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="24"
+							height="24"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							class="icon icon-tabler icons-tabler-outline icon-tabler-file-type-html"
+						>
+							<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+							<path d="M14 3v4a1 1 0 0 0 1 1h4" />
+							<path d="M5 12v-7a2 2 0 0 1 2 -2h7l5 5v4" />
+							<path d="M2 21v-6" />
+							<path d="M5 15v6" />
+							<path d="M2 18h3" />
+							<path d="M20 15v6h2" />
+							<path d="M13 21v-6l2 3l2 -3v6" />
+							<path d="M7.5 15h3" />
+							<path d="M9 15v6" />
+						</svg>
+						<span>Elements</span>
+					</a>
+					<a
+						href="/src/components/accordion.html"
+						class="flex items-center space-x-3 px-4 py-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg"
+					>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="24"
+							height="24"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							class="icon icon-tabler icons-tabler-outline icon-tabler-components"
+						>
+							<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+							<path d="M3 12l3 3l3 -3l-3 -3z" />
+							<path d="M15 12l3 3l3 -3l-3 -3z" />
+							<path d="M9 6l3 3l3 -3l-3 -3z" />
+							<path d="M9 18l3 3l3 -3l-3 -3z" />
+						</svg>
+						<span>Components</span>
+					</a>
+					<a
+						href="/src/pages/index.html"
+						class="flex items-center space-x-3 px-4 py-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg"
+					>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="24"
+							height="24"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							class="icon icon-tabler icons-tabler-outline icon-tabler-article"
+						>
+							<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+							<path
+								d="M3 4m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z"
+							/>
+							<path d="M7 8h10" />
+							<path d="M7 12h10" />
+							<path d="M7 16h10" />
+						</svg>
+						<span>Pages</span>
+					</a>
+					<div
+						class="border-t border-slate-200 dark:border-slate-700 my-2"
+					></div>
+					<form action="#" class="px-2">
+						<button
+							type="submit"
+							class="flex w-full items-center space-x-3 px-4 py-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg"
+						>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								class="h-5 w-5"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+								/>
+							</svg>
+							<span>Logout</span>
+						</button>
+					</form>
+				</div>
+			</div>
+		</main>
+	</body>
+</html>

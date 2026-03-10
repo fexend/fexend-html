@@ -167,30 +167,45 @@ Priority order:
 | Toast / Notification | [x] done | `src/css/components/toast.css` — auto-dismiss, color variants, animations |
 | Data Filters | [x] done | `src/css/components/data-filter.css` — filter chips, search, actions |
 
-### Phase 4 — HTML Pages
+### Phase 4 — HTML Pages ✅
 
 Create a full page for every component in `src/components/` and `src/elements/`, using `src/index.html` as the boilerplate base. Update all asset paths from old `/dist/` to `/public/`.
 
 | Page | Status |
 |---|---|
-| `src/components/accordion.html` | [ ] planned |
-| `src/components/alert.html` | [ ] planned |
-| `src/components/badge.html` | [ ] planned |
-| `src/components/button.html` | [ ] planned |
-| `src/components/card.html` | [ ] planned |
-| `src/components/modal.html` | [ ] planned |
-| `src/components/tab.html` | [ ] planned |
-| `src/components/table.html` | [ ] planned |
-| `src/components/drawer.html` | [ ] planned |
-| `src/components/dropdown.html` | [ ] planned |
-| `src/components/pagination.html` | [ ] planned |
-| `src/elements/input.html` | [ ] planned |
-| `src/elements/checkbox.html` | [ ] planned |
-| `src/elements/radio.html` | [ ] planned |
-| `src/elements/switch.html` | [ ] planned |
-| `src/elements/select2.html` | [ ] planned |
-| `src/elements/flatpickr.html` | [ ] planned |
-| `src/elements/datatable.html` | [ ] planned |
+| `src/components/accordion.html` | [x] done |
+| `src/components/alert.html` | [x] done |
+| `src/components/avatar.html` | [x] done |
+| `src/components/badge.html` | [x] done |
+| `src/components/breadcrumb.html` | [x] done |
+| `src/components/button.html` | [x] done |
+| `src/components/card.html` | [x] done |
+| `src/components/collapse.html` | [x] done |
+| `src/components/command-palette.html` | [x] done |
+| `src/components/data-filter.html` | [x] done |
+| `src/components/divider.html` | [x] done |
+| `src/components/drawer.html` | [x] done |
+| `src/components/dropdown.html` | [x] done |
+| `src/components/file-upload.html` | [x] done |
+| `src/components/menu-list.html` | [x] done |
+| `src/components/modal.html` | [x] done |
+| `src/components/pagination.html` | [x] done |
+| `src/components/popover.html` | [x] done |
+| `src/components/stat-card.html` | [x] done |
+| `src/components/stepper.html` | [x] done |
+| `src/components/tab.html` | [x] done |
+| `src/components/table.html` | [x] done |
+| `src/components/timeline.html` | [x] done |
+| `src/components/toast.html` | [x] done |
+| `src/components/tooltip.html` | [x] done |
+| `src/elements/checkbox.html` | [x] done |
+| `src/elements/datatable.html` | [x] done |
+| `src/elements/flatpickr.html` | [x] done |
+| `src/elements/input.html` | [x] done |
+| `src/elements/radio.html` | [x] done |
+| `src/elements/select2.html` | [x] done |
+| `src/elements/switch.html` | [x] done |
+| `src/elements/wysiwyg.html` | [x] done |
 
 ### Phase 5 — New Pages & Layouts
 
