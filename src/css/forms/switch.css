@@ -3,70 +3,26 @@
  * Uses appearance:none + ::after pseudo-element (supported in modern browsers).
  */
 .switch {
-	appearance: none;
-	-webkit-appearance: none;
-	position: relative;
-	display: inline-block;
-	flex-shrink: 0;
-	vertical-align: middle;
-	width: 2.75rem;
-	height: 1.5rem;
-	border-radius: 9999px;
-	background-color: rgb(203 213 225); /* slate-300 */
-	cursor: pointer;
-	transition: background-color 0.2s ease;
-}
-
-.dark .switch {
-	background-color: rgb(51 65 85); /* slate-700 */
+	@apply appearance-none relative inline-block shrink-0 align-middle
+	w-11 h-6 rounded-full bg-slate-300 dark:bg-slate-700
+	cursor-pointer transition-colors duration-200 ease-in-out
+	focus-visible:outline-2 focus-visible:outline-primary dark:focus-visible:outline-primary-dark focus-visible:outline-offset-2
+	disabled:opacity-50 disabled:cursor-not-allowed
+	checked:bg-primary dark:checked:bg-primary-dark;
 }
 
 .switch::after {
 	content: '';
-	position: absolute;
-	top: 3px;
-	left: 3px;
-	width: 18px;
-	height: 18px;
-	border-radius: 9999px;
-	background-color: white;
-	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
-	transition: transform 0.2s ease;
-}
-
-.switch:focus-visible {
-	outline: 2px solid var(--color-primary);
-	outline-offset: 2px;
-}
-
-.switch:disabled {
-	opacity: 0.5;
-	cursor: not-allowed;
-}
-
-.switch:checked {
-	background-color: var(--color-primary);
-}
-
-.dark .switch:checked {
-	background-color: var(--color-primary-dark);
+	@apply absolute top-[3px] left-[3px] w-[18px] h-[18px] rounded-full bg-white shadow-sm
+	transition-transform duration-200 ease-in-out;
 }
 
 .switch:checked::after {
-	transform: translateX(19px);
+	@apply translate-x-[19px];
 }
 
-.switch-secondary:checked         { background-color: var(--color-secondary); }
-.dark .switch-secondary:checked   { background-color: var(--color-secondary-dark); }
-
-.switch-success:checked           { background-color: var(--color-success); }
-.dark .switch-success:checked     { background-color: var(--color-success-dark); }
-
-.switch-danger:checked            { background-color: var(--color-danger); }
-.dark .switch-danger:checked      { background-color: var(--color-danger-dark); }
-
-.switch-warning:checked           { background-color: var(--color-warning); }
-.dark .switch-warning:checked     { background-color: var(--color-warning-dark); }
-
-.switch-info:checked              { background-color: var(--color-info); }
-.dark .switch-info:checked        { background-color: var(--color-info-dark); }
+.switch-secondary { @apply checked:bg-secondary dark:checked:bg-secondary-dark; }
+.switch-success   { @apply checked:bg-success dark:checked:bg-success-dark; }
+.switch-danger    { @apply checked:bg-danger dark:checked:bg-danger-dark; }
+.switch-warning   { @apply checked:bg-warning dark:checked:bg-warning-dark; }
+.switch-info      { @apply checked:bg-info dark:checked:bg-info-dark; }
