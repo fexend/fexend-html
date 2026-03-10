@@ -145,27 +145,27 @@ fexend-html/
 - [x] Migrate all form CSS to `src/css/forms/` (label, input, checkbox, radio, switch) — **opt-in classes only, no bare element selectors**
 - [x] Migrate all third-party library CSS to `src/css/libs/` (select2, flatpickr, datatable)
 - [x] Populate `src/css/components.css`, `src/css/forms.css`, `src/css/libs.css` barrel imports
-- [ ] Audit all existing components for dark mode consistency
-- [ ] Fix any broken Alpine.js patterns
-- [ ] Ensure all components use semantic color tokens (not raw hex)
-- [ ] Add accessibility attributes (ARIA roles, labels) to interactive components
+- [x] Audit all existing components for dark mode consistency
+- [x] Fix any broken Alpine.js patterns
+- [x] Ensure all components use semantic color tokens (not raw hex)
+- [x] Add accessibility attributes (ARIA roles, labels) to interactive components
 
-### Phase 3 — New Components
+### Phase 3 — New Components ✅
 
 Priority order:
 
 | Component | Status | Notes |
 |---|---|---|
-| Breadcrumb | [ ] in progress | Required on all pages |
-| WYSIWYG Input | [ ] planned | TinyMCE or Trix |
-| Stepper / Wizard | [ ] planned | Multi-step form flow |
-| Timeline | [ ] planned | Activity feed |
-| Stat Cards | [ ] planned | Dashboard KPI widgets |
-| File Upload | [ ] planned | Drag & drop zone |
-| Avatar Group | [ ] planned | Stacked user avatars |
-| Command Palette | [ ] planned | Alpine.js search overlay |
-| Toast / Notification | [ ] planned | Auto-dismiss alerts |
-| Data Filters | [ ] planned | Filter bar for tables |
+| Breadcrumb | [x] done | `src/css/components/breadcrumb.css` |
+| WYSIWYG Input | [x] done | `src/css/libs/wysiwyg.css` — toolbar, editor content, size variants |
+| Stepper / Wizard | [x] done | `src/css/components/stepper.css` — horizontal/vertical, color variants |
+| Timeline | [x] done | `src/css/components/timeline.css` — vertical/horizontal, color dots |
+| Stat Cards | [x] done | `src/css/components/stat-card.css` — icon variants, trends, filled colors |
+| File Upload | [x] done | `src/css/components/file-upload.css` — drag & drop, file list, progress |
+| Avatar Group | [x] done | `src/css/components/avatar.css` — sizes, status, stacked groups |
+| Command Palette | [x] done | `src/css/components/command-palette.css` — search overlay, keyboard shortcuts |
+| Toast / Notification | [x] done | `src/css/components/toast.css` — auto-dismiss, color variants, animations |
+| Data Filters | [x] done | `src/css/components/data-filter.css` — filter chips, search, actions |
 
 ### Phase 4 — HTML Pages
 
