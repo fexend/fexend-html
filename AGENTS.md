@@ -146,7 +146,7 @@ fexend-html/
 - [x] Migrate all UI component CSS to `src/css/components/` (accordion, alert, badge, breadcrumb, button, card, collapse, divider, drawer, dropdown, menu-list, modal, pagination, popover, tab, table)
 - [x] Migrate all form CSS to `src/css/forms/` (label, input, checkbox, radio, switch) — **opt-in classes only, no bare element selectors**
 - [x] Migrate all third-party library CSS to `src/css/libs/` (select2, flatpickr, datatable)
-- [x] Populate `src/css/components.css`, `src/css/forms.css`, `src/css/libs.css` barrel imports
+- [x ] Populate `src/css/components.css`, `src/css/forms.css`, `src/css/libs.css` barrel imports
 - [x] Audit all existing components for dark mode consistency
 - [x] Fix any broken Alpine.js patterns
 - [x] Ensure all components use semantic color tokens (not raw hex)
@@ -216,6 +216,16 @@ Create a full page for every component in `src/components/` and `src/elements/`,
 - [x] Add Prettier — `prettier` devDependency, `.prettierrc`, `.prettierignore`, `bun run format` script
 - [x] Sidebar JS config — `src/js/sidebar-config.js` (full nav data) + `fexendSidebar` Alpine component registered in `src/js/app.js`
 - [x] Auth Pages — `src/pages/login.html`, `register.html`, `forgot-password.html`, `reset-password.html`, `verify-email.html`
+
+### Phase 4.2
+
+- [x] in all sub folder, must have the index.html file
+- [x] render the sidebar via js file `/src/js/sidebar-config.js` in all html file
+
+### Phase 4.3
+
+- [x] Some sample dashboard.
+- [x] Blank Setting Page or just simple forms.
 
 ### Phase 5 — New Pages & Layouts
 

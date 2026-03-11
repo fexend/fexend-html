@@ -335,283 +335,152 @@
 			<!-- /Navbar -->
 
 			<!-- Sidebar -->
-			<aside>
-				<!-- Icon Sidebar — hidden on mobile, visible on md+ -->
-				<div class="sidebar-icon">
-					<div>
-						<div class="inline-flex h-16 w-16 items-center justify-center">
-							<a
-								href="/src/settings/index.html"
-								x-data="{ tooltip: false }"
-								@mouseover="tooltip = true"
-								@mouseleave="tooltip = false"
-								class="sidebar-icon-button"
+		<aside x-data="fexendSidebar()">
+			<!-- Icon Sidebar — hidden on mobile, visible on md+ -->
+			<div class="sidebar-icon">
+				<div>
+					<div class="inline-flex h-16 w-16 items-center justify-center">
+						<a
+							href="/src/settings/index.html"
+							x-data="{ tooltip: false }"
+							@mouseover="tooltip = true"
+							@mouseleave="tooltip = false"
+							class="sidebar-icon-button"
+						>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="24"
+								height="24"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								class="icon icon-tabler icons-tabler-outline icon-tabler-settings"
 							>
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									width="24"
-									height="24"
-									viewBox="0 0 24 24"
-									fill="none"
-									stroke="currentColor"
-									stroke-width="2"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									class="icon icon-tabler icons-tabler-outline icon-tabler-settings"
-								>
-									<path stroke="none" d="M0 0h24v24H0z" fill="none" />
-									<path
-										d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z"
-									/>
-									<path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
-								</svg>
-								<span
-									x-show="tooltip"
-									x-transition
-									class="absolute left-full ml-2 top-1/2 -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal text-sm"
-									>Settings</span
-								>
-							</a>
-						</div>
-
-						<div class="border-t border-slate-100 dark:border-slate-700">
-							<div class="px-2 pt-4">
-								<ul class="space-y-1">
-									<li>
-										<a
-											href="/src/dashboard/dashboard.html"
-											x-data="{ tooltip: false }"
-											@mouseover="tooltip = true"
-											@mouseleave="tooltip = false"
-											class="sidebar-icon-button"
-										>
-											<svg
-												xmlns="http://www.w3.org/2000/svg"
-												width="24"
-												height="24"
-												viewBox="0 0 24 24"
-												fill="none"
-												stroke="currentColor"
-												stroke-width="2"
-												stroke-linecap="round"
-												stroke-linejoin="round"
-												class="icon icon-tabler icons-tabler-outline icon-tabler-home-2"
-											>
-												<path stroke="none" d="M0 0h24v24H0z" fill="none" />
-												<path d="M5 12l-2 0l9 -9l9 9l-2 0" />
-												<path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
-												<path d="M10 12h4v4h-4z" />
-											</svg>
-											<span
-												x-show="tooltip"
-												x-transition
-												class="absolute left-full ml-2 top-1/2 -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal text-sm"
-												>Dashboard</span
-											>
-										</a>
-									</li>
-									<li>
-										<a
-											href="/src/elements/index.html"
-											x-data="{ tooltip: false }"
-											@mouseover="tooltip = true"
-											@mouseleave="tooltip = false"
-											class="sidebar-icon-button"
-										>
-											<svg
-												xmlns="http://www.w3.org/2000/svg"
-												width="24"
-												height="24"
-												viewBox="0 0 24 24"
-												fill="none"
-												stroke="currentColor"
-												stroke-width="2"
-												stroke-linecap="round"
-												stroke-linejoin="round"
-												class="icon icon-tabler icons-tabler-outline icon-tabler-file-type-html"
-											>
-												<path stroke="none" d="M0 0h24v24H0z" fill="none" />
-												<path d="M14 3v4a1 1 0 0 0 1 1h4" />
-												<path d="M5 12v-7a2 2 0 0 1 2 -2h7l5 5v4" />
-												<path d="M2 21v-6" />
-												<path d="M5 15v6" />
-												<path d="M2 18h3" />
-												<path d="M20 15v6h2" />
-												<path d="M13 21v-6l2 3l2 -3v6" />
-												<path d="M7.5 15h3" />
-												<path d="M9 15v6" />
-											</svg>
-											<span
-												x-show="tooltip"
-												x-transition
-												class="absolute left-full ml-2 top-1/2 -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal text-sm"
-												>Elements</span
-											>
-										</a>
-									</li>
-									<li>
-										<a
-											href="/src/components/accordion.html"
-											x-data="{ tooltip: false }"
-											@mouseover="tooltip = true"
-											@mouseleave="tooltip = false"
-											class="sidebar-icon-button"
-										>
-											<svg
-												xmlns="http://www.w3.org/2000/svg"
-												width="24"
-												height="24"
-												viewBox="0 0 24 24"
-												fill="none"
-												stroke="currentColor"
-												stroke-width="2"
-												stroke-linecap="round"
-												stroke-linejoin="round"
-												class="icon icon-tabler icons-tabler-outline icon-tabler-components"
-											>
-												<path stroke="none" d="M0 0h24v24H0z" fill="none" />
-												<path d="M3 12l3 3l3 -3l-3 -3z" />
-												<path d="M15 12l3 3l3 -3l-3 -3z" />
-												<path d="M9 6l3 3l3 -3l-3 -3z" />
-												<path d="M9 18l3 3l3 -3l-3 -3z" />
-											</svg>
-											<span
-												x-show="tooltip"
-												x-transition
-												class="absolute left-full ml-2 top-1/2 -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal text-sm"
-												>Components</span
-											>
-										</a>
-									</li>
-									<li>
-										<a
-											href="/src/pages/index.html"
-											x-data="{ tooltip: false }"
-											@mouseover="tooltip = true"
-											@mouseleave="tooltip = false"
-											class="sidebar-icon-button"
-										>
-											<svg
-												xmlns="http://www.w3.org/2000/svg"
-												width="24"
-												height="24"
-												viewBox="0 0 24 24"
-												fill="none"
-												stroke="currentColor"
-												stroke-width="2"
-												stroke-linecap="round"
-												stroke-linejoin="round"
-												class="icon icon-tabler icons-tabler-outline icon-tabler-article"
-											>
-												<path stroke="none" d="M0 0h24v24H0z" fill="none" />
-												<path
-													d="M3 4m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z"
-												/>
-												<path d="M7 8h10" />
-												<path d="M7 12h10" />
-												<path d="M7 16h10" />
-											</svg>
-											<span
-												x-show="tooltip"
-												x-transition
-												class="absolute left-full ml-2 top-1/2 -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal text-sm"
-												>Pages</span
-											>
-										</a>
-									</li>
-								</ul>
-							</div>
-						</div>
+								<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+								<path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" />
+								<path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
+							</svg>
+							<span
+								x-show="tooltip"
+								x-transition
+								class="absolute left-full ml-2 top-1/2 -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal text-sm"
+								>Settings</span
+							>
+						</a>
 					</div>
 
-					<div class="sidebar-footer">
-						<div class="relative" x-data="{ tooltip: false }">
-							<form action="#">
-								<button
-									type="submit"
-									class="sidebar-icon-button w-full justify-center"
-									@mouseover="tooltip = true"
-									@mouseleave="tooltip = false"
-								>
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										class="size-5 opacity-75"
-										fill="none"
-										viewBox="0 0 24 24"
-										stroke="currentColor"
-										stroke-width="2"
-									>
-										<path
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-										/>
-									</svg>
-								</button>
-								<span
-									x-show="tooltip"
-									x-transition
-									class="absolute left-full ml-2 top-1/2 -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal text-sm"
-									>Logout</span
-								>
-							</form>
-						</div>
-					</div>
-				</div>
-				<!-- /Icon Sidebar -->
-
-				<!-- Expanded Sidebar -->
-				<div class="relative z-10">
-					<div
-						x-cloak
-						x-show="sidebarOpen"
-						x-transition:enter="transform transition duration-300 ease-in-out"
-						x-transition:enter-start="-translate-x-full"
-						x-transition:enter-end="translate-x-0"
-						x-transition:leave="transform transition duration-300 ease-in-out"
-						x-transition:leave-start="translate-x-0"
-						x-transition:leave-end="-translate-x-full"
-						class="sidebar-layout"
-					>
-						<div class="px-4 py-6">
+					<div class="border-t border-slate-100 dark:border-slate-700">
+						<div class="px-2 pt-4">
 							<ul class="space-y-1">
-								<li>
-									<a
-										href="/src/dashboard/dashboard.html"
-										class="sidebar-link sidebar-link-active"
-										>Dashboard</a
-									>
-								</li>
-								<li>
-									<a href="/src/dashboard/dashboard2.html" class="sidebar-link"
-										>Dashboard 2</a
-									>
-								</li>
-								<li>
-									<a href="/src/dashboard/dashboard3.html" class="sidebar-link"
-										>Dashboard 3</a
-									>
-								</li>
+								<template x-for="item in items" :key="item.label">
+									<li>
+										<a
+											:href="item.link"
+											x-data="{ tooltip: false }"
+											@mouseover="tooltip = true"
+											@mouseleave="tooltip = false"
+											class="sidebar-icon-button"
+											:class="isActive(item) ? 'sidebar-icon-button-active' : ''"
+										>
+											<span x-html="item.icon"></span>
+											<span
+												x-show="tooltip"
+												x-transition
+												class="absolute left-full ml-2 top-1/2 -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal text-sm"
+												x-text="item.label"
+											></span>
+										</a>
+									</li>
+								</template>
 							</ul>
 						</div>
 					</div>
-
-					<!-- Backdrop for mobile -->
-					<div
-						x-show="sidebarOpen"
-						x-transition:enter="transition-all ease-linear duration-300"
-						x-transition:enter-start="opacity-0 backdrop-blur-none"
-						x-transition:enter-end="opacity-100 backdrop-blur-sm"
-						x-transition:leave="transition-all ease-linear duration-300"
-						x-transition:leave-start="opacity-100 backdrop-blur-sm"
-						x-transition:leave-end="opacity-0 backdrop-blur-none"
-						class="sidebar-backdrop"
-						@click="sidebarOpen = false"
-					></div>
 				</div>
-				<!-- /Expanded Sidebar -->
-			</aside>
-			<!-- /Sidebar -->
+
+				<div class="sidebar-footer">
+					<div class="relative" x-data="{ tooltip: false }">
+						<form action="#">
+							<button
+								type="submit"
+								class="sidebar-icon-button w-full justify-center"
+								@mouseover="tooltip = true"
+								@mouseleave="tooltip = false"
+							>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									class="size-5 opacity-75"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke="currentColor"
+									stroke-width="2"
+								>
+									<path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+								</svg>
+							</button>
+							<span
+								x-show="tooltip"
+								x-transition
+								class="absolute left-full ml-2 top-1/2 -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal text-sm"
+								>Logout</span
+							>
+						</form>
+					</div>
+				</div>
+			</div>
+			<!-- /Icon Sidebar -->
+
+			<!-- Expanded Sidebar -->
+			<div class="relative z-10">
+				<div
+					x-cloak
+					x-show="sidebarOpen"
+					x-transition:enter="transform transition duration-300 ease-in-out"
+					x-transition:enter-start="-translate-x-full"
+					x-transition:enter-end="translate-x-0"
+					x-transition:leave="transform transition duration-300 ease-in-out"
+					x-transition:leave-start="translate-x-0"
+					x-transition:leave-end="-translate-x-full"
+					class="sidebar-layout"
+				>
+					<div class="px-4 py-6">
+						<p
+							class="px-4 mb-3 text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500"
+							x-text="activeGroup.label"
+						></p>
+						<ul class="space-y-1">
+							<template x-for="sub in activeSubMenus" :key="sub.link">
+								<li>
+									<a
+										:href="sub.link"
+										class="sidebar-link"
+										:class="isSubActive(sub) ? 'sidebar-link-active' : ''"
+										x-text="sub.name"
+									></a>
+								</li>
+							</template>
+						</ul>
+					</div>
+				</div>
+
+				<!-- Backdrop for mobile -->
+				<div
+					x-show="sidebarOpen"
+					x-transition:enter="transition-all ease-linear duration-300"
+					x-transition:enter-start="opacity-0 backdrop-blur-none"
+					x-transition:enter-end="opacity-100 backdrop-blur-sm"
+					x-transition:leave="transition-all ease-linear duration-300"
+					x-transition:leave-start="opacity-100 backdrop-blur-sm"
+					x-transition:leave-end="opacity-0 backdrop-blur-none"
+					class="sidebar-backdrop"
+					@click="sidebarOpen = false"
+				></div>
+			</div>
+			<!-- /Expanded Sidebar -->
+		</aside>
+		<!-- /Sidebar -->
 
 
 <!-- Main Content -->

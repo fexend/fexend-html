@@ -32,6 +32,10 @@
 	@apply relative flex justify-center rounded px-2 py-1.5 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200;
 }
 
+.sidebar-icon-button-active {
+	@apply bg-primary/10 text-primary dark:text-primary-dark;
+}
+
 .sidebar-backdrop {
 	@apply fixed inset-0 bg-gray-600/30 backdrop-blur-sm z-30 md:hidden;
 }
