@@ -29,7 +29,7 @@
 }
 
 .select2-container--default .select2-selection--single .select2-selection__rendered {
-	@apply block overflow-hidden text-ellipsis whitespace-nowrap p-0 leading-7 text-slate-900 dark:text-slate-100;
+	@apply block overflow-hidden text-ellipsis whitespace-nowrap p-0 leading-normal text-slate-900 dark:text-slate-100;
 }
 
 .select2-container--default .select2-selection--single .select2-selection__placeholder {
@@ -37,13 +37,12 @@
 }
 
 .select2-container--default .select2-selection--single .select2-selection__arrow {
-	@apply h-[26px] absolute w-5 right-px top-px;
+	@apply absolute inset-y-0 right-0 w-8 flex items-center justify-center pointer-events-none;
 }
 
 .select2-container--default .select2-selection--single .select2-selection__arrow b {
-	@apply h-0 absolute w-0 -ml-1 -mt-0.5 border-solid border-[5px_4px_0_4px]
-	border-t-slate-500 border-r-transparent border-b-transparent border-l-transparent
-	left-2/4 top-2/4;
+	@apply h-0 w-0 border-solid border-[5px_4px_0_4px]
+	border-t-slate-500 border-r-transparent border-b-transparent border-l-transparent;
 }
 
 .select2-container--default .select2-selection--single .select2-selection__clear {
@@ -51,7 +50,8 @@
 }
 
 .select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow b {
-	@apply border-[0_4px_5px_4px] border-t-transparent border-r-transparent border-b-slate-500 border-l-transparent;
+	@apply border-[0_4px_5px_4px]
+	border-t-transparent border-r-transparent border-b-slate-500 border-l-transparent;
 }
 
 .select2-container--default .select2-selection--multiple {

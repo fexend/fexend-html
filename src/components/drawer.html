@@ -504,62 +504,86 @@ class="main-container"
 
 <section class="mb-10">
 <h2 class="heading-2 mb-6">Positions</h2>
+<div class="card p-4">
 				<div class="flex flex-wrap gap-3" x-data="{openLeft: false, openRight: false, openBottom: false}">
 					<button class="button button-primary" @click="openLeft = true">Left Drawer</button>
 					<button class="button button-success" @click="openRight = true">Right Drawer</button>
 					<button class="button button-warning" @click="openBottom = true">Bottom Drawer</button>
 
 					<!-- Left Drawer -->
-					<div x-show="openLeft" x-cloak>
-						<div class="drawer-backdrop" @click="openLeft = false"></div>
-						<aside class="drawer drawer-left w-72" :class="openLeft ? 'drawer-open' : '-translate-x-full'" role="dialog" aria-modal="true">
-							<div class="drawer-header flex justify-between items-center">
-								<h3 class="font-semibold text-slate-900 dark:text-slate-100">Left Drawer</h3>
-								<button class="drawer-close-button static" @click="openLeft = false"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
-							</div>
-							<div class="drawer-body">
-								<p class="text-slate-600 dark:text-slate-400">Drawer content slides in from the left. Useful for navigation or filters.</p>
-							</div>
-							<div class="drawer-footer">
-								<button class="button button-primary button-block" @click="openLeft = false">Close</button>
-							</div>
-						</aside>
-					</div>
+					<template x-teleport="body">
+						<div x-show="openLeft" x-cloak x-data x-init="$watch('$root', () => {})">
+							<div class="drawer-backdrop" @click="openLeft = false" x-show="openLeft"></div>
+							<aside class="drawer drawer-left w-72" :class="openLeft ? 'drawer-open' : '-translate-x-full'" role="dialog" aria-modal="true" aria-label="Left Drawer">
+								<div class="drawer-header flex items-center justify-between">
+									<h3 class="font-semibold text-slate-900 dark:text-slate-100">Left Drawer</h3>
+									<button class="drawer-close-button" @click="openLeft = false" aria-label="Close drawer">
+										<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+									</button>
+								</div>
+								<div class="drawer-body">
+									<p class="text-slate-600 dark:text-slate-400">Drawer content slides in from the left. Useful for navigation or filters.</p>
+								</div>
+								<div class="drawer-footer">
+									<button class="button button-primary button-block" @click="openLeft = false">Close</button>
+								</div>
+							</aside>
+						</div>
+					</template>
 
 					<!-- Right Drawer -->
-					<div x-show="openRight" x-cloak>
-						<div class="drawer-backdrop" @click="openRight = false"></div>
-						<aside class="drawer drawer-right w-80" :class="openRight ? 'drawer-open' : 'translate-x-full'" role="dialog" aria-modal="true">
-							<div class="drawer-header flex justify-between items-center">
-								<h3 class="font-semibold text-slate-900 dark:text-slate-100">Right Drawer</h3>
-								<button class="drawer-close-button static" @click="openRight = false"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
-							</div>
-							<div class="drawer-body">
-								<p class="text-slate-600 dark:text-slate-400 mb-4">Right drawer — common for detail panels, shopping carts, or settings.</p>
-								<div class="form-group"><label class="label">Filter by Status</label><select class="select"><option>All</option><option>Active</option><option>Inactive</option></select></div>
-								<div class="form-group"><label class="label">Date Range</label><input type="date" class="input"></div>
-							</div>
-							<div class="drawer-footer flex gap-2">
-								<button class="button button-dark-outline flex-1" @click="openRight = false">Reset</button>
-								<button class="button button-success flex-1" @click="openRight = false">Apply</button>
-							</div>
-						</aside>
-					</div>
+					<template x-teleport="body">
+						<div x-show="openRight" x-cloak x-data x-init="$watch('$root', () => {})">
+							<div class="drawer-backdrop" @click="openRight = false" x-show="openRight"></div>
+							<aside class="drawer drawer-right w-80" :class="openRight ? 'drawer-open' : 'translate-x-full'" role="dialog" aria-modal="true" aria-label="Right Drawer">
+								<div class="drawer-header flex items-center justify-between">
+									<h3 class="font-semibold text-slate-900 dark:text-slate-100">Right Drawer</h3>
+									<button class="drawer-close-button" @click="openRight = false" aria-label="Close drawer">
+										<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+									</button>
+								</div>
+								<div class="drawer-body space-y-4">
+									<p class="text-slate-600 dark:text-slate-400">Right drawer — common for detail panels, shopping carts, or settings.</p>
+									<div class="form-group">
+										<label class="label">Filter by Status</label>
+										<select class="select">
+											<option>All</option>
+											<option>Active</option>
+											<option>Inactive</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label class="label">Date Range</label>
+										<input type="date" class="input">
+									</div>
+								</div>
+								<div class="drawer-footer flex gap-2">
+									<button class="button button-dark-outline flex-1" @click="openRight = false">Reset</button>
+									<button class="button button-success flex-1" @click="openRight = false">Apply</button>
+								</div>
+							</aside>
+						</div>
+					</template>
 
 					<!-- Bottom Drawer -->
-					<div x-show="openBottom" x-cloak>
-						<div class="drawer-backdrop" @click="openBottom = false"></div>
-						<div class="drawer drawer-bottom w-full h-64" :class="openBottom ? 'drawer-open' : 'translate-y-full'" role="dialog" aria-modal="true">
-							<div class="drawer-header flex justify-between items-center">
-								<h3 class="font-semibold text-slate-900 dark:text-slate-100">Bottom Sheet</h3>
-								<button class="drawer-close-button static" @click="openBottom = false"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
-							</div>
-							<div class="drawer-body">
-								<p class="text-slate-600 dark:text-slate-400">Bottom drawer (sheet) — common on mobile for action menus and quick options.</p>
+					<template x-teleport="body">
+						<div x-show="openBottom" x-cloak x-data x-init="$watch('$root', () => {})">
+							<div class="drawer-backdrop" @click="openBottom = false" x-show="openBottom"></div>
+							<div class="drawer drawer-bottom w-full" style="max-height: 50vh;" :class="openBottom ? 'drawer-open' : 'translate-y-full'" role="dialog" aria-modal="true" aria-label="Bottom Sheet">
+								<div class="drawer-header flex items-center justify-between">
+									<h3 class="font-semibold text-slate-900 dark:text-slate-100">Bottom Sheet</h3>
+									<button class="drawer-close-button" @click="openBottom = false" aria-label="Close drawer">
+										<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+									</button>
+								</div>
+								<div class="drawer-body">
+									<p class="text-slate-600 dark:text-slate-400">Bottom drawer (sheet) — common on mobile for action menus and quick options.</p>
+								</div>
 							</div>
 						</div>
-					</div>
+					</template>
 				</div>
+</div>
 </section>
 </div>
 <!-- /Main Content -->

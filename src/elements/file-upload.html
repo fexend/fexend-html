@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Modal | Fexend</title>
+		<title>File Upload | Fexend</title>
 
 		<link
 			rel="icon"
@@ -496,244 +496,69 @@ class="main-container"
 <nav class="breadcrumb mb-6" aria-label="Breadcrumb">
 <ol>
 <li><a href="/src/index.html">Dashboard</a></li>
-<li><span aria-hidden="true"></span><a href="#">Components</a></li>
-<li><span aria-hidden="true"></span><a href="#">Modal</a></li>
+<li><span aria-hidden="true"></span><a href="/src/elements/index.html">Elements</a></li>
+<li><span aria-hidden="true"></span><a href="#">File Upload</a></li>
 </ol>
 </nav>
-<h1 class="heading-1 mb-8">Modal</h1>
+<h1 class="heading-1 mb-8">File Upload</h1>
 
 <section class="mb-10">
-<h2 class="heading-2 mb-6">Default Modal</h2>
-				<div x-data="{open: false}">
-					<button class="button button-primary" @click="open = true">Open Modal</button>
-					<div x-show="open" x-cloak>
-						<div class="modal-backdrop" @click="open = false"></div>
-						<div class="modal-container" role="dialog" aria-modal="true" aria-labelledby="modal-title-1">
-							<div class="modal modal-lg" @click.stop x-transition>
-								<div class="modal-header">
-									<h3 id="modal-title-1" class="font-semibold text-lg text-slate-900 dark:text-slate-100">Modal Title</h3>
-									<button class="modal-close-button" @click="open = false" aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
-								</div>
-								<div class="modal-body">
-									<p class="text-slate-600 dark:text-slate-400">This is the default modal with header, body, and footer. It closes when clicking the backdrop or the close button.</p>
-								</div>
-								<div class="modal-footer gap-2">
-									<button class="button button-dark-outline" @click="open = false">Cancel</button>
-									<button class="button button-primary" @click="open = false">Confirm</button>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-</section>
-<section class="mb-10">
-<h2 class="heading-2 mb-6">Sizes</h2>
-				<div class="flex flex-wrap gap-3" x-data="{openSm: false, openMd: false, openXl: false, open2xl: false}">
-					<button class="button button-secondary" @click="openSm = true">Small</button>
-					<button class="button button-success" @click="openMd = true">Medium</button>
-					<button class="button button-warning" @click="openXl = true">XL</button>
-					<button class="button button-info" @click="open2xl = true">2XL</button>
-
-					<div x-show="openSm" x-cloak>
-						<div class="modal-backdrop" @click="openSm = false"></div>
-						<div class="modal-container"><div class="modal modal-sm" @click.stop x-transition>
-							<div class="modal-header"><h3 class="font-semibold text-slate-900 dark:text-slate-100">Small Modal</h3><button class="modal-close-button" @click="openSm = false"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button></div>
-							<div class="modal-body"><p class="text-slate-600 dark:text-slate-400">Compact modal for simple confirmations.</p></div>
-							<div class="modal-footer gap-2"><button class="button button-dark-outline" @click="openSm = false">Cancel</button><button class="button button-secondary" @click="openSm = false">OK</button></div>
-						</div></div>
-					</div>
-
-					<div x-show="openMd" x-cloak>
-						<div class="modal-backdrop" @click="openMd = false"></div>
-						<div class="modal-container"><div class="modal modal-md" @click.stop x-transition>
-							<div class="modal-header"><h3 class="font-semibold text-slate-900 dark:text-slate-100">Medium Modal</h3><button class="modal-close-button" @click="openMd = false"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button></div>
-							<div class="modal-body"><p class="text-slate-600 dark:text-slate-400">Medium sized modal — good for forms and confirmations.</p></div>
-							<div class="modal-footer gap-2"><button class="button button-dark-outline" @click="openMd = false">Close</button><button class="button button-success" @click="openMd = false">Save</button></div>
-						</div></div>
-					</div>
-
-					<div x-show="openXl" x-cloak>
-						<div class="modal-backdrop" @click="openXl = false"></div>
-						<div class="modal-container"><div class="modal modal-xl" @click.stop x-transition>
-							<div class="modal-header"><h3 class="font-semibold text-slate-900 dark:text-slate-100">XL Modal</h3><button class="modal-close-button" @click="openXl = false"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button></div>
-							<div class="modal-body"><p class="text-slate-600 dark:text-slate-400">Extra large modal for complex content, data tables, or detailed forms.</p></div>
-							<div class="modal-footer gap-2"><button class="button button-dark-outline" @click="openXl = false">Close</button></div>
-						</div></div>
-					</div>
-
-					<div x-show="open2xl" x-cloak>
-						<div class="modal-backdrop" @click="open2xl = false"></div>
-						<div class="modal-container"><div class="modal modal-2xl" @click.stop x-transition>
-							<div class="modal-header"><h3 class="font-semibold text-slate-900 dark:text-slate-100">2XL Modal</h3><button class="modal-close-button" @click="open2xl = false"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button></div>
-							<div class="modal-body"><p class="text-slate-600 dark:text-slate-400">Full-width 2XL modal for maximum content area.</p></div>
-							<div class="modal-footer gap-2"><button class="button button-dark-outline" @click="open2xl = false">Close</button></div>
-						</div></div>
-					</div>
-				</div>
-</section>
-<section class="mb-10">
-<h2 class="heading-2 mb-6">Modal with Form</h2>
-				<div x-data="{open: false}">
-					<button class="button button-success" @click="open = true">New User</button>
-					<div x-show="open" x-cloak>
-						<div class="modal-backdrop" @click="open = false"></div>
-						<div class="modal-container" role="dialog" aria-modal="true">
-							<div class="modal modal-md" @click.stop x-transition>
-								<div class="modal-header">
-									<h3 class="font-semibold text-lg text-slate-900 dark:text-slate-100">Create User</h3>
-									<button class="modal-close-button" @click="open = false"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
-								</div>
-								<div class="modal-body space-y-4">
-									<div class="form-group">
-										<label class="label label-required">Full Name</label>
-										<input type="text" class="input" placeholder="John Doe">
-									</div>
-									<div class="form-group">
-										<label class="label label-required">Email</label>
-										<input type="email" class="input" placeholder="john@example.com">
-									</div>
-									<div class="form-group">
-										<label class="label">Role</label>
-										<select class="select"><option>Admin</option><option>Editor</option><option>Viewer</option></select>
-									</div>
-								</div>
-								<div class="modal-footer gap-2">
-									<button class="button button-dark-outline" @click="open = false">Cancel</button>
-									<button class="button button-success" @click="open = false">Create</button>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-</section>
-<section class="mb-10">
-<h2 class="heading-2 mb-6">Confirm / Delete Modal</h2>
-				<div class="flex flex-wrap gap-3" x-data="{openDelete: false, openWarn: false, openSuccess: false}">
-					<button class="button button-danger" @click="openDelete = true">Delete Item</button>
-					<button class="button button-warning" @click="openWarn = true">Discard Changes</button>
-					<button class="button button-success" @click="openSuccess = true">Approve Request</button>
-
-					<!-- Delete confirm -->
-					<div x-show="openDelete" x-cloak>
-						<div class="modal-backdrop" @click="openDelete = false"></div>
-						<div class="modal-container" role="alertdialog" aria-modal="true" aria-labelledby="confirm-delete-title">
-							<div class="modal modal-sm" @click.stop x-transition>
-								<div class="modal-confirm">
-									<div class="modal-confirm-icon modal-confirm-icon-danger">
-										<svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-											<path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-										</svg>
-									</div>
-									<div>
-										<p id="confirm-delete-title" class="modal-confirm-title">Delete this item?</p>
-										<p class="modal-confirm-description mt-1">This action cannot be undone. The item will be permanently removed from your account.</p>
-									</div>
-									<div class="flex gap-2 w-full">
-										<button class="button button-dark-outline flex-1" @click="openDelete = false">Cancel</button>
-										<button class="button button-danger flex-1" @click="openDelete = false">Delete</button>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<!-- Discard changes -->
-					<div x-show="openWarn" x-cloak>
-						<div class="modal-backdrop" @click="openWarn = false"></div>
-						<div class="modal-container" role="alertdialog" aria-modal="true" aria-labelledby="confirm-warn-title">
-							<div class="modal modal-sm" @click.stop x-transition>
-								<div class="modal-confirm">
-									<div class="modal-confirm-icon modal-confirm-icon-warning">
-										<svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-											<path stroke-linecap="round" stroke-linejoin="round" d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
-										</svg>
-									</div>
-									<div>
-										<p id="confirm-warn-title" class="modal-confirm-title">Discard changes?</p>
-										<p class="modal-confirm-description mt-1">You have unsaved changes. If you leave now, your changes will be lost.</p>
-									</div>
-									<div class="flex gap-2 w-full">
-										<button class="button button-dark-outline flex-1" @click="openWarn = false">Keep editing</button>
-										<button class="button button-warning flex-1" @click="openWarn = false">Discard</button>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<!-- Approve / success confirm -->
-					<div x-show="openSuccess" x-cloak>
-						<div class="modal-backdrop" @click="openSuccess = false"></div>
-						<div class="modal-container" role="alertdialog" aria-modal="true" aria-labelledby="confirm-success-title">
-							<div class="modal modal-sm" @click.stop x-transition>
-								<div class="modal-confirm">
-									<div class="modal-confirm-icon modal-confirm-icon-success">
-										<svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-											<path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-										</svg>
-									</div>
-									<div>
-										<p id="confirm-success-title" class="modal-confirm-title">Approve this request?</p>
-										<p class="modal-confirm-description mt-1">The request will be marked as approved and the requester will be notified.</p>
-									</div>
-									<div class="flex gap-2 w-full">
-										<button class="button button-dark-outline flex-1" @click="openSuccess = false">Cancel</button>
-										<button class="button button-success flex-1" @click="openSuccess = false">Approve</button>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-</section>
-<section class="mb-10">
-<h2 class="heading-2 mb-6">Positions</h2>
+<h2 class="heading-2 mb-6">Drag & Drop Zone</h2>
 <div class="card p-6">
-				<div class="flex flex-wrap gap-3" x-data="{pos: null}">
-					<button class="button button-dark-outline" @click="pos = 'top-left'">Top Left</button>
-					<button class="button button-dark-outline" @click="pos = 'top-center'">Top Center</button>
-					<button class="button button-dark-outline" @click="pos = 'top-right'">Top Right</button>
-					<button class="button button-dark-outline" @click="pos = 'center'">Center (default)</button>
-					<button class="button button-dark-outline" @click="pos = 'mid-left'">Mid Left</button>
-					<button class="button button-dark-outline" @click="pos = 'mid-right'">Mid Right</button>
-					<button class="button button-dark-outline" @click="pos = 'bottom-left'">Bottom Left</button>
-					<button class="button button-dark-outline" @click="pos = 'bottom-center'">Bottom Center</button>
-					<button class="button button-dark-outline" @click="pos = 'bottom-right'">Bottom Right</button>
-
-					<template x-if="pos">
-						<div>
-							<div class="modal-backdrop" @click="pos = null"></div>
-							<div
-								class="modal-container"
-								:class="{
-									'modal-top-left': pos === 'top-left',
-									'modal-top-center': pos === 'top-center',
-									'modal-top-right': pos === 'top-right',
-									'modal-mid-left': pos === 'mid-left',
-									'modal-mid-right': pos === 'mid-right',
-									'modal-bottom-left': pos === 'bottom-left',
-									'modal-bottom-center': pos === 'bottom-center',
-									'modal-bottom-right': pos === 'bottom-right',
-								}"
-								role="dialog" aria-modal="true"
-							>
-								<div class="modal modal-sm" @click.stop x-transition>
-									<div class="modal-header">
-										<h3 class="font-semibold text-slate-900 dark:text-slate-100" x-text="pos.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase()) + ' Modal'"></h3>
-										<button class="modal-close-button" @click="pos = null" aria-label="Close">
-											<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-										</button>
+				<div class="max-w-xl" x-data="{
+dragging: false,
+files: [],
+handleDrop(e) {
+this.dragging = false;
+const dropped = Array.from(e.dataTransfer.files);
+dropped.forEach(f => this.files.push({name: f.name, size: (f.size/1024).toFixed(1) + ' KB', progress: 100}));
+},
+handleSelect(e) {
+Array.from(e.target.files).forEach(f => this.files.push({name: f.name, size: (f.size/1024).toFixed(1) + ' KB', progress: 100}));
+},
+removeFile(i) { this.files.splice(i, 1); }
+}">
+					<div class="file-upload" :class="{dragging: dragging}"
+						@dragover.prevent="dragging = true"
+						@dragleave.prevent="dragging = false"
+						@drop.prevent="handleDrop($event)"
+					>
+						<input type="file" multiple @change="handleSelect($event)" aria-label="Upload files">
+						<svg xmlns="http://www.w3.org/2000/svg" class="file-upload-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+						<div class="file-upload-title">Drop files here or <span class="file-upload-browse">browse</span></div>
+						<div class="file-upload-description">PNG, JPG, PDF up to 10MB each</div>
+					</div>
+					<div class="file-upload-list" x-show="files.length > 0">
+						<template x-for="(file, i) in files" :key="i">
+							<div class="file-upload-item">
+								<div class="file-upload-item-info">
+									<div class="file-upload-item-icon">
+										<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
 									</div>
-									<div class="modal-body">
-										<p class="text-slate-600 dark:text-slate-400 text-sm">This modal is positioned at <strong x-text="pos"></strong>.</p>
-									</div>
-									<div class="modal-footer">
-										<button class="button button-primary" @click="pos = null">Close</button>
+									<div>
+										<div class="file-upload-item-name" x-text="file.name"></div>
+										<div class="file-upload-item-size" x-text="file.size"></div>
+										<div class="file-upload-progress"><div class="file-upload-progress-bar" :style="{width: file.progress + '%'}"></div></div>
 									</div>
 								</div>
+								<button class="file-upload-item-remove" @click="removeFile(i)" aria-label="Remove file">
+									<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+								</button>
 							</div>
-						</div>
-					</template>
+						</template>
+					</div>
+				</div>
+</div>
+</section>
+<section class="mb-10">
+<h2 class="heading-2 mb-6">Compact (file-upload-sm)</h2>
+<div class="card p-6">
+				<div class="max-w-md">
+					<div class="file-upload file-upload-sm">
+						<input type="file" aria-label="Upload file">
+						<svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 mb-2 text-slate-400 dark:text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+						<div class="file-upload-title text-sm">Upload a file or <span class="file-upload-browse">browse</span></div>
+					</div>
 				</div>
 </div>
 </section>

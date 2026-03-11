@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Invoice | Fexend</title>
+
+        <link rel="icon" type="image/png" href="/public/favicon-96x96.png" sizes="96x96" />
+        <link rel="icon" type="image/svg+xml" href="/public/favicon.svg" />
+        <link rel="shortcut icon" href="/public/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/public/apple-touch-icon.png" />
+        <meta name="apple-mobile-web-app-title" content="Fexend" />
+        <link rel="manifest" href="/public/site.webmanifest" />
+
+        <link rel="stylesheet" href="/public/css/app.css" />
+        <script defer src="/public/js/app.js"></script>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+            rel="stylesheet"
+        />
+
+        <script>
+            if (
+                localStorage.getItem("darkMode") === "true" ||
+                (!localStorage.getItem("darkMode") &&
+                    window.matchMedia("(prefers-color-scheme: dark)").matches)
+            ) {
+                document.documentElement.classList.add("dark");
+            }
+        </script>
+        <style>
+            [x-cloak] {
+                display: none !important;
+            }
+            #loading-screen {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: #f1f5f9;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 9999;
+                transition: opacity 0.3s ease-out;
+            }
+            .dark #loading-screen {
+                background-color: #020617;
+            }
+        </style>
+    </head>
+    <body
+        x-data="{
+            darkMode: localStorage.getItem('darkMode') === 'true' || (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches),
+            sidebarOpen: false,
+            mobileMenuOpen: false,
+            isMobile: window.innerWidth < 768,
+            toggleDarkMode() {
+                this.darkMode = !this.darkMode;
+                localStorage.setItem('darkMode', this.darkMode);
+                if (this.darkMode) {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+            }
+        }"
+        x-init="
+            window.addEventListener('resize', () => {
+                if (window.innerWidth < 1024) sidebarOpen = false;
+                isMobile = window.innerWidth < 768;
+                if (!isMobile) mobileMenuOpen = false;
+            });
+            setTimeout(() => {
+                document.getElementById('loading-screen').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('loading-screen').style.display = 'none';
+                }, 300);
+            }, 500);
+        "
+    >
+        <!-- Loading Screen -->
+        <div
+            id="loading-screen"
+            class="fixed inset-0 bg-background dark:bg-background-dark flex justify-center items-center z-9999 transition-opacity duration-300"
+        >
+            <div class="flex space-x-2">
+                <div class="loading-dot"></div>
+                <div class="loading-dot"></div>
+                <div class="loading-dot"></div>
+            </div>
+        </div>
+
+        <main class="main-content">
+            <!-- Navbar -->
+            <header class="navbar-layout">
+                <nav>
+                    <div class="px-3 py-3 lg:px-5 lg:pl-3">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <button @click="sidebarOpen = !sidebarOpen" :aria-expanded="sidebarOpen" aria-label="Toggle sidebar" class="navbar-button">
+                                    <svg x-show="!sidebarOpen" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-menu-2 w-6 h-6 dark:text-gray-200" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+                                    <svg x-show="sidebarOpen" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12"/><path d="M6 6l12 12"/></svg>
+                                </button>
+                                <span class="nav-title"><a href="/src">Fexend</a></span>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div class="relative" x-data="{ notificationOpen: false }">
+                                    <button class="navbar-button relative" @click="notificationOpen = !notificationOpen" aria-label="Notifications">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-bell w-6 h-6 dark:text-gray-200" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a1 1 0 0 0 .293 .707l1 1a1 1 0 0 1 -.707 1.707h-14a1 1 0 0 1 -.707 -1.707l1 -1a1 1 0 0 0 .293 -.707v-3a7 7 0 0 1 4 -6"/><path d="M9 17h6"/></svg>
+                                        <span class="navbar-notification-badge"></span>
+                                    </button>
+                                </div>
+                                <button @click="toggleDarkMode()" :aria-label="darkMode ? 'Switch to light mode' : 'Switch to dark mode'" class="navbar-button">
+                                    <svg x-show="!darkMode" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="4"/><path d="M3 12h1M20 12h1M12 3v1M12 20v1M5.64 5.64l.707 .707M17.657 17.657l.707 .707M5.64 18.36l.707 -.707M17.657 6.343l.707 -.707"/></svg>
+                                    <svg x-show="darkMode" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 dark:text-gray-200"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z"/></svg>
+                                </button>
+                                <div x-data="{ profileOpen: false }" class="relative">
+                                    <button @click="profileOpen = !profileOpen" aria-label="User menu" class="navbar-button"><img src="https://ui-avatars.com/api/?name=Fexend&background=615fff&color=fff" alt="User avatar" class="w-8 h-8 rounded-full" /></button>
+                                    <div x-show="profileOpen" @click.away="profileOpen = false" x-transition class="absolute right-0 mt-2 w-40 bg-foreground dark:bg-foreground-dark rounded-lg shadow-lg z-10">
+                                        <a href="/src/pages/profile.html" class="block px-4 py-2 text-sm">Profile</a>
+                                        <a href="/src/settings/index.html" class="block px-4 py-2 text-sm">Settings</a>
+                                        <a href="/src/index.html" class="block px-4 py-2 text-sm">Logout</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </header>
+            <!-- /Navbar -->
+
+            <!-- Sidebar -->
+            <aside x-data="fexendSidebar()">
+                <div class="sidebar-icon">
+                    <div>
+                        <div class="inline-flex h-16 w-16 items-center justify-center">
+                            <a href="/src/settings/index.html" x-data="{ tooltip: false }" @mouseover="tooltip = true" @mouseleave="tooltip = false" class="sidebar-icon-button">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-settings"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z"/><path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"/></svg>
+                                <span x-show="tooltip" x-transition class="absolute left-full ml-2 top-1/2 -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal text-sm">Settings</span>
+                            </a>
+                        </div>
+                        <div class="border-t border-slate-100 dark:border-slate-700">
+                            <div class="px-2 pt-4">
+                                <ul class="space-y-1">
+                                    <template x-for="item in items" :key="item.label">
+                                        <li><a :href="item.link" x-data="{ tooltip: false }" @mouseover="tooltip = true" @mouseleave="tooltip = false" class="sidebar-icon-button" :class="isActive(item) ? 'sidebar-icon-button-active' : ''"><span x-html="item.icon"></span><span x-show="tooltip" x-transition class="absolute left-full ml-2 top-1/2 -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal text-sm" x-text="item.label"></span></a></li>
+                                    </template>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sidebar-footer">
+                        <div class="relative" x-data="{ tooltip: false }">
+                            <form action="#"><button type="submit" class="sidebar-icon-button w-full justify-center" @mouseover="tooltip = true" @mouseleave="tooltip = false"><svg xmlns="http://www.w3.org/2000/svg" class="size-5 opacity-75" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg></button></form>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative z-10">
+                    <div x-cloak x-show="sidebarOpen" x-transition:enter="transform transition duration-300 ease-in-out" x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0" x-transition:leave="transform transition duration-300 ease-in-out" x-transition:leave-start="translate-x-0" x-transition:leave-end="-translate-x-full" class="sidebar-layout">
+                        <div class="px-4 py-6">
+                            <p class="px-4 mb-3 text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500" x-text="activeGroup.label"></p>
+                            <ul class="space-y-1"><template x-for="sub in activeSubMenus" :key="sub.link"><li><a :href="sub.link" class="sidebar-link" :class="isSubActive(sub) ? 'sidebar-link-active' : ''" x-text="sub.name"></a></li></template></ul>
+                        </div>
+                    </div>
+                    <div x-show="sidebarOpen" x-transition:enter="transition-all ease-linear duration-300" x-transition:enter-start="opacity-0 backdrop-blur-none" x-transition:enter-end="opacity-100 backdrop-blur-sm" x-transition:leave="transition-all ease-linear duration-300" x-transition:leave-start="opacity-100 backdrop-blur-sm" x-transition:leave-end="opacity-0 backdrop-blur-none" class="sidebar-backdrop" @click="sidebarOpen = false"></div>
+                </div>
+            </aside>
+            <!-- /Sidebar -->
+
+            <!-- Main Content -->
+            <div
+                class="main-container"
+                :class="{
+                    'md:ml-80': sidebarOpen,
+                    'md:ml-16': !sidebarOpen,
+                    'ml-0': true
+                }"
+            >
+                <nav aria-label="Breadcrumb" class="mb-4">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/src/index.html" class="breadcrumb-link">Dashboard</a></li>
+                        <li class="breadcrumb-separator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6"/></svg></li>
+                        <li class="breadcrumb-item"><a href="/src/pages/index.html" class="breadcrumb-link">Pages</a></li>
+                        <li class="breadcrumb-separator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6"/></svg></li>
+                        <li class="breadcrumb-item breadcrumb-active" aria-current="page">Invoice</li>
+                    </ol>
+                </nav>
+
+                <!-- Invoice Header -->
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                    <div class="flex items-center gap-3">
+                        <h1 class="text-2xl font-bold text-slate-900 dark:text-slate-100">INV-2024-001</h1>
+                        <span class="badge badge-success-soft">Paid</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button class="button flex items-center gap-1.5 text-sm px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2"/><path d="M7 11l5 5l5 -5"/><path d="M12 4l0 12"/></svg>
+                            Download PDF
+                        </button>
+                        <button class="button flex items-center gap-1.5 text-sm px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M17 17h2a2 2 0 0 0 2 -2v-4a2 2 0 0 0 -2 -2h-14a2 2 0 0 0 -2 2v4a2 2 0 0 0 2 2h2"/><path d="M17 9v-4a2 2 0 0 0 -2 -2h-6a2 2 0 0 0 -2 2v4"/><path d="M7 13m0 2a2 2 0 0 1 2 -2h6a2 2 0 0 1 2 2v4a2 2 0 0 1 -2 2h-6a2 2 0 0 1 -2 -2z"/></svg>
+                            Print
+                        </button>
+                        <button class="button button-primary flex items-center gap-1.5 text-sm px-3 py-2 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z"/><path d="M3 7l9 6l9 -6"/></svg>
+                            Send Invoice
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Invoice Card -->
+                <div class="card p-6 sm:p-8">
+                    <!-- From / To Section -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                        <!-- From -->
+                        <div>
+                            <div class="flex items-center gap-2 mb-4">
+                                <div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z"/><path d="M3 7l9 6l9 -6"/></svg>
+                                </div>
+                                <span class="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">From</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-slate-100 mb-1">Fexend Inc.</h3>
+                            <p class="text-sm text-slate-500 dark:text-slate-400">123 Design Street</p>
+                            <p class="text-sm text-slate-500 dark:text-slate-400">San Francisco, CA 94105</p>
+                            <p class="text-sm text-slate-500 dark:text-slate-400">United States</p>
+                            <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">billing@fexend.io</p>
+                            <p class="text-sm text-slate-500 dark:text-slate-400">+1 (555) 000-1234</p>
+                        </div>
+
+                        <!-- To -->
+                        <div>
+                            <div class="flex items-center gap-2 mb-4">
+                                <div class="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-700 flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-slate-500 dark:text-slate-400" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 21l18 0"/><path d="M9 8l1 0"/><path d="M9 12l1 0"/><path d="M9 16l1 0"/><path d="M14 8l1 0"/><path d="M14 12l1 0"/><path d="M14 16l1 0"/><path d="M5 21v-16a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v16"/></svg>
+                                </div>
+                                <span class="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">Bill To</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-slate-100 mb-1">Acme Corporation</h3>
+                            <p class="text-sm text-slate-500 dark:text-slate-400">Attn: Alice Johnson, CFO</p>
+                            <p class="text-sm text-slate-500 dark:text-slate-400">456 Business Ave, Suite 200</p>
+                            <p class="text-sm text-slate-500 dark:text-slate-400">New York, NY 10001</p>
+                            <p class="text-sm text-slate-500 dark:text-slate-400">United States</p>
+                            <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">alice@acmecorp.com</p>
+                        </div>
+                    </div>
+
+                    <!-- Invoice Meta -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8 p-4 bg-slate-50 dark:bg-slate-700/30 rounded-lg">
+                        <div>
+                            <p class="text-xs text-slate-400 dark:text-slate-500 mb-1">Invoice Number</p>
+                            <p class="text-sm font-semibold text-slate-800 dark:text-slate-200">INV-2024-001</p>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-400 dark:text-slate-500 mb-1">Invoice Date</p>
+                            <p class="text-sm font-semibold text-slate-800 dark:text-slate-200">Jan 15, 2024</p>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-400 dark:text-slate-500 mb-1">Due Date</p>
+                            <p class="text-sm font-semibold text-slate-800 dark:text-slate-200">Feb 15, 2024</p>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-400 dark:text-slate-500 mb-1">Status</p>
+                            <span class="badge badge-success-soft text-xs">Paid</span>
+                        </div>
+                    </div>
+
+                    <!-- Line Items Table -->
+                    <div class="overflow-x-auto mb-6">
+                        <table class="table w-full">
+                            <thead>
+                                <tr>
+                                    <th class="text-left py-3 px-4 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-slate-700">#</th>
+                                    <th class="text-left py-3 px-4 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-slate-700">Item &amp; Description</th>
+                                    <th class="text-right py-3 px-4 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-slate-700">Qty</th>
+                                    <th class="text-right py-3 px-4 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-slate-700">Unit Price</th>
+                                    <th class="text-right py-3 px-4 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-slate-700">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-slate-100 dark:border-slate-700/50">
+                                    <td class="py-4 px-4 text-sm text-slate-500 dark:text-slate-400">1</td>
+                                    <td class="py-4 px-4">
+                                        <p class="text-sm font-medium text-slate-800 dark:text-slate-200">UI/UX Design Services</p>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400">Dashboard redesign and component library</p>
+                                    </td>
+                                    <td class="py-4 px-4 text-sm text-slate-700 dark:text-slate-300 text-right">40</td>
+                                    <td class="py-4 px-4 text-sm text-slate-700 dark:text-slate-300 text-right">$150.00</td>
+                                    <td class="py-4 px-4 text-sm font-medium text-slate-800 dark:text-slate-200 text-right">$6,000.00</td>
+                                </tr>
+                                <tr class="border-b border-slate-100 dark:border-slate-700/50">
+                                    <td class="py-4 px-4 text-sm text-slate-500 dark:text-slate-400">2</td>
+                                    <td class="py-4 px-4">
+                                        <p class="text-sm font-medium text-slate-800 dark:text-slate-200">Frontend Development</p>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400">React + Tailwind CSS implementation</p>
+                                    </td>
+                                    <td class="py-4 px-4 text-sm text-slate-700 dark:text-slate-300 text-right">60</td>
+                                    <td class="py-4 px-4 text-sm text-slate-700 dark:text-slate-300 text-right">$120.00</td>
+                                    <td class="py-4 px-4 text-sm font-medium text-slate-800 dark:text-slate-200 text-right">$7,200.00</td>
+                                </tr>
+                                <tr class="border-b border-slate-100 dark:border-slate-700/50">
+                                    <td class="py-4 px-4 text-sm text-slate-500 dark:text-slate-400">3</td>
+                                    <td class="py-4 px-4">
+                                        <p class="text-sm font-medium text-slate-800 dark:text-slate-200">Backend API Development</p>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400">RESTful API with Node.js + PostgreSQL</p>
+                                    </td>
+                                    <td class="py-4 px-4 text-sm text-slate-700 dark:text-slate-300 text-right">50</td>
+                                    <td class="py-4 px-4 text-sm text-slate-700 dark:text-slate-300 text-right">$130.00</td>
+                                    <td class="py-4 px-4 text-sm font-medium text-slate-800 dark:text-slate-200 text-right">$6,500.00</td>
+                                </tr>
+                                <tr class="border-b border-slate-100 dark:border-slate-700/50">
+                                    <td class="py-4 px-4 text-sm text-slate-500 dark:text-slate-400">4</td>
+                                    <td class="py-4 px-4">
+                                        <p class="text-sm font-medium text-slate-800 dark:text-slate-200">QA &amp; Testing</p>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400">Manual and automated test suite</p>
+                                    </td>
+                                    <td class="py-4 px-4 text-sm text-slate-700 dark:text-slate-300 text-right">20</td>
+                                    <td class="py-4 px-4 text-sm text-slate-700 dark:text-slate-300 text-right">$100.00</td>
+                                    <td class="py-4 px-4 text-sm font-medium text-slate-800 dark:text-slate-200 text-right">$2,000.00</td>
+                                </tr>
+                                <tr class="border-b border-slate-100 dark:border-slate-700/50">
+                                    <td class="py-4 px-4 text-sm text-slate-500 dark:text-slate-400">5</td>
+                                    <td class="py-4 px-4">
+                                        <p class="text-sm font-medium text-slate-800 dark:text-slate-200">Project Management</p>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400">Sprint planning, client calls, and reporting</p>
+                                    </td>
+                                    <td class="py-4 px-4 text-sm text-slate-700 dark:text-slate-300 text-right">15</td>
+                                    <td class="py-4 px-4 text-sm text-slate-700 dark:text-slate-300 text-right">$110.00</td>
+                                    <td class="py-4 px-4 text-sm font-medium text-slate-800 dark:text-slate-200 text-right">$1,650.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Totals -->
+                    <div class="flex justify-end mb-8">
+                        <div class="w-full sm:w-80">
+                            <div class="flex justify-between py-2 text-sm text-slate-600 dark:text-slate-400">
+                                <span>Subtotal</span>
+                                <span class="font-medium text-slate-800 dark:text-slate-200">$23,350.00</span>
+                            </div>
+                            <div class="flex justify-between py-2 text-sm text-slate-600 dark:text-slate-400 border-b border-slate-200 dark:border-slate-700">
+                                <span>Tax (10%)</span>
+                                <span class="font-medium text-slate-800 dark:text-slate-200">$2,335.00</span>
+                            </div>
+                            <div class="flex justify-between py-3 text-base font-bold text-slate-900 dark:text-slate-100">
+                                <span>Total</span>
+                                <span class="text-primary dark:text-primary-dark">$25,685.00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Info & Notes -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 border-t border-slate-200 dark:border-slate-700">
+                        <!-- Payment Info -->
+                        <div>
+                            <h4 class="text-sm font-semibold text-slate-800 dark:text-slate-200 mb-3">Payment Information</h4>
+                            <div class="space-y-1.5">
+                                <div class="flex items-center gap-2 text-sm">
+                                    <span class="text-slate-500 dark:text-slate-400 w-28">Method:</span>
+                                    <span class="text-slate-700 dark:text-slate-300">Bank Transfer</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-sm">
+                                    <span class="text-slate-500 dark:text-slate-400 w-28">Account Name:</span>
+                                    <span class="text-slate-700 dark:text-slate-300">Fexend Inc.</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-sm">
+                                    <span class="text-slate-500 dark:text-slate-400 w-28">Account No:</span>
+                                    <span class="text-slate-700 dark:text-slate-300">****4892</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-sm">
+                                    <span class="text-slate-500 dark:text-slate-400 w-28">Routing No:</span>
+                                    <span class="text-slate-700 dark:text-slate-300">021000021</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-sm">
+                                    <span class="text-slate-500 dark:text-slate-400 w-28">Paid On:</span>
+                                    <span class="text-success dark:text-success-dark font-medium">Feb 10, 2024</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Notes -->
+                        <div>
+                            <h4 class="text-sm font-semibold text-slate-800 dark:text-slate-200 mb-3">Notes</h4>
+                            <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                                Thank you for your business! Payment is due within 30 days of invoice date. Please include the invoice number in your payment reference. For any billing inquiries, contact billing@fexend.io.
+                            </p>
+                            <div class="mt-4 p-3 rounded-lg bg-success/5 dark:bg-success/10 border border-success/20">
+                                <div class="flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-success dark:text-success-dark" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/><path d="M9 12l2 2l4 -4"/></svg>
+                                    <span class="text-xs font-medium text-success dark:text-success-dark">Payment received in full on Feb 10, 2024</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Main Content -->
+
+            <!-- Mobile Bottom Menu Button -->
+            <div x-show="isMobile" class="mobile-menu lg:hidden">
+                <button @click="mobileMenuOpen = !mobileMenuOpen" class="flex items-center space-x-2 px-4 py-2 rounded-lg bg-primary text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 4h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1"/><path d="M5 16h4a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-2a1 1 0 0 1 1 -1"/><path d="M15 12h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1"/><path d="M15 4h4a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-2a1 1 0 0 1 1 -1"/></svg>
+                    <span class="text-sm font-medium">Menu</span>
+                </button>
+            </div>
+        </main>
+    </body>
+</html>

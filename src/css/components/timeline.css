@@ -4,7 +4,8 @@
 
 .timeline::before {
 	content: '';
-	@apply absolute left-3 top-0 bottom-0 w-0.5 bg-slate-200 dark:bg-slate-700;
+	@apply absolute top-0 bottom-0 w-0.5 bg-slate-200 dark:bg-slate-700;
+	left: 19px;
 }
 
 .timeline-item {
@@ -25,7 +26,7 @@
 .timeline-dot-info      { @apply bg-info dark:bg-info-dark; }
 
 .timeline-dot-icon {
-	@apply absolute -left-[26px] top-0 w-6 h-6 rounded-full
+	@apply absolute -left-6 top-0 w-6 h-6 rounded-full
 	flex items-center justify-center
 	bg-primary dark:bg-primary-dark text-white z-10;
 }

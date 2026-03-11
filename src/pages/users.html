@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Users | Fexend</title>
+
+        <link rel="icon" type="image/png" href="/public/favicon-96x96.png" sizes="96x96" />
+        <link rel="icon" type="image/svg+xml" href="/public/favicon.svg" />
+        <link rel="shortcut icon" href="/public/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/public/apple-touch-icon.png" />
+        <meta name="apple-mobile-web-app-title" content="Fexend" />
+        <link rel="manifest" href="/public/site.webmanifest" />
+
+        <link rel="stylesheet" href="/public/css/app.css" />
+        <script defer src="/public/js/app.js"></script>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+            rel="stylesheet"
+        />
+
+        <script>
+            if (
+                localStorage.getItem("darkMode") === "true" ||
+                (!localStorage.getItem("darkMode") &&
+                    window.matchMedia("(prefers-color-scheme: dark)").matches)
+            ) {
+                document.documentElement.classList.add("dark");
+            }
+        </script>
+        <style>
+            [x-cloak] {
+                display: none !important;
+            }
+            #loading-screen {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: #f1f5f9;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 9999;
+                transition: opacity 0.3s ease-out;
+            }
+            .dark #loading-screen {
+                background-color: #020617;
+            }
+        </style>
+    </head>
+    <body
+        x-data="{
+            darkMode: localStorage.getItem('darkMode') === 'true' || (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches),
+            sidebarOpen: false,
+            mobileMenuOpen: false,
+            isMobile: window.innerWidth < 768,
+            toggleDarkMode() {
+                this.darkMode = !this.darkMode;
+                localStorage.setItem('darkMode', this.darkMode);
+                if (this.darkMode) {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+            }
+        }"
+        x-init="
+            window.addEventListener('resize', () => {
+                if (window.innerWidth < 1024) sidebarOpen = false;
+                isMobile = window.innerWidth < 768;
+                if (!isMobile) mobileMenuOpen = false;
+            });
+            setTimeout(() => {
+                document.getElementById('loading-screen').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('loading-screen').style.display = 'none';
+                }, 300);
+            }, 500);
+        "
+    >
+        <!-- Loading Screen -->
+        <div
+            id="loading-screen"
+            class="fixed inset-0 bg-background dark:bg-background-dark flex justify-center items-center z-9999 transition-opacity duration-300"
+        >
+            <div class="flex space-x-2">
+                <div class="loading-dot"></div>
+                <div class="loading-dot"></div>
+                <div class="loading-dot"></div>
+            </div>
+        </div>
+
+        <main class="main-content">
+            <!-- Navbar -->
+            <header class="navbar-layout">
+                <nav>
+                    <div class="px-3 py-3 lg:px-5 lg:pl-3">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <button @click="sidebarOpen = !sidebarOpen" :aria-expanded="sidebarOpen" aria-label="Toggle sidebar" class="navbar-button">
+                                    <svg x-show="!sidebarOpen" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-menu-2 w-6 h-6 dark:text-gray-200" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+                                    <svg x-show="sidebarOpen" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12"/><path d="M6 6l12 12"/></svg>
+                                </button>
+                                <span class="nav-title"><a href="/src">Fexend</a></span>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div class="relative" x-data="{ notificationOpen: false }">
+                                    <button class="navbar-button relative" @click="notificationOpen = !notificationOpen" aria-label="Notifications">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-bell w-6 h-6 dark:text-gray-200" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a1 1 0 0 0 .293 .707l1 1a1 1 0 0 1 -.707 1.707h-14a1 1 0 0 1 -.707 -1.707l1 -1a1 1 0 0 0 .293 -.707v-3a7 7 0 0 1 4 -6"/><path d="M9 17h6"/></svg>
+                                        <span class="navbar-notification-badge"></span>
+                                    </button>
+                                </div>
+                                <button @click="toggleDarkMode()" :aria-label="darkMode ? 'Switch to light mode' : 'Switch to dark mode'" class="navbar-button">
+                                    <svg x-show="!darkMode" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="4"/><path d="M3 12h1M20 12h1M12 3v1M12 20v1M5.64 5.64l.707 .707M17.657 17.657l.707 .707M5.64 18.36l.707 -.707M17.657 6.343l.707 -.707"/></svg>
+                                    <svg x-show="darkMode" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 dark:text-gray-200"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z"/></svg>
+                                </button>
+                                <div x-data="{ profileOpen: false }" class="relative">
+                                    <button @click="profileOpen = !profileOpen" aria-label="User menu" class="navbar-button"><img src="https://ui-avatars.com/api/?name=Fexend&background=615fff&color=fff" alt="User avatar" class="w-8 h-8 rounded-full" /></button>
+                                    <div x-show="profileOpen" @click.away="profileOpen = false" x-transition class="absolute right-0 mt-2 w-40 bg-foreground dark:bg-foreground-dark rounded-lg shadow-lg z-10">
+                                        <a href="/src/pages/profile.html" class="block px-4 py-2 text-sm">Profile</a>
+                                        <a href="/src/settings/index.html" class="block px-4 py-2 text-sm">Settings</a>
+                                        <a href="/src/index.html" class="block px-4 py-2 text-sm">Logout</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </header>
+            <!-- /Navbar -->
+
+            <!-- Sidebar -->
+            <aside x-data="fexendSidebar()">
+                <div class="sidebar-icon">
+                    <div>
+                        <div class="inline-flex h-16 w-16 items-center justify-center">
+                            <a href="/src/settings/index.html" x-data="{ tooltip: false }" @mouseover="tooltip = true" @mouseleave="tooltip = false" class="sidebar-icon-button">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-settings"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z"/><path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"/></svg>
+                                <span x-show="tooltip" x-transition class="absolute left-full ml-2 top-1/2 -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal text-sm">Settings</span>
+                            </a>
+                        </div>
+                        <div class="border-t border-slate-100 dark:border-slate-700">
+                            <div class="px-2 pt-4">
+                                <ul class="space-y-1">
+                                    <template x-for="item in items" :key="item.label">
+                                        <li><a :href="item.link" x-data="{ tooltip: false }" @mouseover="tooltip = true" @mouseleave="tooltip = false" class="sidebar-icon-button" :class="isActive(item) ? 'sidebar-icon-button-active' : ''"><span x-html="item.icon"></span><span x-show="tooltip" x-transition class="absolute left-full ml-2 top-1/2 -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal text-sm" x-text="item.label"></span></a></li>
+                                    </template>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sidebar-footer">
+                        <div class="relative" x-data="{ tooltip: false }">
+                            <form action="#"><button type="submit" class="sidebar-icon-button w-full justify-center" @mouseover="tooltip = true" @mouseleave="tooltip = false"><svg xmlns="http://www.w3.org/2000/svg" class="size-5 opacity-75" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg></button></form>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative z-10">
+                    <div x-cloak x-show="sidebarOpen" x-transition:enter="transform transition duration-300 ease-in-out" x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0" x-transition:leave="transform transition duration-300 ease-in-out" x-transition:leave-start="translate-x-0" x-transition:leave-end="-translate-x-full" class="sidebar-layout">
+                        <div class="px-4 py-6">
+                            <p class="px-4 mb-3 text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500" x-text="activeGroup.label"></p>
+                            <ul class="space-y-1"><template x-for="sub in activeSubMenus" :key="sub.link"><li><a :href="sub.link" class="sidebar-link" :class="isSubActive(sub) ? 'sidebar-link-active' : ''" x-text="sub.name"></a></li></template></ul>
+                        </div>
+                    </div>
+                    <div x-show="sidebarOpen" x-transition:enter="transition-all ease-linear duration-300" x-transition:enter-start="opacity-0 backdrop-blur-none" x-transition:enter-end="opacity-100 backdrop-blur-sm" x-transition:leave="transition-all ease-linear duration-300" x-transition:leave-start="opacity-100 backdrop-blur-sm" x-transition:leave-end="opacity-0 backdrop-blur-none" class="sidebar-backdrop" @click="sidebarOpen = false"></div>
+                </div>
+            </aside>
+            <!-- /Sidebar -->
+
+            <!-- Main Content -->
+            <div
+                class="main-container"
+                :class="{
+                    'md:ml-80': sidebarOpen,
+                    'md:ml-16': !sidebarOpen,
+                    'ml-0': true
+                }"
+                x-data="{
+                    search: '',
+                    roleFilter: '',
+                    statusFilter: '',
+                    selectedUsers: [],
+                    currentPage: 1,
+                    perPage: 10,
+                    showDeleteModal: false,
+                    deleteTarget: null,
+                    users: [
+                        { id: 1, name: 'Alice Johnson', email: 'alice@acmecorp.com', role: 'Admin', status: 'Active', joined: 'Jan 5, 2024', lastActive: '2 hours ago', avatar: 'https://ui-avatars.com/api/?name=Alice+Johnson&background=615fff&color=fff' },
+                        { id: 2, name: 'Bob Martinez', email: 'bob@acmecorp.com', role: 'Editor', status: 'Active', joined: 'Jan 12, 2024', lastActive: '1 day ago', avatar: 'https://ui-avatars.com/api/?name=Bob+Martinez&background=10b981&color=fff' },
+                        { id: 3, name: 'Clara Nguyen', email: 'clara@designco.io', role: 'Viewer', status: 'Active', joined: 'Feb 1, 2024', lastActive: '3 hours ago', avatar: 'https://ui-avatars.com/api/?name=Clara+Nguyen&background=f59e0b&color=fff' },
+                        { id: 4, name: 'David Kim', email: 'david@devteam.io', role: 'Editor', status: 'Inactive', joined: 'Feb 14, 2024', lastActive: '2 weeks ago', avatar: 'https://ui-avatars.com/api/?name=David+Kim&background=ef4444&color=fff' },
+                        { id: 5, name: 'Eva Chen', email: 'eva@studio.io', role: 'Viewer', status: 'Active', joined: 'Feb 20, 2024', lastActive: '5 minutes ago', avatar: 'https://ui-avatars.com/api/?name=Eva+Chen&background=8b5cf6&color=fff' },
+                        { id: 6, name: 'Frank Rivera', email: 'frank@techcorp.com', role: 'Admin', status: 'Active', joined: 'Mar 1, 2024', lastActive: '1 hour ago', avatar: 'https://ui-avatars.com/api/?name=Frank+Rivera&background=0ea5e9&color=fff' },
+                        { id: 7, name: 'Grace Lee', email: 'grace@marketingco.com', role: 'Editor', status: 'Suspended', joined: 'Mar 8, 2024', lastActive: '1 month ago', avatar: 'https://ui-avatars.com/api/?name=Grace+Lee&background=ec4899&color=fff' },
+                        { id: 8, name: 'Henry Park', email: 'henry@salesco.io', role: 'Viewer', status: 'Active', joined: 'Mar 15, 2024', lastActive: '30 minutes ago', avatar: 'https://ui-avatars.com/api/?name=Henry+Park&background=14b8a6&color=fff' },
+                        { id: 9, name: 'Isabella Torres', email: 'isabella@creatives.io', role: 'Editor', status: 'Active', joined: 'Mar 22, 2024', lastActive: '4 hours ago', avatar: 'https://ui-avatars.com/api/?name=Isabella+Torres&background=f97316&color=fff' },
+                        { id: 10, name: 'James Wilson', email: 'james@ops.com', role: 'Viewer', status: 'Inactive', joined: 'Mar 28, 2024', lastActive: '3 weeks ago', avatar: 'https://ui-avatars.com/api/?name=James+Wilson&background=64748b&color=fff' },
+                    ],
+                    get filteredUsers() {
+                        return this.users.filter(u => {
+                            const matchSearch = this.search === '' || u.name.toLowerCase().includes(this.search.toLowerCase()) || u.email.toLowerCase().includes(this.search.toLowerCase());
+                            const matchRole = this.roleFilter === '' || u.role === this.roleFilter;
+                            const matchStatus = this.statusFilter === '' || u.status === this.statusFilter;
+                            return matchSearch && matchRole && matchStatus;
+                        });
+                    },
+                    get paginatedUsers() {
+                        const start = (this.currentPage - 1) * this.perPage;
+                        return this.filteredUsers.slice(start, start + this.perPage);
+                    },
+                    get totalPages() {
+                        return Math.ceil(this.filteredUsers.length / this.perPage);
+                    },
+                    get stats() {
+                        return {
+                            total: this.users.length,
+                            active: this.users.filter(u => u.status === 'Active').length,
+                            newThisMonth: this.users.filter(u => u.joined.includes('Mar')).length,
+                            suspended: this.users.filter(u => u.status === 'Suspended').length,
+                        };
+                    },
+                    toggleUser(id) {
+                        const idx = this.selectedUsers.indexOf(id);
+                        if (idx > -1) this.selectedUsers.splice(idx, 1);
+                        else this.selectedUsers.push(id);
+                    },
+                    toggleAll() {
+                        if (this.selectedUsers.length === this.paginatedUsers.length) {
+                            this.selectedUsers = [];
+                        } else {
+                            this.selectedUsers = this.paginatedUsers.map(u => u.id);
+                        }
+                    },
+                    confirmDelete(user) {
+                        this.deleteTarget = user;
+                        this.showDeleteModal = true;
+                    },
+                    deleteUser() {
+                        if (this.deleteTarget) {
+                            this.users = this.users.filter(u => u.id !== this.deleteTarget.id);
+                        }
+                        this.showDeleteModal = false;
+                        this.deleteTarget = null;
+                    }
+                }"
+            >
+                <nav aria-label="Breadcrumb" class="mb-4">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/src/index.html" class="breadcrumb-link">Dashboard</a></li>
+                        <li class="breadcrumb-separator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6"/></svg></li>
+                        <li class="breadcrumb-item"><a href="/src/pages/index.html" class="breadcrumb-link">Pages</a></li>
+                        <li class="breadcrumb-separator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6"/></svg></li>
+                        <li class="breadcrumb-item breadcrumb-active" aria-current="page">Users</li>
+                    </ol>
+                </nav>
+
+                <!-- Page Header -->
+                <div class="flex items-center justify-between mb-6">
+                    <h1 class="text-2xl font-bold text-slate-900 dark:text-slate-100">Users</h1>
+                    <button class="button button-primary flex items-center gap-1.5 text-sm px-3 py-2 rounded-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14"/><path d="M5 12l14 0"/></svg>
+                        Add User
+                    </button>
+                </div>
+
+                <!-- Stats Row -->
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                    <div class="stat-card">
+                        <p class="stat-card-label">Total Users</p>
+                        <p class="stat-card-value mt-1" x-text="stats.total"></p>
+                    </div>
+                    <div class="stat-card">
+                        <p class="stat-card-label">Active Users</p>
+                        <p class="stat-card-value mt-1 text-success dark:text-success-dark" x-text="stats.active"></p>
+                    </div>
+                    <div class="stat-card">
+                        <p class="stat-card-label">New This Month</p>
+                        <p class="stat-card-value mt-1 text-primary dark:text-primary-dark" x-text="stats.newThisMonth"></p>
+                    </div>
+                    <div class="stat-card">
+                        <p class="stat-card-label">Suspended</p>
+                        <p class="stat-card-value mt-1 text-danger dark:text-danger-dark" x-text="stats.suspended"></p>
+                    </div>
+                </div>
+
+                <!-- Filter / Search Bar -->
+                <div class="card p-4 mb-4">
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <div class="relative flex-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"/><path d="M21 21l-6 -6"/></svg>
+                            <input type="search" x-model="search" @input="currentPage = 1" placeholder="Search by name or email..." class="input w-full pl-9 text-sm" />
+                        </div>
+                        <select x-model="roleFilter" @change="currentPage = 1" class="select text-sm sm:w-36">
+                            <option value="">All Roles</option>
+                            <option value="Admin">Admin</option>
+                            <option value="Editor">Editor</option>
+                            <option value="Viewer">Viewer</option>
+                        </select>
+                        <select x-model="statusFilter" @change="currentPage = 1" class="select text-sm sm:w-40">
+                            <option value="">All Statuses</option>
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                            <option value="Suspended">Suspended</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Users Table -->
+                <div class="card overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="table w-full">
+                            <thead>
+                                <tr class="border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50">
+                                    <th class="py-3 px-4 w-10">
+                                        <input
+                                            type="checkbox"
+                                            class="rounded border-slate-300 dark:border-slate-600"
+                                            :checked="selectedUsers.length === paginatedUsers.length && paginatedUsers.length > 0"
+                                            @change="toggleAll()"
+                                        />
+                                    </th>
+                                    <th class="py-3 px-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">User</th>
+                                    <th class="py-3 px-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Role</th>
+                                    <th class="py-3 px-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Status</th>
+                                    <th class="py-3 px-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 hidden lg:table-cell">Join Date</th>
+                                    <th class="py-3 px-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 hidden lg:table-cell">Last Active</th>
+                                    <th class="py-3 px-4 text-right text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template x-for="user in paginatedUsers" :key="user.id">
+                                    <tr class="border-b border-slate-100 dark:border-slate-700/50 hover:bg-slate-50 dark:hover:bg-slate-700/20 transition-colors">
+                                        <td class="py-3 px-4">
+                                            <input
+                                                type="checkbox"
+                                                class="rounded border-slate-300 dark:border-slate-600"
+                                                :checked="selectedUsers.includes(user.id)"
+                                                @change="toggleUser(user.id)"
+                                            />
+                                        </td>
+                                        <td class="py-3 px-4">
+                                            <div class="flex items-center gap-3">
+                                                <img :src="user.avatar" :alt="user.name" class="w-8 h-8 rounded-full flex-shrink-0" />
+                                                <div class="min-w-0">
+                                                    <p class="text-sm font-medium text-slate-900 dark:text-slate-100 truncate" x-text="user.name"></p>
+                                                    <p class="text-xs text-slate-500 dark:text-slate-400 truncate" x-text="user.email"></p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="py-3 px-4">
+                                            <span
+                                                class="badge text-xs"
+                                                :class="{
+                                                    'badge-primary-soft': user.role === 'Admin',
+                                                    'badge-secondary-soft': user.role === 'Editor',
+                                                    'badge-info-soft': user.role === 'Viewer'
+                                                }"
+                                                x-text="user.role"
+                                            ></span>
+                                        </td>
+                                        <td class="py-3 px-4">
+                                            <span
+                                                class="badge text-xs"
+                                                :class="{
+                                                    'badge-success-soft': user.status === 'Active',
+                                                    'badge-warning-soft': user.status === 'Inactive',
+                                                    'badge-danger-soft': user.status === 'Suspended'
+                                                }"
+                                                x-text="user.status"
+                                            ></span>
+                                        </td>
+                                        <td class="py-3 px-4 text-sm text-slate-600 dark:text-slate-400 hidden lg:table-cell" x-text="user.joined"></td>
+                                        <td class="py-3 px-4 text-sm text-slate-600 dark:text-slate-400 hidden lg:table-cell" x-text="user.lastActive"></td>
+                                        <td class="py-3 px-4">
+                                            <div class="flex items-center justify-end gap-1">
+                                                <button
+                                                    class="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-500 dark:text-slate-400 hover:text-primary dark:hover:text-primary-dark transition-colors"
+                                                    aria-label="Edit user"
+                                                >
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"/><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"/><path d="M16 5l3 3"/></svg>
+                                                </button>
+                                                <button
+                                                    @click="confirmDelete(user)"
+                                                    class="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-500 dark:text-slate-400 hover:text-danger dark:hover:text-danger-dark transition-colors"
+                                                    aria-label="Delete user"
+                                                >
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0"/><path d="M10 11l0 6"/><path d="M14 11l0 6"/><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"/><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"/></svg>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </template>
+
+                                <!-- Empty State -->
+                                <tr x-show="filteredUsers.length === 0">
+                                    <td colspan="7" class="py-12 text-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 mx-auto text-slate-300 dark:text-slate-600 mb-3" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"/><path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"/><path d="M16 11l2 2l4 -4"/></svg>
+                                        <p class="text-sm text-slate-500 dark:text-slate-400">No users found</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-3 px-4 py-3 border-t border-slate-200 dark:border-slate-700">
+                        <p class="text-sm text-slate-500 dark:text-slate-400">
+                            Showing <span class="font-medium text-slate-700 dark:text-slate-200" x-text="Math.min((currentPage - 1) * perPage + 1, filteredUsers.length)"></span>
+                            to <span class="font-medium text-slate-700 dark:text-slate-200" x-text="Math.min(currentPage * perPage, filteredUsers.length)"></span>
+                            of <span class="font-medium text-slate-700 dark:text-slate-200" x-text="filteredUsers.length"></span> users
+                        </p>
+                        <div class="flex items-center gap-1">
+                            <button
+                                @click="currentPage = Math.max(1, currentPage - 1)"
+                                :disabled="currentPage === 1"
+                                class="px-2.5 py-1.5 rounded border border-slate-200 dark:border-slate-700 text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 6l-6 6l6 6"/></svg>
+                            </button>
+                            <template x-for="page in totalPages" :key="page">
+                                <button
+                                    @click="currentPage = page"
+                                    :class="currentPage === page ? 'bg-primary text-white border-primary' : 'border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'"
+                                    class="px-3 py-1.5 rounded border text-sm"
+                                    x-text="page"
+                                ></button>
+                            </template>
+                            <button
+                                @click="currentPage = Math.min(totalPages, currentPage + 1)"
+                                :disabled="currentPage === totalPages || totalPages === 0"
+                                class="px-2.5 py-1.5 rounded border border-slate-200 dark:border-slate-700 text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Delete Confirmation Modal -->
+                <div
+                    x-show="showDeleteModal"
+                    x-transition:enter="transition ease-out duration-200"
+                    x-transition:enter-start="opacity-0"
+                    x-transition:enter-end="opacity-100"
+                    x-transition:leave="transition ease-in duration-150"
+                    x-transition:leave-start="opacity-100"
+                    x-transition:leave-end="opacity-0"
+                    class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+                    @click.self="showDeleteModal = false"
+                >
+                    <div
+                        x-show="showDeleteModal"
+                        x-transition:enter="transition ease-out duration-200"
+                        x-transition:enter-start="opacity-0 scale-95"
+                        x-transition:enter-end="opacity-100 scale-100"
+                        x-transition:leave="transition ease-in duration-150"
+                        x-transition:leave-start="opacity-100 scale-100"
+                        x-transition:leave-end="opacity-0 scale-95"
+                        class="bg-white dark:bg-slate-800 rounded-xl shadow-xl p-6 w-full max-w-sm mx-4"
+                    >
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 rounded-full bg-danger/10 dark:bg-danger/20 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-danger dark:text-danger-dark" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 9v4"/><path d="M10.363 3.591l-8.106 13.534a1.914 1.914 0 0 0 1.636 2.871h16.214a1.914 1.914 0 0 0 1.636 -2.87l-8.106 -13.536a1.914 1.914 0 0 0 -3.274 0z"/><path d="M12 16h.01"/></svg>
+                            </div>
+                            <h3 class="text-base font-semibold text-slate-900 dark:text-slate-100">Delete User</h3>
+                        </div>
+                        <p class="text-sm text-slate-600 dark:text-slate-400 mb-6">
+                            Are you sure you want to delete <span class="font-semibold text-slate-800 dark:text-slate-200" x-text="deleteTarget?.name"></span>? This action cannot be undone.
+                        </p>
+                        <div class="flex items-center gap-3 justify-end">
+                            <button @click="showDeleteModal = false" class="button px-4 py-2 text-sm rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700">Cancel</button>
+                            <button @click="deleteUser()" class="button px-4 py-2 text-sm rounded-lg bg-danger text-white hover:bg-danger/90">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Main Content -->
+
+            <!-- Mobile Bottom Menu Button -->
+            <div x-show="isMobile" class="mobile-menu lg:hidden">
+                <button @click="mobileMenuOpen = !mobileMenuOpen" class="flex items-center space-x-2 px-4 py-2 rounded-lg bg-primary text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 4h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1"/><path d="M5 16h4a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-2a1 1 0 0 1 1 -1"/><path d="M15 12h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1"/><path d="M15 4h4a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-2a1 1 0 0 1 1 -1"/></svg>
+                    <span class="text-sm font-medium">Menu</span>
+                </button>
+            </div>
+        </main>
+    </body>
+</html>

@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Kanban | Fexend</title>
+
+        <link rel="icon" type="image/png" href="/public/favicon-96x96.png" sizes="96x96" />
+        <link rel="icon" type="image/svg+xml" href="/public/favicon.svg" />
+        <link rel="shortcut icon" href="/public/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/public/apple-touch-icon.png" />
+        <meta name="apple-mobile-web-app-title" content="Fexend" />
+        <link rel="manifest" href="/public/site.webmanifest" />
+
+        <link rel="stylesheet" href="/public/css/app.css" />
+        <script defer src="/public/js/app.js"></script>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+            rel="stylesheet"
+        />
+
+        <script>
+            if (
+                localStorage.getItem("darkMode") === "true" ||
+                (!localStorage.getItem("darkMode") &&
+                    window.matchMedia("(prefers-color-scheme: dark)").matches)
+            ) {
+                document.documentElement.classList.add("dark");
+            }
+        </script>
+        <style>
+            [x-cloak] {
+                display: none !important;
+            }
+            #loading-screen {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: #f1f5f9;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 9999;
+                transition: opacity 0.3s ease-out;
+            }
+            .dark #loading-screen {
+                background-color: #020617;
+            }
+        </style>
+    </head>
+    <body
+        x-data="{
+            darkMode: localStorage.getItem('darkMode') === 'true' || (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches),
+            sidebarOpen: false,
+            mobileMenuOpen: false,
+            isMobile: window.innerWidth < 768,
+            toggleDarkMode() {
+                this.darkMode = !this.darkMode;
+                localStorage.setItem('darkMode', this.darkMode);
+                if (this.darkMode) {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+            }
+        }"
+        x-init="
+            window.addEventListener('resize', () => {
+                if (window.innerWidth < 1024) sidebarOpen = false;
+                isMobile = window.innerWidth < 768;
+                if (!isMobile) mobileMenuOpen = false;
+            });
+            setTimeout(() => {
+                document.getElementById('loading-screen').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('loading-screen').style.display = 'none';
+                }, 300);
+            }, 500);
+        "
+    >
+        <!-- Loading Screen -->
+        <div
+            id="loading-screen"
+            class="fixed inset-0 bg-background dark:bg-background-dark flex justify-center items-center z-9999 transition-opacity duration-300"
+        >
+            <div class="flex space-x-2">
+                <div class="loading-dot"></div>
+                <div class="loading-dot"></div>
+                <div class="loading-dot"></div>
+            </div>
+        </div>
+
+        <main class="main-content">
+            <!-- Navbar -->
+            <header class="navbar-layout">
+                <nav>
+                    <div class="px-3 py-3 lg:px-5 lg:pl-3">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <button @click="sidebarOpen = !sidebarOpen" :aria-expanded="sidebarOpen" aria-label="Toggle sidebar" class="navbar-button">
+                                    <svg x-show="!sidebarOpen" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-menu-2 w-6 h-6 dark:text-gray-200" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" /><line x1="4" y1="6" x2="20" y2="6" /><line x1="4" y1="12" x2="20" y2="12" /><line x1="4" y1="18" x2="20" y2="18" />
+                                    </svg>
+                                    <svg x-show="sidebarOpen" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-x">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M18 6l-12 12" /><path d="M6 6l12 12" />
+                                    </svg>
+                                </button>
+                                <span class="nav-title"><a href="/src">Fexend</a></span>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div class="relative" x-data="{ notificationOpen: false }">
+                                    <button class="navbar-button relative" @click="notificationOpen = !notificationOpen" aria-label="Notifications">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-bell w-6 h-6 dark:text-gray-200" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a1 1 0 0 0 .293 .707l1 1a1 1 0 0 1 -.707 1.707h-14a1 1 0 0 1 -.707 -1.707l1 -1a1 1 0 0 0 .293 -.707v-3a7 7 0 0 1 4 -6" /><path d="M9 17h6" />
+                                        </svg>
+                                        <span class="navbar-notification-badge"></span>
+                                    </button>
+                                </div>
+                                <button @click="toggleDarkMode()" :aria-label="darkMode ? 'Switch to light mode' : 'Switch to dark mode'" class="navbar-button">
+                                    <svg x-show="!darkMode" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="4"/><path d="M3 12h1M20 12h1M12 3v1M12 20v1M5.64 5.64l.707 .707M17.657 17.657l.707 .707M5.64 18.36l.707 -.707M17.657 6.343l.707 -.707"/></svg>
+                                    <svg x-show="darkMode" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 dark:text-gray-200"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z"/></svg>
+                                </button>
+                                <div x-data="{ profileOpen: false }" class="relative">
+                                    <button @click="profileOpen = !profileOpen" aria-label="User menu" class="navbar-button">
+                                        <img src="https://ui-avatars.com/api/?name=Fexend&background=615fff&color=fff" alt="User avatar" class="w-8 h-8 rounded-full" />
+                                    </button>
+                                    <div x-show="profileOpen" @click.away="profileOpen = false" x-transition class="absolute right-0 mt-2 w-40 bg-foreground dark:bg-foreground-dark rounded-lg shadow-lg z-10">
+                                        <a href="/src/pages/profile.html" class="block px-4 py-2 text-sm">Profile</a>
+                                        <a href="/src/settings/index.html" class="block px-4 py-2 text-sm">Settings</a>
+                                        <a href="/src/index.html" class="block px-4 py-2 text-sm">Logout</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </header>
+            <!-- /Navbar -->
+
+            <!-- Sidebar -->
+            <aside x-data="fexendSidebar()">
+                <div class="sidebar-icon">
+                    <div>
+                        <div class="inline-flex h-16 w-16 items-center justify-center">
+                            <a href="/src/settings/index.html" x-data="{ tooltip: false }" @mouseover="tooltip = true" @mouseleave="tooltip = false" class="sidebar-icon-button">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-settings"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z"/><path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"/></svg>
+                                <span x-show="tooltip" x-transition class="absolute left-full ml-2 top-1/2 -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal text-sm">Settings</span>
+                            </a>
+                        </div>
+                        <div class="border-t border-slate-100 dark:border-slate-700">
+                            <div class="px-2 pt-4">
+                                <ul class="space-y-1">
+                                    <template x-for="item in items" :key="item.label">
+                                        <li>
+                                            <a :href="item.link" x-data="{ tooltip: false }" @mouseover="tooltip = true" @mouseleave="tooltip = false" class="sidebar-icon-button" :class="isActive(item) ? 'sidebar-icon-button-active' : ''">
+                                                <span x-html="item.icon"></span>
+                                                <span x-show="tooltip" x-transition class="absolute left-full ml-2 top-1/2 -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal text-sm" x-text="item.label"></span>
+                                            </a>
+                                        </li>
+                                    </template>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sidebar-footer">
+                        <div class="relative" x-data="{ tooltip: false }">
+                            <form action="#"><button type="submit" class="sidebar-icon-button w-full justify-center" @mouseover="tooltip = true" @mouseleave="tooltip = false"><svg xmlns="http://www.w3.org/2000/svg" class="size-5 opacity-75" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg></button></form>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative z-10">
+                    <div x-cloak x-show="sidebarOpen" x-transition:enter="transform transition duration-300 ease-in-out" x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0" x-transition:leave="transform transition duration-300 ease-in-out" x-transition:leave-start="translate-x-0" x-transition:leave-end="-translate-x-full" class="sidebar-layout">
+                        <div class="px-4 py-6">
+                            <p class="px-4 mb-3 text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500" x-text="activeGroup.label"></p>
+                            <ul class="space-y-1">
+                                <template x-for="sub in activeSubMenus" :key="sub.link"><li><a :href="sub.link" class="sidebar-link" :class="isSubActive(sub) ? 'sidebar-link-active' : ''" x-text="sub.name"></a></li></template>
+                            </ul>
+                        </div>
+                    </div>
+                    <div x-show="sidebarOpen" x-transition:enter="transition-all ease-linear duration-300" x-transition:enter-start="opacity-0 backdrop-blur-none" x-transition:enter-end="opacity-100 backdrop-blur-sm" x-transition:leave="transition-all ease-linear duration-300" x-transition:leave-start="opacity-100 backdrop-blur-sm" x-transition:leave-end="opacity-0 backdrop-blur-none" class="sidebar-backdrop" @click="sidebarOpen = false"></div>
+                </div>
+            </aside>
+            <!-- /Sidebar -->
+
+            <!-- Main Content -->
+            <div
+                class="main-container"
+                :class="{
+                    'md:ml-80': sidebarOpen,
+                    'md:ml-16': !sidebarOpen,
+                    'ml-0': true
+                }"
+                x-data="{
+                    addCardColumn: null,
+                    newCardTitle: '',
+                    newCardDesc: '',
+                    columns: [
+                        {
+                            id: 'backlog',
+                            title: 'Backlog',
+                            color: 'bg-slate-500',
+                            cards: [
+                                { id: 1, title: 'Research competitor pricing', desc: 'Analyze pricing models from top 5 competitors', priority: 'low', tags: ['Research', 'Marketing'], assignee: 'https://ui-avatars.com/api/?name=Alice+J&background=615fff&color=fff' },
+                                { id: 2, title: 'Set up CI/CD pipeline', desc: 'Configure GitHub Actions for automated testing and deployment', priority: 'high', tags: ['DevOps'], assignee: 'https://ui-avatars.com/api/?name=Bob+M&background=10b981&color=fff' },
+                                { id: 3, title: 'Design onboarding flow', desc: 'Create wireframes and prototype for new user onboarding', priority: 'medium', tags: ['Design', 'UX'], assignee: 'https://ui-avatars.com/api/?name=Clara+N&background=f59e0b&color=fff' },
+                                { id: 4, title: 'API rate limiting', desc: 'Implement rate limiting for all public endpoints', priority: 'medium', tags: ['Backend'], assignee: 'https://ui-avatars.com/api/?name=David+K&background=ef4444&color=fff' },
+                            ]
+                        },
+                        {
+                            id: 'inprogress',
+                            title: 'In Progress',
+                            color: 'bg-primary',
+                            cards: [
+                                { id: 5, title: 'User authentication refactor', desc: 'Migrate to JWT-based auth with refresh tokens', priority: 'high', tags: ['Backend', 'Security'], assignee: 'https://ui-avatars.com/api/?name=Eva+C&background=8b5cf6&color=fff' },
+                                { id: 6, title: 'Dashboard analytics widgets', desc: 'Build revenue, user, and conversion rate widgets', priority: 'medium', tags: ['Frontend'], assignee: 'https://ui-avatars.com/api/?name=Alice+J&background=615fff&color=fff' },
+                                { id: 7, title: 'Mobile responsive navbar', desc: 'Fix navigation issues on small screens', priority: 'low', tags: ['Frontend', 'CSS'], assignee: 'https://ui-avatars.com/api/?name=Bob+M&background=10b981&color=fff' },
+                            ]
+                        },
+                        {
+                            id: 'review',
+                            title: 'In Review',
+                            color: 'bg-warning',
+                            cards: [
+                                { id: 8, title: 'Payment gateway integration', desc: 'Stripe integration for subscription billing', priority: 'high', tags: ['Backend', 'Payments'], assignee: 'https://ui-avatars.com/api/?name=Clara+N&background=f59e0b&color=fff' },
+                                { id: 9, title: 'Email notification system', desc: 'Transactional email templates using Resend', priority: 'medium', tags: ['Backend'], assignee: 'https://ui-avatars.com/api/?name=David+K&background=ef4444&color=fff' },
+                                { id: 10, title: 'Unit test coverage', desc: 'Improve test coverage to 80% across all services', priority: 'low', tags: ['Testing'], assignee: 'https://ui-avatars.com/api/?name=Eva+C&background=8b5cf6&color=fff' },
+                            ]
+                        },
+                        {
+                            id: 'done',
+                            title: 'Done',
+                            color: 'bg-success',
+                            cards: [
+                                { id: 11, title: 'Project scaffolding', desc: 'Initial project setup with Vite + React', priority: 'high', tags: ['DevOps'], assignee: 'https://ui-avatars.com/api/?name=Alice+J&background=615fff&color=fff' },
+                                { id: 12, title: 'Database schema design', desc: 'PostgreSQL schema with migrations', priority: 'high', tags: ['Backend', 'DB'], assignee: 'https://ui-avatars.com/api/?name=Bob+M&background=10b981&color=fff' },
+                                { id: 13, title: 'Design system tokens', desc: 'Color, typography, and spacing token setup', priority: 'medium', tags: ['Design'], assignee: 'https://ui-avatars.com/api/?name=Clara+N&background=f59e0b&color=fff' },
+                            ]
+                        }
+                    ],
+                    moveCard(cardId, fromColId, toColId) {
+                        const fromCol = this.columns.find(c => c.id === fromColId);
+                        const toCol = this.columns.find(c => c.id === toColId);
+                        const cardIndex = fromCol.cards.findIndex(c => c.id === cardId);
+                        if (cardIndex > -1 && fromCol && toCol) {
+                            const card = fromCol.cards.splice(cardIndex, 1)[0];
+                            toCol.cards.push(card);
+                        }
+                    },
+                    addCard(colId) {
+                        if (!this.newCardTitle.trim()) return;
+                        const col = this.columns.find(c => c.id === colId);
+                        if (col) {
+                            col.cards.push({
+                                id: Date.now(),
+                                title: this.newCardTitle,
+                                desc: this.newCardDesc,
+                                priority: 'medium',
+                                tags: [],
+                                assignee: 'https://ui-avatars.com/api/?name=New+User&background=94a3b8&color=fff'
+                            });
+                        }
+                        this.newCardTitle = '';
+                        this.newCardDesc = '';
+                        this.addCardColumn = null;
+                    }
+                }"
+            >
+                <nav aria-label="Breadcrumb" class="mb-4">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/src/index.html" class="breadcrumb-link">Dashboard</a></li>
+                        <li class="breadcrumb-separator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6"/></svg></li>
+                        <li class="breadcrumb-item"><a href="/src/pages/index.html" class="breadcrumb-link">Pages</a></li>
+                        <li class="breadcrumb-separator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6"/></svg></li>
+                        <li class="breadcrumb-item breadcrumb-active" aria-current="page">Kanban</li>
+                    </ol>
+                </nav>
+
+                <div class="flex items-center justify-between mb-6">
+                    <h1 class="text-2xl font-bold text-slate-900 dark:text-slate-100">Kanban Board</h1>
+                    <button class="button button-primary flex items-center gap-1.5 text-sm px-3 py-2 rounded-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14"/><path d="M5 12l14 0"/></svg>
+                        Add Task
+                    </button>
+                </div>
+
+                <!-- Kanban Board -->
+                <div class="flex gap-4 overflow-x-auto pb-4">
+                    <template x-for="col in columns" :key="col.id">
+                        <div class="flex-shrink-0 w-72">
+                            <!-- Column Header -->
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-3 h-3 rounded-full" :class="col.color"></span>
+                                    <h3 class="font-semibold text-slate-800 dark:text-slate-100 text-sm" x-text="col.title"></h3>
+                                    <span class="badge badge-secondary-soft text-xs" x-text="col.cards.length"></span>
+                                </div>
+                                <button
+                                    @click="addCardColumn = col.id"
+                                    class="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
+                                    :aria-label="'Add card to ' + col.title"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14"/><path d="M5 12l14 0"/></svg>
+                                </button>
+                            </div>
+
+                            <!-- Cards List -->
+                            <div class="space-y-3 min-h-[200px]">
+                                <template x-for="card in col.cards" :key="card.id">
+                                    <div class="card p-4 cursor-pointer hover:shadow-md transition-shadow">
+                                        <!-- Priority -->
+                                        <div class="flex items-center justify-between mb-2">
+                                            <span
+                                                class="badge text-xs"
+                                                :class="{
+                                                    'badge-danger-soft': card.priority === 'high',
+                                                    'badge-warning-soft': card.priority === 'medium',
+                                                    'badge-success-soft': card.priority === 'low'
+                                                }"
+                                                x-text="card.priority.charAt(0).toUpperCase() + card.priority.slice(1)"
+                                            ></span>
+                                            <!-- Move to next column button -->
+                                            <div class="relative" x-data="{ moveOpen: false }">
+                                                <button
+                                                    @click="moveOpen = !moveOpen"
+                                                    class="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-400"
+                                                    aria-label="Move card"
+                                                >
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"/><path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"/><path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"/></svg>
+                                                </button>
+                                                <div x-show="moveOpen" @click.away="moveOpen = false" class="absolute right-0 top-6 w-40 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg z-20 py-1">
+                                                    <template x-for="targetCol in columns.filter(c => c.id !== col.id)" :key="targetCol.id">
+                                                        <button
+                                                            @click="moveCard(card.id, col.id, targetCol.id); moveOpen = false"
+                                                            class="w-full text-left px-3 py-1.5 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700"
+                                                            x-text="'Move to ' + targetCol.title"
+                                                        ></button>
+                                                    </template>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Title & Description -->
+                                        <h4 class="font-medium text-sm text-slate-900 dark:text-slate-100 mb-1" x-text="card.title"></h4>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400 mb-3 line-clamp-2" x-text="card.desc"></p>
+
+                                        <!-- Tags -->
+                                        <div class="flex flex-wrap gap-1 mb-3">
+                                            <template x-for="tag in card.tags" :key="tag">
+                                                <span class="badge badge-secondary-soft text-xs" x-text="tag"></span>
+                                            </template>
+                                        </div>
+
+                                        <!-- Assignee -->
+                                        <div class="flex items-center justify-between">
+                                            <img :src="card.assignee" alt="Assignee" class="w-6 h-6 rounded-full" />
+                                        </div>
+                                    </div>
+                                </template>
+
+                                <!-- Add Card Form -->
+                                <div x-show="addCardColumn === col.id" x-transition class="card p-3 border-2 border-dashed border-primary/30">
+                                    <input
+                                        type="text"
+                                        x-model="newCardTitle"
+                                        placeholder="Card title..."
+                                        class="input w-full text-sm mb-2"
+                                        @keydown.enter="addCard(col.id)"
+                                        @keydown.escape="addCardColumn = null"
+                                    />
+                                    <textarea
+                                        x-model="newCardDesc"
+                                        placeholder="Description (optional)"
+                                        rows="2"
+                                        class="textarea w-full text-sm mb-2"
+                                    ></textarea>
+                                    <div class="flex items-center gap-2">
+                                        <button @click="addCard(col.id)" class="button button-primary text-xs px-3 py-1.5 rounded">Add</button>
+                                        <button @click="addCardColumn = null" class="button text-xs px-3 py-1.5 rounded border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300">Cancel</button>
+                                    </div>
+                                </div>
+
+                                <!-- Empty state -->
+                                <div
+                                    x-show="col.cards.length === 0 && addCardColumn !== col.id"
+                                    class="flex flex-col items-center justify-center py-8 text-slate-400 dark:text-slate-500"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 mb-2 opacity-50" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2h-2"/><path d="M9 3m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z"/></svg>
+                                    <p class="text-xs">No cards</p>
+                                </div>
+                            </div>
+
+                            <!-- Add Card Button -->
+                            <button
+                                x-show="addCardColumn !== col.id"
+                                @click="addCardColumn = col.id"
+                                class="mt-3 w-full flex items-center justify-center gap-1.5 py-2 rounded-lg border border-dashed border-slate-300 dark:border-slate-600 text-slate-500 dark:text-slate-400 hover:border-primary hover:text-primary dark:hover:text-primary-dark transition-colors text-sm"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14"/><path d="M5 12l14 0"/></svg>
+                                Add card
+                            </button>
+                        </div>
+                    </template>
+                </div>
+            </div>
+            <!-- /Main Content -->
+
+            <!-- Mobile Bottom Menu Button -->
+            <div x-show="isMobile" class="mobile-menu lg:hidden">
+                <button @click="mobileMenuOpen = !mobileMenuOpen" class="flex items-center space-x-2 px-4 py-2 rounded-lg bg-primary text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 4h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1"/><path d="M5 16h4a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-2a1 1 0 0 1 1 -1"/><path d="M15 12h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1"/><path d="M15 4h4a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-2a1 1 0 0 1 1 -1"/></svg>
+                    <span class="text-sm font-medium">Menu</span>
+                </button>
+            </div>
+        </main>
+    </body>
+</html>

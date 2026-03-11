@@ -512,6 +512,7 @@ class="main-container"
 
 <section class="mb-10">
 <h2 class="heading-2 mb-6">Base Inputs</h2>
+<div class="card p-6">
 				<div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl">
 					<div class="form-group">
 						<label class="label">Default Input</label>
@@ -530,17 +531,21 @@ class="main-container"
 						<input type="text" class="input" value="Read-only value" readonly>
 					</div>
 				</div>
+</div>
 </section>
 <section class="mb-10">
 <h2 class="heading-2 mb-6">Sizes</h2>
+<div class="card p-6">
 				<div class="flex flex-col gap-4 max-w-md">
 					<input type="text" class="input input-sm" placeholder="Small input (input-sm)">
 					<input type="text" class="input" placeholder="Default input">
 					<input type="text" class="input input-lg" placeholder="Large input (input-lg)">
 				</div>
+</div>
 </section>
 <section class="mb-10">
 <h2 class="heading-2 mb-6">States</h2>
+<div class="card p-6">
 				<div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl">
 					<div class="form-group">
 						<label class="label label-error">Error State</label>
@@ -553,16 +558,20 @@ class="main-container"
 						<span class="form-feedback form-feedback-valid">Looks great!</span>
 					</div>
 				</div>
+</div>
 </section>
 <section class="mb-10">
 <h2 class="heading-2 mb-6">Rounded</h2>
+<div class="card p-6">
 				<div class="flex flex-col gap-4 max-w-md">
 					<input type="text" class="input input-rounded" placeholder="Rounded input">
 					<input type="text" class="input input-sm input-rounded" placeholder="Rounded small">
 				</div>
+</div>
 </section>
 <section class="mb-10">
 <h2 class="heading-2 mb-6">With Icons</h2>
+<div class="card p-6">
 				<div class="flex flex-col gap-4 max-w-md">
 					<div class="input-icon-left">
 						<span class="input-icon">
@@ -583,9 +592,11 @@ class="main-container"
 						<input type="password" class="input" placeholder="Password">
 					</div>
 				</div>
+</div>
 </section>
 <section class="mb-10">
 <h2 class="heading-2 mb-6">Input Group with Addons</h2>
+<div class="card p-6">
 				<div class="flex flex-col gap-4 max-w-md">
 					<div class="input-group">
 						<span class="input-addon">https://</span>
@@ -601,9 +612,11 @@ class="main-container"
 						<span class="input-addon">.com</span>
 					</div>
 				</div>
+</div>
 </section>
 <section class="mb-10">
 <h2 class="heading-2 mb-6">Password Input</h2>
+<div class="card p-6">
 				<div class="flex flex-col gap-6 max-w-md">
 
 					<!-- Basic show/hide password -->
@@ -628,12 +641,10 @@ class="main-container"
 								@click="show = !show"
 								:aria-label="show ? 'Hide password' : 'Show password'"
 							>
-								<!-- Eye icon -->
 								<svg x-show="!show" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 									<path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
 									<path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
 								</svg>
-								<!-- Eye-off icon -->
 								<svg x-show="show" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 									<path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.477 0-8.268-2.943-9.542-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18"/>
 								</svg>
@@ -654,12 +665,13 @@ class="main-container"
 								get hasUpper()     { return /[A-Z]/.test(this.value); },
 								get hasLower()     { return /[a-z]/.test(this.value); },
 								get hasNumber()    { return /[0-9]/.test(this.value); },
-								get hasSpecial()   { return /[^A-Za-z0-9]/.test(this.value); }
+								get hasSpecial()   { return /[^A-Za-z0-9]/.test(this.value); },
+								get allMet()       { return this.hasLength && this.hasUpper && this.hasLower && this.hasNumber && this.hasSpecial; }
 							}"
 						>
 							<input
 								:type="show ? 'text' : 'password'"
-								class="input"
+								:class="['input', !focused && value.length > 0 ? (allMet ? 'input-valid' : 'input-error') : '']"
 								placeholder="Create a strong password"
 								x-model="value"
 								@focus="focused = true"
@@ -681,10 +693,10 @@ class="main-container"
 								</svg>
 							</button>
 
-							<!-- Criteria dropdown -->
+							<!-- Criteria dropdown — visible only while focused -->
 							<div
 								class="input-password-criteria"
-								x-show="focused || value.length > 0"
+								x-show="focused"
 								x-transition:enter="transition ease-out duration-150"
 								x-transition:enter-start="opacity-0 -translate-y-1"
 								x-transition:enter-end="opacity-100 translate-y-0"
@@ -705,37 +717,44 @@ class="main-container"
 										<path x-show="hasUpper" stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
 										<path x-show="!hasUpper" stroke-linecap="round" stroke-linejoin="round" d="M12 9v4m0 4h.01M12 3a9 9 0 100 18A9 9 0 0012 3z"/>
 									</svg>
-									<span>At least one uppercase letter</span>
+									<span>Uppercase letter</span>
 								</div>
 								<div class="criteria-item" :class="hasLower ? 'criteria-item-met' : ''">
 									<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 										<path x-show="hasLower" stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
 										<path x-show="!hasLower" stroke-linecap="round" stroke-linejoin="round" d="M12 9v4m0 4h.01M12 3a9 9 0 100 18A9 9 0 0012 3z"/>
 									</svg>
-									<span>At least one lowercase letter</span>
+									<span>Lowercase letter</span>
 								</div>
 								<div class="criteria-item" :class="hasNumber ? 'criteria-item-met' : ''">
 									<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 										<path x-show="hasNumber" stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
 										<path x-show="!hasNumber" stroke-linecap="round" stroke-linejoin="round" d="M12 9v4m0 4h.01M12 3a9 9 0 100 18A9 9 0 0012 3z"/>
 									</svg>
-									<span>At least one number</span>
+									<span>Number</span>
 								</div>
 								<div class="criteria-item" :class="hasSpecial ? 'criteria-item-met' : ''">
 									<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 										<path x-show="hasSpecial" stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
 										<path x-show="!hasSpecial" stroke-linecap="round" stroke-linejoin="round" d="M12 9v4m0 4h.01M12 3a9 9 0 100 18A9 9 0 0012 3z"/>
 									</svg>
-									<span>At least one special character</span>
+									<span>Special character</span>
 								</div>
 							</div>
+
+							<!-- Feedback shown after blur -->
+							<template x-if="!focused && value.length > 0">
+								<span :class="allMet ? 'form-feedback form-feedback-valid' : 'form-feedback form-feedback-error'" x-text="allMet ? 'Password is strong!' : 'Password does not meet all requirements.'"></span>
+							</template>
 						</div>
 					</div>
 
 				</div>
+</div>
 </section>
 <section class="mb-10">
 <h2 class="heading-2 mb-6">Select</h2>
+<div class="card p-6">
 				<div class="flex flex-col gap-4 max-w-md">
 					<div class="form-group">
 						<label class="label">Default Select</label>
@@ -747,9 +766,11 @@ class="main-container"
 						</select>
 					</div>
 				</div>
+</div>
 </section>
 <section class="mb-10">
 <h2 class="heading-2 mb-6">Textarea</h2>
+<div class="card p-6">
 				<div class="flex flex-col gap-4 max-w-md">
 					<div class="form-group">
 						<label class="label">Default Textarea</label>
@@ -761,15 +782,18 @@ class="main-container"
 						<span class="form-feedback form-feedback-error">This field is required.</span>
 					</div>
 				</div>
+</div>
 </section>
 <section class="mb-10">
 <h2 class="heading-2 mb-6">File Input</h2>
+<div class="card p-6">
 				<div class="max-w-md">
 					<div class="form-group">
 						<label class="label">File Upload</label>
 						<input type="file" class="input input-file">
 					</div>
 				</div>
+</div>
 </section>
 </div>
 <!-- /Main Content -->

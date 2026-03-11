@@ -227,14 +227,31 @@ Create a full page for every component in `src/components/` and `src/elements/`,
 - [x] Some sample dashboard.
 - [x] Blank Setting Page or just simple forms.
 
-### Phase 5 — New Pages & Layouts
+### Phase 4.4
 
-- [ ] Inbox / Messages page
-- [ ] Calendar page
-- [ ] Kanban board
-- [ ] Invoice / billing page
-- [ ] User management table page
-- [ ] Error pages (404, 500, maintenance)
+- [x] Table Datatable with datatables.net
+- [x] Update styling for datatables.net to match our styles
+- [x] Table with Filter (using collapse component + card + datatable)
+- [x] Table with icons or images (avatars + badges in table rows)
+- [x] Input Password criteria — shows on focus, hides on blur, adds input-error/input-valid state after blur
+- [x] Input elements must be inside card div
+- [x] Update the styling for select2 (arrow positioning fixed to match input height)
+- [x] All element showcase sections inside card div (input, select2, file-upload)
+- [x] Table filter with collapse component (card + datatable + collapse in datatable.html)
+- [x] Fix the drawer — removed `static` override, improved close button styling, teleport to body, bottom drawer rounded
+- [x] Move file upload to elements — `src/elements/file-upload.html` created
+- [x] Modal positions — top-left, top-center, top-right, mid-left, mid-right, bottom-left, bottom-center, bottom-right
+- [x] Fix timeline alignment — connector line now centered through dots (`left-[19px]`, dot-icon at `-left-6`)
+- [] see the \_\_old folder for reference if further improvements needed
+
+### Phase 5 — New Pages & Layouts ✅
+
+- [x] Inbox / Messages page — `src/pages/inbox.html`
+- [x] Calendar page — `src/pages/calendar.html`
+- [x] Kanban board — `src/pages/kanban.html`
+- [x] Invoice / billing page — `src/pages/invoice.html`
+- [x] User management table page — `src/pages/users.html`
+- [x] Error pages (404, 500, maintenance) — `src/pages/errors/`
 
 ### Phase 6 — DX & Documentation
 
