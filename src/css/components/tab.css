@@ -1,7 +1,3 @@
-.tab {
-	/*  */
-}
-
 .tab .tab-button {
 	@apply block overflow-x-auto;
 }
@@ -9,12 +5,13 @@
 .tab-button::-webkit-scrollbar {
 	display: none;
 }
+
 .tab nav {
 	@apply flex gap-2 md:gap-4;
 }
 
 .tab.tab-bordered .tab-button {
-	@apply border-b border-gray-200 dark:border-gray-800;
+	@apply border-b-2 border-slate-200 dark:border-slate-800;
 }
 
 .tab-content {
@@ -26,7 +23,10 @@
 }
 
 .tab-link {
-	@apply px-4 py-2 border-b border-transparent dark:border-transparent;
+	@apply px-4 py-2 border-b-2 border-transparent dark:border-transparent
+	text-slate-600 dark:text-slate-400
+	hover:text-primary dark:hover:text-primary-dark
+	focus-visible:outline-2 focus-visible:outline-primary dark:focus-visible:outline-primary-dark focus-visible:outline-offset-2 rounded-t-sm;
 }
 
 .tab-link.tab-link-icon {
@@ -34,5 +34,5 @@
 }
 
 .tab-link.active {
-	@apply text-primary dark:text-primary-dark border-primary dark:border-primary-dark;
+	@apply text-primary dark:text-primary-dark border-b-2 border-primary dark:border-primary-dark;
 }

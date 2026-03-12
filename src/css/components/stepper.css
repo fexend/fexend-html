@@ -1,0 +1,89 @@
+.stepper {
+	@apply flex items-center justify-between w-full;
+}
+
+.stepper-item {
+	@apply flex items-center flex-1;
+}
+
+.stepper-item:last-child {
+	@apply flex-none;
+}
+
+.stepper-circle {
+	@apply w-10 h-10 rounded-full flex items-center justify-center shrink-0
+	text-sm font-semibold transition-colors duration-200
+	border-2 border-slate-300 dark:border-slate-600
+	text-slate-500 dark:text-slate-400
+	bg-foreground dark:bg-foreground-dark;
+}
+
+.stepper-item.active .stepper-circle {
+	@apply border-primary dark:border-primary-dark
+	text-primary dark:text-primary-dark
+	bg-primary/10 dark:bg-primary-dark/10;
+}
+
+.stepper-item.completed .stepper-circle {
+	@apply border-primary dark:border-primary-dark
+	bg-primary dark:bg-primary-dark
+	text-white;
+}
+
+.stepper-line {
+	@apply flex-1 h-0.5 mx-3
+	bg-slate-300 dark:bg-slate-600
+	transition-colors duration-200;
+}
+
+.stepper-item.completed .stepper-line {
+	@apply bg-primary dark:bg-primary-dark;
+}
+
+.stepper-label {
+	@apply text-sm font-medium text-slate-700 dark:text-slate-300 mt-2;
+}
+
+.stepper-item.active .stepper-label {
+	@apply text-primary dark:text-primary-dark font-semibold;
+}
+
+.stepper-item.completed .stepper-label {
+	@apply text-primary dark:text-primary-dark;
+}
+
+.stepper-description {
+	@apply text-xs text-slate-500 dark:text-slate-400 mt-0.5;
+}
+
+.stepper-vertical {
+	@apply flex-col items-start gap-0;
+}
+
+.stepper-vertical .stepper-item {
+	@apply flex-row items-start;
+}
+
+.stepper-vertical .stepper-item:last-child {
+	@apply flex-none;
+}
+
+.stepper-vertical .stepper-line {
+	@apply w-0.5 h-10 mx-0 ml-[19px] my-0;
+}
+
+.stepper-vertical .stepper-content {
+	@apply ml-4;
+}
+
+.stepper-secondary .stepper-item.active .stepper-circle   { @apply border-secondary dark:border-secondary-dark text-secondary dark:text-secondary-dark bg-secondary/10 dark:bg-secondary-dark/10; }
+.stepper-secondary .stepper-item.completed .stepper-circle { @apply border-secondary dark:border-secondary-dark bg-secondary dark:bg-secondary-dark; }
+.stepper-secondary .stepper-item.completed .stepper-line   { @apply bg-secondary dark:bg-secondary-dark; }
+.stepper-secondary .stepper-item.active .stepper-label     { @apply text-secondary dark:text-secondary-dark; }
+.stepper-secondary .stepper-item.completed .stepper-label  { @apply text-secondary dark:text-secondary-dark; }
+
+.stepper-success .stepper-item.active .stepper-circle   { @apply border-success dark:border-success-dark text-success dark:text-success-dark bg-success/10 dark:bg-success-dark/10; }
+.stepper-success .stepper-item.completed .stepper-circle { @apply border-success dark:border-success-dark bg-success dark:bg-success-dark; }
+.stepper-success .stepper-item.completed .stepper-line   { @apply bg-success dark:bg-success-dark; }
+.stepper-success .stepper-item.active .stepper-label     { @apply text-success dark:text-success-dark; }
+.stepper-success .stepper-item.completed .stepper-label  { @apply text-success dark:text-success-dark; }

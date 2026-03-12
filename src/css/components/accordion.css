@@ -1,20 +1,16 @@
-.accordion {
-	/* @apply ; */
-}
-
 .accordion-bordered {
 	.accordion-header {
-		@apply border-b border-gray-200 dark:border-gray-700;
+		@apply border-b border-slate-200 dark:border-slate-700;
 	}
 }
 
 .accordion-full-bordered {
 	.accordion-header {
-		@apply border border-gray-200 dark:border-gray-700;
+		@apply border border-slate-200 dark:border-slate-700;
 	}
 
 	.accordion-body {
-		@apply border border-gray-200 dark:border-gray-700;
+		@apply border border-slate-200 dark:border-slate-700;
 	}
 }
 
@@ -23,11 +19,14 @@
 }
 
 .accordion-header {
-	@apply text-lg flex justify-between items-center px-4 py-2 rounded-md;
+	@apply text-lg flex justify-between items-center px-4 py-2 rounded-md cursor-pointer
+	text-slate-900 dark:text-slate-100
+	hover:bg-slate-50 dark:hover:bg-slate-800
+	focus-visible:outline-2 focus-visible:outline-primary dark:focus-visible:outline-primary-dark focus-visible:outline-offset-2;
 }
 
-.accordion-header:hover {
-	@apply cursor-pointer;
+.accordion-header svg {
+	@apply transition-transform duration-300;
 }
 
 .accordion-title {
@@ -35,5 +34,5 @@
 }
 
 .accordion-body {
-	@apply font-normal text-base px-4 py-2 transition-transform duration-500;
+	@apply font-normal text-base px-4 py-2 text-slate-700 dark:text-slate-300 transition-transform duration-500;
 }

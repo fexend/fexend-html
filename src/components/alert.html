@@ -1,10 +1,28 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Alert Component | Fexend</title>
-		<link rel="stylesheet" defer href="/dist/css/app.css" />
+		<title>Alert | Fexend</title>
+
+		<link
+			rel="icon"
+			type="image/png"
+			href="/public/favicon-96x96.png"
+			sizes="96x96"
+		/>
+		<link rel="icon" type="image/svg+xml" href="/public/favicon.svg" />
+		<link rel="shortcut icon" href="/public/favicon.ico" />
+		<link
+			rel="apple-touch-icon"
+			sizes="180x180"
+			href="/public/apple-touch-icon.png"
+		/>
+		<meta name="apple-mobile-web-app-title" content="Fexend" />
+		<link rel="manifest" href="/public/site.webmanifest" />
+
+		<link rel="stylesheet" href="/public/css/app.css" />
+		<script defer src="/public/js/app.js"></script>
 
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -13,19 +31,7 @@
 			rel="stylesheet"
 		/>
 
-		<!-- Alpine Plugins -->
-		<script
-			defer
-			src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"
-		></script>
-
-		<!-- Alpine Core -->
-		<script
-			defer
-			src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
-		></script>
 		<script>
-			// Initialize dark mode before Alpine loads
 			if (
 				localStorage.getItem("darkMode") === "true" ||
 				(!localStorage.getItem("darkMode") &&
@@ -35,13 +41,16 @@
 			}
 		</script>
 		<style>
+			[x-cloak] {
+				display: none !important;
+			}
 			#loading-screen {
 				position: fixed;
 				top: 0;
 				left: 0;
 				right: 0;
 				bottom: 0;
-				background-color: var(--color-background);
+				background-color: #f1f5f9;
 				display: flex;
 				justify-content: center;
 				align-items: center;
@@ -49,44 +58,44 @@
 				transition: opacity 0.3s ease-out;
 			}
 			.dark #loading-screen {
-				background-color: var(--color-background-dark);
+				background-color: #020617;
 			}
 		</style>
 	</head>
 	<body
-		x-data="{ 
-        darkMode: localStorage.getItem('darkMode') === 'true' || (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches),
-        sidebarOpen: window.innerWidth >= 1024,
-        mobileMenuOpen: false,
-        isMobile: window.innerWidth < 768,
-        toggleDarkMode() {
-            this.darkMode = !this.darkMode;
-            localStorage.setItem('darkMode', this.darkMode);
-            if (this.darkMode) {
-                document.documentElement.classList.add('dark');
-            } else {
-                document.documentElement.classList.remove('dark');
-            }
-        }
-    }"
+		x-data="{
+			darkMode: localStorage.getItem('darkMode') === 'true' || (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches),
+			sidebarOpen: false,
+			mobileMenuOpen: false,
+			isMobile: window.innerWidth < 768,
+			toggleDarkMode() {
+				this.darkMode = !this.darkMode;
+				localStorage.setItem('darkMode', this.darkMode);
+				if (this.darkMode) {
+					document.documentElement.classList.add('dark');
+				} else {
+					document.documentElement.classList.remove('dark');
+				}
+			}
+		}"
 		x-init="
-        window.addEventListener('resize', () => { 
-            if(window.innerWidth < 1024) sidebarOpen = false;
-            isMobile = window.innerWidth < 768;
-            if(!isMobile) mobileMenuOpen = false;
-        });
-        setTimeout(() => {
-            document.getElementById('loading-screen').style.opacity = '0';
-            setTimeout(() => {
-                document.getElementById('loading-screen').style.display = 'none';
-            }, 300);
-        }, 500);
-    "
+			window.addEventListener('resize', () => {
+				if (window.innerWidth < 1024) sidebarOpen = false;
+				isMobile = window.innerWidth < 768;
+				if (!isMobile) mobileMenuOpen = false;
+			});
+			setTimeout(() => {
+				document.getElementById('loading-screen').style.opacity = '0';
+				setTimeout(() => {
+					document.getElementById('loading-screen').style.display = 'none';
+				}, 300);
+			}, 500);
+		"
 	>
 		<!-- Loading Screen -->
 		<div
 			id="loading-screen"
-			class="fixed inset-0 bg-background dark:bg-background-dark flex justify-center items-center z-[9999] transition-opacity duration-300"
+			class="fixed inset-0 bg-background dark:bg-background-dark flex justify-center items-center z-9999 transition-opacity duration-300"
 		>
 			<div class="flex space-x-2">
 				<div class="loading-dot"></div>
@@ -98,16 +107,16 @@
 		<main class="main-content">
 			<!-- Navbar -->
 			<header class="navbar-layout">
-				<nav class="navbar-layout">
+				<nav>
 					<div class="px-3 py-3 lg:px-5 lg:pl-3">
 						<div class="flex items-center justify-between">
 							<div class="flex items-center">
 								<button
 									@click="sidebarOpen = !sidebarOpen"
+									:aria-expanded="sidebarOpen"
+									aria-label="Toggle sidebar"
 									class="navbar-button"
 								>
-									<!-- Tabler menu icon -->
-									<!-- Tabler menu icon -->
 									<svg
 										x-show="!sidebarOpen"
 										xmlns="http://www.w3.org/2000/svg"
@@ -148,7 +157,7 @@
 							</div>
 
 							<div class="flex items-center gap-4">
-								<!-- Notifications with Dropdown -->
+								<!-- Notifications -->
 								<div
 									class="relative"
 									x-data="{
@@ -159,8 +168,9 @@
 									<button
 										class="navbar-button relative"
 										@click="notificationOpen = !notificationOpen"
+										:aria-expanded="notificationOpen"
+										aria-label="Notifications"
 									>
-										<!-- Tabler bell icon -->
 										<svg
 											xmlns="http://www.w3.org/2000/svg"
 											class="icon icon-tabler icon-tabler-bell w-6 h-6 dark:text-gray-200"
@@ -185,10 +195,10 @@
 										x-show="notificationOpen"
 										@click.away="notificationOpen = false"
 										x-transition
-										class="absolute right-0 mt-2 w-80 bg-white dark:bg-gray-800 rounded-lg shadow-lg z-10"
+										class="fixed inset-x-2 top-16 sm:absolute sm:inset-x-auto sm:right-0 sm:top-auto sm:mt-2 sm:w-80 w-auto bg-white dark:bg-slate-800 rounded-lg shadow-lg z-50"
 									>
 										<div
-											class="p-4 border-b border-gray-200 dark:border-gray-700"
+											class="p-4 border-b border-slate-200 dark:border-slate-700"
 										>
 											<div>
 												<button
@@ -215,7 +225,7 @@
 														</button>
 													</div>
 													<ul>
-														<li class="p-2 text-gray-500">
+														<li class="p-2 text-slate-500">
 															No unread notifications.
 														</li>
 													</ul>
@@ -227,7 +237,7 @@
 														<button class="mr-2 hover:underline">Clear</button>
 													</div>
 													<ul>
-														<li class="p-2 text-gray-500">
+														<li class="p-2 text-slate-500">
 															No read notifications.
 														</li>
 													</ul>
@@ -236,9 +246,13 @@
 										</div>
 									</div>
 								</div>
+
 								<!-- Dark Mode Toggle -->
-								<button @click="toggleDarkMode()" class="navbar-button">
-									<!-- Tabler sun icon for light mode -->
+								<button
+									@click="toggleDarkMode()"
+									:aria-label="darkMode ? 'Switch to light mode' : 'Switch to dark mode'"
+									class="navbar-button"
+								>
 									<svg
 										x-show="!darkMode"
 										xmlns="http://www.w3.org/2000/svg"
@@ -258,7 +272,6 @@
 											d="M3 12h1M20 12h1M12 3v1M12 20v1M5.64 5.64l.707 .707M17.657 17.657l.707 .707M5.64 18.36l.707 -.707M17.657 6.343l.707 -.707"
 										/>
 									</svg>
-									<!-- Tabler moon icon for dark mode -->
 									<svg
 										x-show="darkMode"
 										xmlns="http://www.w3.org/2000/svg"
@@ -283,10 +296,12 @@
 								<div x-data="{ profileOpen: false }" class="relative">
 									<button
 										@click="profileOpen = !profileOpen"
+										:aria-expanded="profileOpen"
+										aria-label="User menu"
 										class="navbar-button"
 									>
 										<img
-											src="https://ui-avatars.com/api/?name=Zera+App&background=615fff&color=fff"
+											src="https://ui-avatars.com/api/?name=Fexend&background=615fff&color=fff"
 											alt="User avatar"
 											class="w-8 h-8 rounded-full"
 										/>
@@ -317,697 +332,283 @@
 					</div>
 				</nav>
 			</header>
-			<!-- Navbar -->
+			<!-- /Navbar -->
 
 			<!-- Sidebar -->
-			<aside class="flex mt-16 fixed top-0 left-0 isolated z-10 h-full">
-				<!-- Icon Sidebar - Hidden on mobile, visible on tablet and up -->
-				<div class="sidebar-icon z-20">
-					<div>
-						<div class="inline-flex h-16 w-16 items-center justify-center">
-							<a
-								href="/src/settings/index.html"
-								x-data="{ tooltip: false }"
-								@mouseover="tooltip = true"
-								@mouseleave="tooltip = false"
-								class="group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-primary dark:hover:bg-primary-dark dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+		<aside x-data="fexendSidebar()">
+			<!-- Icon Sidebar — hidden on mobile, visible on md+ -->
+			<div class="sidebar-icon">
+				<div>
+					<div class="inline-flex h-16 w-16 items-center justify-center">
+						<a
+							href="/src/settings/index.html"
+							x-data="{ tooltip: false }"
+							@mouseover="tooltip = true"
+							@mouseleave="tooltip = false"
+							class="sidebar-icon-button"
+						>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="24"
+								height="24"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								class="icon icon-tabler icons-tabler-outline icon-tabler-settings"
 							>
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									width="24"
-									height="24"
-									viewBox="0 0 24 24"
-									fill="none"
-									stroke="currentColor"
-									stroke-width="2"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									class="icon icon-tabler icons-tabler-outline icon-tabler-settings"
-								>
-									<path stroke="none" d="M0 0h24h24H0z" fill="none" />
-									<path
-										d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z"
-									/>
-									<path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
-								</svg>
-								<span
-									x-show="tooltip"
-									x-transition
-									class="absolute left-full ml-2 top-1/2 transform -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal"
-									>Settings</span
-								>
-							</a>
-						</div>
-
-						<div class="border-t border-gray-100 dark:border-gray-700">
-							<div class="px-2">
-								<ul
-									class="space-y-1 border-t border-gray-100 dark:border-gray-700 pt-4"
-								>
-									<li>
-										<a
-											href="/src/dashboard/dashboard.html"
-											x-data="{ tooltip: false }"
-											@mouseover="tooltip = true"
-											@mouseleave="tooltip = false"
-											class="group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-primary dark:hover:bg-primary-dark dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
-										>
-											<!-- Dashboard -->
-											<svg
-												xmlns="http://www.w3.org/2000/svg"
-												width="24"
-												height="24"
-												viewBox="0 0 24 24"
-												fill="none"
-												stroke="currentColor"
-												stroke-width="2"
-												stroke-linecap="round"
-												stroke-linejoin="round"
-												class="icon icon-tabler icons-tabler-outline icon-tabler-home-2"
-											>
-												<path stroke="none" d="M0 0h24h24H0z" fill="none" />
-												<path d="M5 12l-2 0l9 -9l9 9l-2 0" />
-												<path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
-												<path d="M10 12h4v4h-4z" />
-											</svg>
-											<span
-												x-show="tooltip"
-												x-transition
-												class="absolute left-full ml-2 top-1/2 transform -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal"
-												>Dashboard</span
-											>
-										</a>
-									</li>
-
-									<li>
-										<a
-											href="/src/elements/index.html"
-											x-data="{ tooltip: false }"
-											@mouseover="tooltip = true"
-											@mouseleave="tooltip = false"
-											class="group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-primary dark:hover:bg-primary-dark dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
-										>
-											<!-- Element -->
-											<svg
-												xmlns="http://www.w3.org/2000/svg"
-												width="24"
-												height="24"
-												viewBox="0 0 24 24"
-												fill="none"
-												stroke="currentColor"
-												stroke-width="2"
-												stroke-linecap="round"
-												stroke-linejoin="round"
-												class="icon icon-tabler icons-tabler-outline icon-tabler-file-type-html"
-											>
-												<path stroke="none" d="M0 0h24h24H0z" fill="none" />
-												<path d="M14 3v4a1 1 0 0 0 1 1h4" />
-												<path d="M5 12v-7a2 2 0 0 1 2 -2h7l5 5v4" />
-												<path d="M2 21v-6" />
-												<path d="M5 15v6" />
-												<path d="M2 18h3" />
-												<path d="M20 15v6h2" />
-												<path d="M13 21v-6l2 3l2 -3v6" />
-												<path d="M7.5 15h3" />
-												<path d="M9 15v6" />
-											</svg>
-											<span
-												x-show="tooltip"
-												x-transition
-												class="absolute left-full ml-2 top-1/2 transform -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal"
-												>Element</span
-											>
-										</a>
-									</li>
-
-									<li>
-										<a
-											href="/src/components/accordion.html"
-											x-data="{ tooltip: false }"
-											@mouseover="tooltip = true"
-											@mouseleave="tooltip = false"
-											class="group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-primary dark:hover:bg-primary-dark dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
-										>
-											<!-- Component Icon -->
-											<svg
-												xmlns="http://www.w3.org/2000/svg"
-												width="24"
-												height="24"
-												viewBox="0 0 24 24"
-												fill="none"
-												stroke="currentColor"
-												stroke-width="2"
-												stroke-linecap="round"
-												stroke-linejoin="round"
-												class="icon icon-tabler icons-tabler-outline icon-tabler-components"
-											>
-												<path stroke="none" d="M0 0h24h24H0z" fill="none" />
-												<path d="M3 12l3 3l3 -3l-3 -3z" />
-												<path d="M15 12l3 3l3 -3l-3 -3z" />
-												<path d="M9 6l3 3l3 -3l-3 -3z" />
-												<path d="M9 18l3 3l3 -3l-3 -3z" />
-											</svg>
-											<span
-												x-show="tooltip"
-												x-transition
-												class="absolute left-full ml-2 top-1/2 transform -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal"
-												>Component</span
-											>
-										</a>
-									</li>
-
-									<li>
-										<a
-											href="/src/pages/index.html"
-											x-data="{ tooltip: false }"
-											@mouseover="tooltip = true"
-											@mouseleave="tooltip = false"
-											class="group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-primary dark:hover:bg-primary-dark dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
-										>
-											<!-- Pages Icon -->
-											<svg
-												xmlns="http://www.w3.org/2000/svg"
-												width="24"
-												height="24"
-												viewBox="0 0 24 24"
-												fill="none"
-												stroke="currentColor"
-												stroke-width="2"
-												stroke-linecap="round"
-												stroke-linejoin="round"
-												class="icon icon-tabler icons-tabler-outline icon-tabler-article"
-											>
-												<path stroke="none" d="M0 0h24h24H0z" fill="none" />
-												<path
-													d="M3 4m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z"
-												/>
-												<path d="M7 8h10" />
-												<path d="M7 12h10" />
-												<path d="M7 16h10" />
-											</svg>
-											<span
-												x-show="tooltip"
-												x-transition
-												class="absolute left-full ml-2 top-1/2 transform -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal"
-												>Pages</span
-											>
-										</a>
-									</li>
-								</ul>
-							</div>
-						</div>
+								<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+								<path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" />
+								<path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
+							</svg>
+							<span
+								x-show="tooltip"
+								x-transition
+								class="absolute left-full ml-2 top-1/2 -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal text-sm"
+								>Settings</span
+							>
+						</a>
 					</div>
 
-					<div
-						class="sticky inset-x-0 bottom-0 border-t border-gray-100 dark:border-gray-700 bg-foreground dark:bg-background-dark p-2"
-					>
-						<!-- Logout -->
-						<div class="relative" x-data="{ tooltip: false }">
-							<form action="#">
-								<button
-									type="submit"
-									class="group relative flex w-full justify-center rounded-sm px-2 py-1.5 text-sm text-gray-500 hover:bg-primary dark:hover:bg-primary-dark dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
-									@mouseover="tooltip = true"
-									@mouseleave="tooltip = false"
-								>
-									<!-- Logout Icon -->
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										class="size-5 opacity-75"
-										fill="none"
-										viewBox="0 0 24 24"
-										stroke="currentColor"
-										stroke-width="2"
-									>
-										<path
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-										/>
-									</svg>
-								</button>
-								<span
-									x-show="tooltip"
-									x-transition
-									class="absolute left-full ml-2 top-1/2 transform -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal"
-								>
-									Logout
-								</span>
-							</form>
-						</div>
-					</div>
-				</div>
-				<!-- Icon Sidebar - Hidden on mobile, visible on tablet and up -->
-
-				<!-- Expanded Sidebar - Mobile overlay, normal sidebar on larger screens -->
-				<div class="relative z-10">
-					<div
-						x-cloak
-						x-show="sidebarOpen"
-						x-transition:enter="transform transition duration-300 ease-in-out"
-						x-transition:enter-start="translate-x-[-100%]"
-						x-transition:enter-end="translate-x-0"
-						x-transition:leave="transform transition duration-300 ease-in-out"
-						x-transition:leave-start="translate-x-0"
-						x-transition:leave-end="translate-x-[-100%]"
-						class="sidebar-layout overflow-y-auto max-h-screen"
-					>
-						<div class="px-4 py-6">
-							<ul class="space-y-1" x-data="{ selected: null }">
-								<li>
-									<a href="/src/components/accordion.html" class="sidebar-link"
-										>Accordion</a
-									>
-								</li>
-
-								<li>
-									<a
-										href="/src/components/alert.html"
-										class="sidebar-link sidebar-link-active"
-										>Alert</a
-									>
-								</li>
-								<li>
-									<a href="/src/components/badge.html" class="sidebar-link"
-										>Badge</a
-									>
-								</li>
-								<li>
-									<a href="/src/components/breadcrumb.html" class="sidebar-link"
-										>Breadcrumb</a
-									>
-								</li>
-								<li>
-									<a href="/src/components/card.html" class="sidebar-link"
-										>Card</a
-									>
-								</li>
-								<li>
-									<a href="/src/components/collapse.html" class="sidebar-link"
-										>Collapse</a
-									>
-								</li>
-								<li>
-									<a href="/src/components/divider.html" class="sidebar-link"
-										>Divider</a
-									>
-								</li>
-								<li>
-									<a href="/src/components/drawer.html" class="sidebar-link"
-										>Drawer</a
-									>
-								</li>
-								<li>
-									<a href="/src/components/dropdown.html" class="sidebar-link"
-										>Dropdown</a
-									>
-								</li>
-								<li>
-									<a href="/src/components/menu-list.html" class="sidebar-link"
-										>Menu List</a
-									>
-								</li>
-								<li>
-									<a href="/src/components/modal.html" class="sidebar-link"
-										>Modal</a
-									>
-								</li>
-								<li>
-									<a href="/src/components/pagination.html" class="sidebar-link"
-										>Pagination</a
-									>
-								</li>
-								<li>
-									<a href="/src/components/popover.html" class="sidebar-link"
-										>Popover</a
-									>
-								</li>
-								<li>
-									<a href="/src/components/tab.html" class="sidebar-link"
-										>Tab</a
-									>
-								</li>
-								<li>
-									<a href="/src/components/table.html" class="sidebar-link"
-										>Table</a
-									>
-								</li>
-								<li>
-									<a href="/src/components/tooltip.html" class="sidebar-link"
-										>Tooltip</a
-									>
-								</li>
+					<div class="border-t border-slate-100 dark:border-slate-700">
+						<div class="px-2 pt-4">
+							<ul class="space-y-1">
+								<template x-for="item in items" :key="item.label">
+									<li>
+										<a
+											:href="item.link"
+											x-data="{ tooltip: false }"
+											@mouseover="tooltip = true"
+											@mouseleave="tooltip = false"
+											class="sidebar-icon-button"
+											:class="isActive(item) ? 'sidebar-icon-button-active' : ''"
+										>
+											<span x-html="item.icon"></span>
+											<span
+												x-show="tooltip"
+												x-transition
+												class="absolute left-full ml-2 top-1/2 -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal text-sm"
+												x-text="item.label"
+											></span>
+										</a>
+									</li>
+								</template>
 							</ul>
 						</div>
 					</div>
-
-					<!-- Backdrop for mobile -->
-					<div
-						x-show="sidebarOpen"
-						x-transition:enter="transition-all ease-linear duration-300"
-						x-transition:enter-start="opacity-0 backdrop-blur-none"
-						x-transition:enter-end="opacity-100 backdrop-blur-sm"
-						x-transition:leave="transition-all ease-linear duration-300"
-						x-transition:leave-start="opacity-100 backdrop-blur-sm"
-						x-transition:leave-end="opacity-0 backdrop-blur-none"
-						class="sidebar-backdrop"
-						@click="sidebarOpen = false"
-					></div>
-				</div>
-				<!-- Expanded Sidebar - Mobile overlay, normal sidebar on larger screens -->
-			</aside>
-			<!-- Sidebar -->
-
-			<!-- Main content -->
-			<div
-				class="main-container"
-				:class="{ 'md:ml-80': sidebarOpen, 'md:ml-16': !sidebarOpen, 'ml-0': true }"
-			>
-				<!-- Full Alerts Card -->
-				<div class="card">
-					<div class="card-header">
-						<h2 class="card-title">Full Alerts</h2>
-					</div>
-					<div class="card-body">
-						<div class="alert alert-primary" role="alert">
-							<strong>Alert!</strong> This is a primary alert message.
-						</div>
-						<div class="alert alert-secondary" role="alert">
-							<strong>Alert!</strong> This is a secondary alert message.
-						</div>
-						<div class="alert alert-success" role="alert">
-							<strong>Alert!</strong> This is a success alert message.
-						</div>
-						<div class="alert alert-danger" role="alert">
-							<strong>Alert!</strong> This is a danger alert message.
-						</div>
-						<div class="alert alert-warning" role="alert">
-							<strong>Alert!</strong> This is a warning alert message.
-						</div>
-						<div class="alert alert-info" role="alert">
-							<strong>Alert!</strong> This is an info alert message.
-						</div>
-						<div class="alert alert-white" role="alert">
-							<strong>Alert!</strong> This is a white alert message.
-						</div>
-						<div class="alert alert-dark" role="alert">
-							<strong>Alert!</strong> This is a dark alert message.
-						</div>
-					</div>
 				</div>
 
-				<!-- Soft Alerts Card -->
-				<div class="card mt-4">
-					<div class="card-header">
-						<h2 class="card-title">Soft Alerts</h2>
-					</div>
-					<div class="card-body">
-						<div class="alert alert-primary-soft" role="alert">
-							<strong>Alert!</strong> This is a soft primary alert message.
-						</div>
-						<div class="alert alert-secondary-soft" role="alert">
-							<strong>Alert!</strong> This is a soft secondary alert message.
-						</div>
-						<div class="alert alert-success-soft" role="alert">
-							<strong>Alert!</strong> This is a soft success alert message.
-						</div>
-						<div class="alert alert-danger-soft" role="alert">
-							<strong>Alert!</strong> This is a soft danger alert message.
-						</div>
-						<div class="alert alert-warning-soft" role="alert">
-							<strong>Alert!</strong> This is a soft warning alert message.
-						</div>
-						<div class="alert alert-info-soft" role="alert">
-							<strong>Alert!</strong> This is a soft info alert message.
-						</div>
-						<div class="alert alert-white-soft" role="alert">
-							<strong>Alert!</strong> This is a soft white alert message.
-						</div>
-						<div class="alert alert-dark-soft" role="alert">
-							<strong>Alert!</strong> This is a soft dark alert message.
-						</div>
-					</div>
-				</div>
-
-				<!-- Outline Alerts Card -->
-				<div class="card mt-4">
-					<div class="card-header">
-						<h2 class="card-title">Outline Alerts</h2>
-					</div>
-					<div class="card-body">
-						<div class="alert alert-primary-outline" role="alert">
-							<strong>Alert!</strong> This is a primary outline alert message.
-						</div>
-						<div class="alert alert-secondary-outline" role="alert">
-							<strong>Alert!</strong> This is a secondary outline alert message.
-						</div>
-						<div class="alert alert-success-outline" role="alert">
-							<strong>Alert!</strong> This is a success outline alert message.
-						</div>
-						<div class="alert alert-danger-outline" role="alert">
-							<strong>Alert!</strong> This is a danger outline alert message.
-						</div>
-						<div class="alert alert-warning-outline" role="alert">
-							<strong>Alert!</strong> This is a warning outline alert message.
-						</div>
-						<div class="alert alert-info-outline" role="alert">
-							<strong>Alert!</strong> This is an info outline alert message.
-						</div>
-						<div class="alert alert-white-outline" role="alert">
-							<strong>Alert!</strong> This is a white outline alert message.
-						</div>
-						<div class="alert alert-dark-outline" role="alert">
-							<strong>Alert!</strong> This is a dark outline alert message.
-						</div>
-					</div>
-				</div>
-
-				<!-- Rounded Alerts Card -->
-				<div class="card mt-4">
-					<div class="card-header">
-						<h2 class="card-title">Rounded Alerts</h2>
-					</div>
-					<div class="card-body">
-						<div class="alert alert-primary alert-rounded" role="alert">
-							<strong>Alert!</strong> This is a rounded primary alert message.
-						</div>
-						<div class="alert alert-secondary alert-rounded" role="alert">
-							<strong>Alert!</strong> This is a rounded secondary alert message.
-						</div>
-						<div class="alert alert-success alert-rounded" role="alert">
-							<strong>Alert!</strong> This is a rounded success alert message.
-						</div>
-						<div class="alert alert-danger alert-rounded" role="alert">
-							<strong>Alert!</strong> This is a rounded danger alert message.
-						</div>
-						<div class="alert alert-warning alert-rounded" role="alert">
-							<strong>Alert!</strong> This is a rounded warning alert message.
-						</div>
-						<div class="alert alert-info alert-rounded" role="alert">
-							<strong>Alert!</strong> This is a rounded info alert message.
-						</div>
-						<div class="alert alert-white alert-rounded" role="alert">
-							<strong>Alert!</strong> This is a rounded white alert message.
-						</div>
-						<div class="alert alert-dark alert-rounded" role="alert">
-							<strong>Alert!</strong> This is a rounded dark alert message.
-						</div>
-					</div>
-				</div>
-
-				<!-- Rounded Soft Alerts Card -->
-				<div class="card mt-4">
-					<div class="card-header">
-						<h2 class="card-title">Rounded Soft Alerts</h2>
-					</div>
-					<div class="card-body">
-						<div class="alert alert-primary-soft alert-rounded" role="alert">
-							<strong>Alert!</strong> This is a rounded primary soft alert
-							message.
-						</div>
-						<div class="alert alert-secondary-soft alert-rounded" role="alert">
-							<strong>Alert!</strong> This is a rounded secondary soft alert
-							message.
-						</div>
-						<div class="alert alert-success-soft alert-rounded" role="alert">
-							<strong>Alert!</strong> This is a rounded success soft alert
-							message.
-						</div>
-						<div class="alert alert-danger-soft alert-rounded" role="alert">
-							<strong>Alert!</strong> This is a rounded danger soft alert
-							message.
-						</div>
-						<div class="alert alert-warning-soft alert-rounded" role="alert">
-							<strong>Alert!</strong> This is a rounded warning soft alert
-							message.
-						</div>
-						<div class="alert alert-info-soft alert-rounded" role="alert">
-							<strong>Alert!</strong> This is a rounded info soft alert message.
-						</div>
-						<div class="alert alert-white-soft alert-rounded" role="alert">
-							<strong>Alert!</strong> This is a rounded white soft alert
-							message.
-						</div>
-						<div class="alert alert-dark-soft alert-rounded" role="alert">
-							<strong>Alert!</strong> This is a rounded dark soft alert message.
-						</div>
-					</div>
-				</div>
-
-				<!-- Rounded Outline Alerts Card -->
-				<div class="card mt-4">
-					<div class="card-header">
-						<h2 class="card-title">Rounded Outline Alerts</h2>
-					</div>
-					<div class="card-body">
-						<div class="alert alert-primary-outline alert-rounded" role="alert">
-							<strong>Alert!</strong> This is a rounded primary outline alert
-							message.
-						</div>
-						<div
-							class="alert alert-secondary-outline alert-rounded"
-							role="alert"
-						>
-							<strong>Alert!</strong> This is a rounded secondary outline alert
-							message.
-						</div>
-						<div class="alert alert-success-outline alert-rounded" role="alert">
-							<strong>Alert!</strong> This is a rounded success outline alert
-							message.
-						</div>
-						<div class="alert alert-danger-outline alert-rounded" role="alert">
-							<strong>Alert!</strong> This is a rounded danger outline alert
-							message.
-						</div>
-						<div class="alert alert-warning-outline alert-rounded" role="alert">
-							<strong>Alert!</strong> This is a rounded warning outline alert
-							message.
-						</div>
-						<div class="alert alert-info-outline alert-rounded" role="alert">
-							<strong>Alert!</strong> This is a rounded info outline alert
-							message.
-						</div>
-						<div class="alert alert-white-outline alert-rounded" role="alert">
-							<strong>Alert!</strong> This is a rounded white outline alert
-							message.
-						</div>
-						<div class="alert alert-dark-outline alert-rounded" role="alert">
-							<strong>Alert!</strong> This is a rounded dark outline alert
-							message.
-						</div>
-					</div>
-				</div>
-
-				<!-- Dismiss Alerts Card -->
-				<div class="card mt-4">
-					<div class="card-header">
-						<h2 class="card-title">Dismiss Alert</h2>
-					</div>
-					<div class="card-body">
-						<div
-							x-data="{ showAlert: true }"
-							x-show="showAlert"
-							class="alert alert-with-close alert-primary"
-							role="alert"
-						>
-							<div class="">
-								<strong>Alert!</strong> This is an alert message.
-							</div>
-							<span @click="showAlert = false" class="alert-close">X</span>
-						</div>
-						<div
-							x-data="{ showAlert: true }"
-							x-show="showAlert"
-							class="alert alert-with-close alert-secondary"
-							role="alert"
-						>
-							<div class="">
-								<strong>Alert!</strong> This is an alert message.
-							</div>
-							<span @click="showAlert = false" class="alert-close">X</span>
-						</div>
-						<div
-							x-data="{ showAlert: true }"
-							x-show="showAlert"
-							class="alert alert-with-close alert-success"
-							role="alert"
-						>
-							<div class="">
-								<strong>Alert!</strong> This is an alert message.
-							</div>
-							<span @click="showAlert = false" class="alert-close">X</span>
-						</div>
-						<div
-							x-data="{ showAlert: true }"
-							x-show="showAlert"
-							class="alert alert-with-close alert-danger"
-							role="alert"
-						>
-							<div class="">
-								<strong>Alert!</strong> This is an alert message.
-							</div>
-							<span @click="showAlert = false" class="alert-close">X</span>
-						</div>
-						<div
-							x-data="{ showAlert: true }"
-							x-show="showAlert"
-							class="alert alert-with-close alert-warning"
-							role="alert"
-						>
-							<div class="">
-								<strong>Alert!</strong> This is an alert message.
-							</div>
-							<span @click="showAlert = false" class="alert-close">X</span>
-						</div>
-						<div
-							x-data="{ showAlert: true }"
-							x-show="showAlert"
-							class="alert alert-with-close alert-info"
-							role="alert"
-						>
-							<div class="">
-								<strong>Alert!</strong> This is an alert message.
-							</div>
-							<span @click="showAlert = false" class="alert-close">X</span>
-						</div>
-						<div
-							x-data="{ showAlert: true }"
-							x-show="showAlert"
-							class="alert alert-with-close alert-white"
-							role="alert"
-						>
-							<div class="">
-								<strong>Alert!</strong> This is an alert message.
-							</div>
-							<span @click="showAlert = false" class="alert-close">X</span>
-						</div>
-						<div
-							x-data="{ showAlert: true }"
-							x-show="showAlert"
-							class="alert alert-with-close alert-dark"
-							role="alert"
-						>
-							<div class="">
-								<strong>Alert!</strong> This is an alert message.
-							</div>
-							<span @click="showAlert = false" class="alert-close">X</span>
-						</div>
+				<div class="sidebar-footer">
+					<div class="relative" x-data="{ tooltip: false }">
+						<form action="#">
+							<button
+								type="submit"
+								class="sidebar-icon-button w-full justify-center"
+								@mouseover="tooltip = true"
+								@mouseleave="tooltip = false"
+							>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									class="size-5 opacity-75"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke="currentColor"
+									stroke-width="2"
+								>
+									<path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+								</svg>
+							</button>
+							<span
+								x-show="tooltip"
+								x-transition
+								class="absolute left-full ml-2 top-1/2 -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal text-sm"
+								>Logout</span
+							>
+						</form>
 					</div>
 				</div>
 			</div>
-			<!-- Mobile Bottom Menu -->
+			<!-- /Icon Sidebar -->
+
+			<!-- Expanded Sidebar -->
+			<div class="relative z-10">
+				<div
+					x-cloak
+					x-show="sidebarOpen"
+					x-transition:enter="transform transition duration-300 ease-in-out"
+					x-transition:enter-start="-translate-x-full"
+					x-transition:enter-end="translate-x-0"
+					x-transition:leave="transform transition duration-300 ease-in-out"
+					x-transition:leave-start="translate-x-0"
+					x-transition:leave-end="-translate-x-full"
+					class="sidebar-layout"
+				>
+					<div class="px-4 py-6">
+						<p
+							class="px-4 mb-3 text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500"
+							x-text="activeGroup.label"
+						></p>
+						<ul class="space-y-1">
+							<template x-for="sub in activeSubMenus" :key="sub.link">
+								<li>
+									<a
+										:href="sub.link"
+										class="sidebar-link"
+										:class="isSubActive(sub) ? 'sidebar-link-active' : ''"
+										x-text="sub.name"
+									></a>
+								</li>
+							</template>
+						</ul>
+					</div>
+				</div>
+
+				<!-- Backdrop for mobile -->
+				<div
+					x-show="sidebarOpen"
+					x-transition:enter="transition-all ease-linear duration-300"
+					x-transition:enter-start="opacity-0 backdrop-blur-none"
+					x-transition:enter-end="opacity-100 backdrop-blur-sm"
+					x-transition:leave="transition-all ease-linear duration-300"
+					x-transition:leave-start="opacity-100 backdrop-blur-sm"
+					x-transition:leave-end="opacity-0 backdrop-blur-none"
+					class="sidebar-backdrop"
+					@click="sidebarOpen = false"
+				></div>
+			</div>
+			<!-- /Expanded Sidebar -->
+		</aside>
+		<!-- /Sidebar -->
+
+
+<!-- Main Content -->
+<div
+class="main-container"
+:class="{
+'md:ml-80': sidebarOpen,
+'md:ml-16': !sidebarOpen,
+'ml-0': true
+}"
+>
+<!-- Breadcrumb -->
+<nav class="breadcrumb mb-6" aria-label="Breadcrumb">
+<ol>
+<li>
+<a href="/src/index.html">Dashboard</a>
+</li>
+<li>
+<span aria-hidden="true"></span>
+<a href="/src/components/alert.html">Components</a>
+</li>
+<li>
+<span aria-hidden="true"></span>
+<a href="#">Alert</a>
+</li>
+</ol>
+</nav>
+<h1 class="heading-1 mb-8">Alert</h1>
+
+<section class="mb-10">
+<h2 class="heading-2 mb-6">Solid</h2>
+				<div class="space-y-2">
+					<div class="alert alert-primary">Primary</div>
+					<div class="alert alert-secondary">Secondary</div>
+					<div class="alert alert-success">Success</div>
+					<div class="alert alert-danger">Danger</div>
+					<div class="alert alert-warning">Warning</div>
+					<div class="alert alert-info">Info</div>
+					<div class="alert alert-white">White</div>
+					<div class="alert alert-dark">Dark</div>
+				</div>
+</section>
+<section class="mb-10">
+<h2 class="heading-2 mb-6">Soft</h2>
+				<div class="space-y-2">
+					<div class="alert alert-primary-soft">Primary Soft</div>
+					<div class="alert alert-secondary-soft">Secondary Soft</div>
+					<div class="alert alert-success-soft">Success Soft</div>
+					<div class="alert alert-danger-soft">Danger Soft</div>
+					<div class="alert alert-warning-soft">Warning Soft</div>
+					<div class="alert alert-info-soft">Info Soft</div>
+					<div class="alert alert-white-soft">White Soft</div>
+					<div class="alert alert-dark-soft">Dark Soft</div>
+				</div>
+</section>
+<section class="mb-10">
+<h2 class="heading-2 mb-6">Outline</h2>
+				<div class="space-y-2">
+					<div class="alert alert-primary-outline">Primary Outline</div>
+					<div class="alert alert-secondary-outline">Secondary Outline</div>
+					<div class="alert alert-success-outline">Success Outline</div>
+					<div class="alert alert-danger-outline">Danger Outline</div>
+					<div class="alert alert-warning-outline">Warning Outline</div>
+					<div class="alert alert-info-outline">Info Outline</div>
+					<div class="alert alert-white-outline">White Outline</div>
+					<div class="alert alert-dark-outline">Dark Outline</div>
+				</div>
+</section>
+<section class="mb-10">
+<h2 class="heading-2 mb-6">Dismissible (Alpine.js)</h2>
+				<div class="space-y-2">
+					<div class="alert alert-primary-soft alert-with-close" x-data="{show: true}" x-show="show">
+						<span>Primary soft — dismissible</span>
+						<button class="alert-close" @click="show = false" aria-label="Dismiss">
+							<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+						</button>
+					</div>
+					<div class="alert alert-success-soft alert-with-close" x-data="{show: true}" x-show="show">
+						<span>Success soft — dismissible</span>
+						<button class="alert-close" @click="show = false" aria-label="Dismiss">
+							<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+						</button>
+					</div>
+					<div class="alert alert-danger-soft alert-with-close" x-data="{show: true}" x-show="show">
+						<span>Danger soft — dismissible</span>
+						<button class="alert-close" @click="show = false" aria-label="Dismiss">
+							<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+						</button>
+					</div>
+					<div class="alert alert-warning-soft alert-with-close" x-data="{show: true}" x-show="show">
+						<span>Warning soft — dismissible</span>
+						<button class="alert-close" @click="show = false" aria-label="Dismiss">
+							<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+						</button>
+					</div>
+				</div>
+</section>
+
+				<!-- Usage -->
+				<div class="card mt-8" x-data="{ copied: false }">
+					<div class="card-body">
+						<h2 class="text-lg font-semibold mb-3">Usage</h2>
+						<div class="relative">
+							<pre class="bg-slate-900 text-slate-100 rounded-lg p-4 overflow-x-auto text-sm"><code>&lt;div class="alert alert-success"&gt;Success message&lt;/div&gt;</code></pre>
+							<button
+								class="absolute top-3 right-3 btn btn-sm btn-secondary"
+								@click="copied = true; navigator.clipboard.writeText($el.closest('.relative').querySelector('code').textContent); setTimeout(() => copied = false, 2000)"
+								x-text="copied ? 'Copied!' : 'Copy'"
+							>Copy</button>
+						</div>
+					</div>
+				</div>
+</div>
+<!-- /Main Content -->
+			<!-- /Main Content -->
+
+			<!-- Mobile Bottom Menu Button -->
 			<div
 				x-show="isMobile"
 				x-transition:enter="transition ease-out duration-200"
 				x-transition:enter-start="opacity-0"
 				x-transition:enter-end="opacity-100"
-				class="mobile-menu flex justify-center lg:hidden"
+				class="mobile-menu lg:hidden"
 			>
 				<button
 					@click="mobileMenuOpen = !mobileMenuOpen"
-					class="button button-primary button-rounded flex items-center space-x-2 px-4 py-2 rounded-lg"
+					class="flex items-center space-x-2 px-4 py-2 rounded-lg bg-primary text-white"
 				>
-					<!-- Tabler menu icon -->
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						width="24"
@@ -1020,7 +621,7 @@
 						stroke-linejoin="round"
 						class="icon icon-tabler icons-tabler-outline icon-tabler-layout-dashboard"
 					>
-						<path stroke="none" d="M0 0h24h24H0z" fill="none" />
+						<path stroke="none" d="M0 0h24v24H0z" fill="none" />
 						<path
 							d="M5 4h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1"
 						/>
@@ -1042,41 +643,37 @@
 			<div
 				x-show="isMobile && mobileMenuOpen"
 				x-transition:enter="transition ease-out duration-200"
-				x-transition:enter-start="opacity-0 transform translate-y-8"
-				x-transition:enter-end="opacity-100 transform translate-y-0"
+				x-transition:enter-start="opacity-0 translate-y-8"
+				x-transition:enter-end="opacity-100 translate-y-0"
 				x-transition:leave="transition ease-in duration-200"
-				x-transition:leave-start="opacity-100 transform translate-y-0"
-				x-transition:leave-end="opacity-0 transform translate-y-8"
+				x-transition:leave-start="opacity-100 translate-y-0"
+				x-transition:leave-end="opacity-0 translate-y-8"
 				@click.away="mobileMenuOpen = false"
-				class="mobile-menu-popup block lg:hidden"
+				class="mobile-menu-popup lg:hidden"
 			>
-				<div class="space-y-4 py-2">
-					<!-- Dashboard -->
+				<div class="space-y-1 py-2">
 					<a
 						href="/src/dashboard/dashboard.html"
-						class="flex items-center space-x-3 px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"
+						class="flex items-center space-x-3 px-4 py-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg"
 					>
-						<!-- Dashboard -->
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
-							class="h-5 w-5 opacity-75"
+							class="h-5 w-5"
 							fill="none"
 							viewBox="0 0 24 24"
 							stroke="currentColor"
 							stroke-width="2"
 						>
-							<path stroke="none" d="M0 0h24h24H0z" fill="none" />
+							<path stroke="none" d="M0 0h24v24H0z" fill="none" />
 							<path d="M5 12l-2 0l9 -9l9 9l-2 0" />
 							<path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
 							<path d="M10 12h4v4h-4z" />
 						</svg>
 						<span>Dashboard</span>
 					</a>
-
-					<!-- Element -->
 					<a
 						href="/src/elements/index.html"
-						class="flex items-center space-x-3 px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"
+						class="flex items-center space-x-3 px-4 py-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg"
 					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -1090,7 +687,7 @@
 							stroke-linejoin="round"
 							class="icon icon-tabler icons-tabler-outline icon-tabler-file-type-html"
 						>
-							<path stroke="none" d="M0 0h24h24H0z" fill="none" />
+							<path stroke="none" d="M0 0h24v24H0z" fill="none" />
 							<path d="M14 3v4a1 1 0 0 0 1 1h4" />
 							<path d="M5 12v-7a2 2 0 0 1 2 -2h7l5 5v4" />
 							<path d="M2 21v-6" />
@@ -1101,13 +698,11 @@
 							<path d="M7.5 15h3" />
 							<path d="M9 15v6" />
 						</svg>
-						<span>Element</span>
+						<span>Elements</span>
 					</a>
-
-					<!-- Component -->
 					<a
 						href="/src/components/accordion.html"
-						class="flex items-center space-x-3 px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"
+						class="flex items-center space-x-3 px-4 py-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg"
 					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -1121,19 +716,17 @@
 							stroke-linejoin="round"
 							class="icon icon-tabler icons-tabler-outline icon-tabler-components"
 						>
-							<path stroke="none" d="M0 0h24h24H0z" fill="none" />
+							<path stroke="none" d="M0 0h24v24H0z" fill="none" />
 							<path d="M3 12l3 3l3 -3l-3 -3z" />
 							<path d="M15 12l3 3l3 -3l-3 -3z" />
 							<path d="M9 6l3 3l3 -3l-3 -3z" />
 							<path d="M9 18l3 3l3 -3l-3 -3z" />
 						</svg>
-						<span>Component</span>
+						<span>Components</span>
 					</a>
-
-					<!-- Pages -->
 					<a
 						href="/src/pages/index.html"
-						class="flex items-center space-x-3 px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"
+						class="flex items-center space-x-3 px-4 py-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg"
 					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -1147,7 +740,7 @@
 							stroke-linejoin="round"
 							class="icon icon-tabler icons-tabler-outline icon-tabler-article"
 						>
-							<path stroke="none" d="M0 0h24h24H0z" fill="none" />
+							<path stroke="none" d="M0 0h24v24H0z" fill="none" />
 							<path
 								d="M3 4m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z"
 							/>
@@ -1157,15 +750,13 @@
 						</svg>
 						<span>Pages</span>
 					</a>
-
-					<!-- Divider -->
-					<div class="border-t border-gray-200 dark:border-gray-700 my-2"></div>
-
-					<!-- Logout -->
+					<div
+						class="border-t border-slate-200 dark:border-slate-700 my-2"
+					></div>
 					<form action="#" class="px-2">
 						<button
 							type="submit"
-							class="flex w-full items-center space-x-3 px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"
+							class="flex w-full items-center space-x-3 px-4 py-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg"
 						>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"

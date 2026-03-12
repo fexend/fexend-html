@@ -1,0 +1,122 @@
+.wysiwyg-container {
+	@apply border border-slate-300 dark:border-slate-600 rounded-lg overflow-hidden
+	bg-foreground dark:bg-foreground-dark;
+}
+
+.wysiwyg-toolbar {
+	@apply flex flex-wrap items-center gap-1 px-3 py-2
+	border-b border-slate-200 dark:border-slate-700
+	bg-slate-50 dark:bg-slate-800/50;
+}
+
+.wysiwyg-toolbar-group {
+	@apply flex items-center gap-0.5;
+}
+
+.wysiwyg-toolbar-divider {
+	@apply w-px h-6 mx-1 bg-slate-300 dark:bg-slate-600;
+}
+
+.wysiwyg-toolbar-button {
+	@apply p-1.5 rounded-md text-slate-600 dark:text-slate-400
+	hover:bg-slate-200 dark:hover:bg-slate-700
+	hover:text-slate-900 dark:hover:text-slate-200
+	cursor-pointer transition-colors duration-100
+	focus-visible:outline-2 focus-visible:outline-primary dark:focus-visible:outline-primary-dark focus-visible:outline-offset-[-2px];
+}
+
+.wysiwyg-toolbar-button.active {
+	@apply bg-primary/10 dark:bg-primary-dark/10
+	text-primary dark:text-primary-dark;
+}
+
+.wysiwyg-toolbar-button:disabled {
+	@apply opacity-50 cursor-not-allowed;
+}
+
+.wysiwyg-toolbar-select {
+	@apply px-2 py-1 text-sm rounded-md border-none
+	bg-transparent text-slate-700 dark:text-slate-300
+	hover:bg-slate-200 dark:hover:bg-slate-700
+	cursor-pointer;
+}
+
+.wysiwyg-editor {
+	@apply min-h-[200px] p-4
+	text-slate-900 dark:text-slate-100
+	focus:outline-none;
+}
+
+.wysiwyg-editor h1 { @apply text-3xl font-bold mb-4; }
+.wysiwyg-editor h2 { @apply text-2xl font-bold mb-3; }
+.wysiwyg-editor h3 { @apply text-xl font-bold mb-2; }
+.wysiwyg-editor h4 { @apply text-lg font-bold mb-2; }
+
+.wysiwyg-editor p {
+	@apply mb-3 leading-relaxed;
+}
+
+.wysiwyg-editor ul {
+	@apply list-disc pl-6 mb-3;
+}
+
+.wysiwyg-editor ol {
+	@apply list-decimal pl-6 mb-3;
+}
+
+.wysiwyg-editor li {
+	@apply mb-1;
+}
+
+.wysiwyg-editor blockquote {
+	@apply border-l-4 border-slate-300 dark:border-slate-600 pl-4 italic
+	text-slate-600 dark:text-slate-400 mb-3;
+}
+
+.wysiwyg-editor pre {
+	@apply bg-slate-100 dark:bg-slate-800 rounded-lg p-4 mb-3 overflow-x-auto
+	text-sm font-mono;
+}
+
+.wysiwyg-editor code {
+	@apply bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded text-sm font-mono
+	text-danger dark:text-danger-dark;
+}
+
+.wysiwyg-editor pre code {
+	@apply bg-transparent p-0 text-inherit;
+}
+
+.wysiwyg-editor a {
+	@apply text-primary dark:text-primary-dark underline;
+}
+
+.wysiwyg-editor img {
+	@apply max-w-full h-auto rounded-lg;
+}
+
+.wysiwyg-editor table {
+	@apply w-full border-collapse mb-3;
+}
+
+.wysiwyg-editor table th,
+.wysiwyg-editor table td {
+	@apply border border-slate-300 dark:border-slate-600 px-3 py-2;
+}
+
+.wysiwyg-editor table th {
+	@apply bg-slate-100 dark:bg-slate-800 font-semibold;
+}
+
+.wysiwyg-editor hr {
+	@apply border-slate-200 dark:border-slate-700 my-4;
+}
+
+.wysiwyg-footer {
+	@apply flex items-center justify-between px-3 py-2
+	border-t border-slate-200 dark:border-slate-700
+	text-xs text-slate-400 dark:text-slate-500;
+}
+
+.wysiwyg-sm .wysiwyg-editor { @apply min-h-[120px] p-3 text-sm; }
+.wysiwyg-lg .wysiwyg-editor { @apply min-h-[400px] p-6; }

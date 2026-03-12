@@ -1,0 +1,72 @@
+.checkbox {
+	@apply size-4 cursor-pointer rounded
+	accent-primary dark:accent-primary-dark
+	focus:outline-none focus:ring-2 focus:ring-primary/40 dark:focus:ring-primary-dark/40;
+}
+
+.checkbox-secondary { @apply accent-secondary dark:accent-secondary-dark; }
+.checkbox-success   { @apply accent-success dark:accent-success-dark; }
+.checkbox-danger    { @apply accent-danger dark:accent-danger-dark; }
+.checkbox-warning   { @apply accent-warning dark:accent-warning-dark; }
+.checkbox-info      { @apply accent-info dark:accent-info-dark; }
+
+.label-checkbox {
+	@apply inline-flex items-center gap-2 cursor-pointer select-none
+	text-slate-800 dark:text-slate-200;
+}
+
+.label-checkbox-divider {
+	@apply flex cursor-pointer items-start gap-4 py-4
+	border-b border-slate-200 dark:border-slate-700 last:border-b-0;
+}
+
+.label-checkbox-divider p {
+	@apply text-sm font-medium text-slate-900 dark:text-slate-100;
+}
+
+.label-checkbox-divider span {
+	@apply text-xs text-slate-500 dark:text-slate-400 mt-0.5;
+}
+
+.label-checkbox-card {
+	@apply flex cursor-pointer items-start gap-3 rounded-lg border p-4
+	transition-colors duration-150 select-none
+	border-slate-200 dark:border-slate-700
+	hover:bg-slate-50 hover:border-slate-300
+	has-[:checked]:bg-primary/5 has-[:checked]:border-primary
+	dark:hover:bg-slate-800 dark:hover:border-slate-600
+	dark:has-[:checked]:bg-primary-dark/10 dark:has-[:checked]:border-primary-dark;
+}
+
+.label-checkbox-card p {
+	@apply text-sm font-medium text-slate-900 dark:text-slate-100;
+}
+
+.label-checkbox-card span {
+	@apply text-xs text-slate-500 dark:text-slate-400;
+}
+
+.label-checkbox-card-secondary {
+	@apply has-[:checked]:border-secondary has-[:checked]:bg-secondary/5
+	dark:has-[:checked]:border-secondary-dark dark:has-[:checked]:bg-secondary-dark/10;
+}
+
+.label-checkbox-card-success {
+	@apply has-[:checked]:border-success has-[:checked]:bg-success/5
+	dark:has-[:checked]:border-success-dark dark:has-[:checked]:bg-success-dark/10;
+}
+
+.label-checkbox-card-danger {
+	@apply has-[:checked]:border-danger has-[:checked]:bg-danger/5
+	dark:has-[:checked]:border-danger-dark dark:has-[:checked]:bg-danger-dark/10;
+}
+
+.label-checkbox-card-warning {
+	@apply has-[:checked]:border-warning has-[:checked]:bg-warning/5
+	dark:has-[:checked]:border-warning-dark dark:has-[:checked]:bg-warning-dark/10;
+}
+
+.label-checkbox-card-info {
+	@apply has-[:checked]:border-info has-[:checked]:bg-info/5
+	dark:has-[:checked]:border-info-dark dark:has-[:checked]:bg-info-dark/10;
+}

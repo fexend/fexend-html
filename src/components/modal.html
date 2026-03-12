@@ -1,10 +1,28 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Modal Component | Fexend</title>
-		<link rel="stylesheet" defer href="/dist/css/app.css" />
+		<title>Modal | Fexend</title>
+
+		<link
+			rel="icon"
+			type="image/png"
+			href="/public/favicon-96x96.png"
+			sizes="96x96"
+		/>
+		<link rel="icon" type="image/svg+xml" href="/public/favicon.svg" />
+		<link rel="shortcut icon" href="/public/favicon.ico" />
+		<link
+			rel="apple-touch-icon"
+			sizes="180x180"
+			href="/public/apple-touch-icon.png"
+		/>
+		<meta name="apple-mobile-web-app-title" content="Fexend" />
+		<link rel="manifest" href="/public/site.webmanifest" />
+
+		<link rel="stylesheet" href="/public/css/app.css" />
+		<script defer src="/public/js/app.js"></script>
 
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -13,19 +31,7 @@
 			rel="stylesheet"
 		/>
 
-		<!-- Alpine Plugins -->
-		<script
-			defer
-			src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"
-		></script>
-
-		<!-- Alpine Core -->
-		<script
-			defer
-			src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
-		></script>
 		<script>
-			// Initialize dark mode before Alpine loads
 			if (
 				localStorage.getItem("darkMode") === "true" ||
 				(!localStorage.getItem("darkMode") &&
@@ -35,13 +41,16 @@
 			}
 		</script>
 		<style>
+			[x-cloak] {
+				display: none !important;
+			}
 			#loading-screen {
 				position: fixed;
 				top: 0;
 				left: 0;
 				right: 0;
 				bottom: 0;
-				background-color: var(--color-background);
+				background-color: #f1f5f9;
 				display: flex;
 				justify-content: center;
 				align-items: center;
@@ -49,14 +58,14 @@
 				transition: opacity 0.3s ease-out;
 			}
 			.dark #loading-screen {
-				background-color: var(--color-background-dark);
+				background-color: #020617;
 			}
 		</style>
 	</head>
 	<body
-		x-data="{ 
+		x-data="{
 			darkMode: localStorage.getItem('darkMode') === 'true' || (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches),
-			sidebarOpen: window.innerWidth >= 1024,
+			sidebarOpen: false,
 			mobileMenuOpen: false,
 			isMobile: window.innerWidth < 768,
 			toggleDarkMode() {
@@ -70,10 +79,10 @@
 			}
 		}"
 		x-init="
-			window.addEventListener('resize', () => { 
-				if(window.innerWidth < 1024) sidebarOpen = false;
+			window.addEventListener('resize', () => {
+				if (window.innerWidth < 1024) sidebarOpen = false;
 				isMobile = window.innerWidth < 768;
-				if(!isMobile) mobileMenuOpen = false;
+				if (!isMobile) mobileMenuOpen = false;
 			});
 			setTimeout(() => {
 				document.getElementById('loading-screen').style.opacity = '0';
@@ -86,7 +95,7 @@
 		<!-- Loading Screen -->
 		<div
 			id="loading-screen"
-			class="fixed inset-0 bg-background dark:bg-background-dark flex justify-center items-center z-[9999] transition-opacity duration-300"
+			class="fixed inset-0 bg-background dark:bg-background-dark flex justify-center items-center z-9999 transition-opacity duration-300"
 		>
 			<div class="flex space-x-2">
 				<div class="loading-dot"></div>
@@ -104,9 +113,10 @@
 							<div class="flex items-center">
 								<button
 									@click="sidebarOpen = !sidebarOpen"
+									:aria-expanded="sidebarOpen"
+									aria-label="Toggle sidebar"
 									class="navbar-button"
 								>
-									<!-- Tabler menu icon -->
 									<svg
 										x-show="!sidebarOpen"
 										xmlns="http://www.w3.org/2000/svg"
@@ -147,7 +157,7 @@
 							</div>
 
 							<div class="flex items-center gap-4">
-								<!-- Notifications with Dropdown -->
+								<!-- Notifications -->
 								<div
 									class="relative"
 									x-data="{
@@ -158,8 +168,9 @@
 									<button
 										class="navbar-button relative"
 										@click="notificationOpen = !notificationOpen"
+										:aria-expanded="notificationOpen"
+										aria-label="Notifications"
 									>
-										<!-- Tabler bell icon -->
 										<svg
 											xmlns="http://www.w3.org/2000/svg"
 											class="icon icon-tabler icon-tabler-bell w-6 h-6 dark:text-gray-200"
@@ -184,10 +195,10 @@
 										x-show="notificationOpen"
 										@click.away="notificationOpen = false"
 										x-transition
-										class="absolute right-0 mt-2 w-80 bg-white dark:bg-gray-800 rounded-lg shadow-lg z-10"
+										class="fixed inset-x-2 top-16 sm:absolute sm:inset-x-auto sm:right-0 sm:top-auto sm:mt-2 sm:w-80 w-auto bg-white dark:bg-slate-800 rounded-lg shadow-lg z-50"
 									>
 										<div
-											class="p-4 border-b border-gray-200 dark:border-gray-700"
+											class="p-4 border-b border-slate-200 dark:border-slate-700"
 										>
 											<div>
 												<button
@@ -214,7 +225,7 @@
 														</button>
 													</div>
 													<ul>
-														<li class="p-2 text-gray-500">
+														<li class="p-2 text-slate-500">
 															No unread notifications.
 														</li>
 													</ul>
@@ -226,7 +237,7 @@
 														<button class="mr-2 hover:underline">Clear</button>
 													</div>
 													<ul>
-														<li class="p-2 text-gray-500">
+														<li class="p-2 text-slate-500">
 															No read notifications.
 														</li>
 													</ul>
@@ -235,9 +246,13 @@
 										</div>
 									</div>
 								</div>
+
 								<!-- Dark Mode Toggle -->
-								<button @click="toggleDarkMode()" class="navbar-button">
-									<!-- Tabler sun icon for light mode -->
+								<button
+									@click="toggleDarkMode()"
+									:aria-label="darkMode ? 'Switch to light mode' : 'Switch to dark mode'"
+									class="navbar-button"
+								>
 									<svg
 										x-show="!darkMode"
 										xmlns="http://www.w3.org/2000/svg"
@@ -257,7 +272,6 @@
 											d="M3 12h1M20 12h1M12 3v1M12 20v1M5.64 5.64l.707 .707M17.657 17.657l.707 .707M5.64 18.36l.707 -.707M17.657 6.343l.707 -.707"
 										/>
 									</svg>
-									<!-- Tabler moon icon for dark mode -->
 									<svg
 										x-show="darkMode"
 										xmlns="http://www.w3.org/2000/svg"
@@ -282,10 +296,12 @@
 								<div x-data="{ profileOpen: false }" class="relative">
 									<button
 										@click="profileOpen = !profileOpen"
+										:aria-expanded="profileOpen"
+										aria-label="User menu"
 										class="navbar-button"
 									>
 										<img
-											src="https://ui-avatars.com/api/?name=Zera+App&background=615fff&color=fff"
+											src="https://ui-avatars.com/api/?name=Fexend&background=615fff&color=fff"
 											alt="User avatar"
 											class="w-8 h-8 rounded-full"
 										/>
@@ -316,868 +332,450 @@
 					</div>
 				</nav>
 			</header>
-			<!-- Navbar -->
+			<!-- /Navbar -->
 
 			<!-- Sidebar -->
-			<aside class="flex mt-16 fixed top-0 left-0 isolated z-10 h-full">
-				<!-- Icon Sidebar - Hidden on mobile, visible on tablet and up -->
-				<div class="sidebar-icon z-20">
-					<div>
-						<div class="inline-flex h-16 w-16 items-center justify-center">
-							<a
-								href="/src/settings/index.html"
-								x-data="{ tooltip: false }"
-								@mouseover="tooltip = true"
-								@mouseleave="tooltip = false"
-								class="group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-primary dark:hover:bg-primary-dark dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+		<aside x-data="fexendSidebar()">
+			<!-- Icon Sidebar — hidden on mobile, visible on md+ -->
+			<div class="sidebar-icon">
+				<div>
+					<div class="inline-flex h-16 w-16 items-center justify-center">
+						<a
+							href="/src/settings/index.html"
+							x-data="{ tooltip: false }"
+							@mouseover="tooltip = true"
+							@mouseleave="tooltip = false"
+							class="sidebar-icon-button"
+						>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="24"
+								height="24"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								class="icon icon-tabler icons-tabler-outline icon-tabler-settings"
 							>
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									width="24"
-									height="24"
-									viewBox="0 0 24 24"
-									fill="none"
-									stroke="currentColor"
-									stroke-width="2"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									class="icon icon-tabler icons-tabler-outline icon-tabler-settings"
-								>
-									<path stroke="none" d="M0 0h24v24H0z" fill="none" />
-									<path
-										d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z"
-									/>
-									<path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
-								</svg>
-								<span
-									x-show="tooltip"
-									x-transition
-									class="absolute left-full ml-2 top-1/2 transform -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal"
-									>Settings</span
-								>
-							</a>
-						</div>
-
-						<div class="border-t border-gray-100 dark:border-gray-700">
-							<div class="px-2">
-								<ul
-									class="space-y-1 border-t border-gray-100 dark:border-gray-700 pt-4"
-								>
-									<li>
-										<a
-											href="/src/dashboard/dashboard.html"
-											x-data="{ tooltip: false }"
-											@mouseover="tooltip = true"
-											@mouseleave="tooltip = false"
-											class="group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-primary dark:hover:bg-primary-dark dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
-										>
-											<!-- Dashboard -->
-											<svg
-												xmlns="http://www.w3.org/2000/svg"
-												width="24"
-												height="24"
-												viewBox="0 0 24 24"
-												fill="none"
-												stroke="currentColor"
-												stroke-width="2"
-												stroke-linecap="round"
-												stroke-linejoin="round"
-												class="icon icon-tabler icons-tabler-outline icon-tabler-home-2"
-											>
-												<path stroke="none" d="M0 0h24v24H0z" fill="none" />
-												<path d="M5 12l-2 0l9 -9l9 9l-2 0" />
-												<path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
-												<path d="M10 12h4v4h-4z" />
-											</svg>
-											<span
-												x-show="tooltip"
-												x-transition
-												class="absolute left-full ml-2 top-1/2 transform -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal"
-												>Dashboard</span
-											>
-										</a>
-									</li>
-
-									<li>
-										<a
-											href="/src/elements/index.html"
-											x-data="{ tooltip: false }"
-											@mouseover="tooltip = true"
-											@mouseleave="tooltip = false"
-											class="group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-primary dark:hover:bg-primary-dark dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
-										>
-											<!-- Element -->
-											<svg
-												xmlns="http://www.w3.org/2000/svg"
-												width="24"
-												height="24"
-												viewBox="0 0 24 24"
-												fill="none"
-												stroke="currentColor"
-												stroke-width="2"
-												stroke-linecap="round"
-												stroke-linejoin="round"
-												class="icon icon-tabler icons-tabler-outline icon-tabler-file-type-html"
-											>
-												<path stroke="none" d="M0 0h24v24H0z" fill="none" />
-												<path d="M14 3v4a1 1 0 0 0 1 1h4" />
-												<path d="M5 12v-7a2 2 0 0 1 2 -2h7l5 5v4" />
-												<path d="M2 21v-6" />
-												<path d="M5 15v6" />
-												<path d="M2 18h3" />
-												<path d="M20 15v6h2" />
-												<path d="M13 21v-6l2 3l2 -3v6" />
-												<path d="M7.5 15h3" />
-												<path d="M9 15v6" />
-											</svg>
-											<span
-												x-show="tooltip"
-												x-transition
-												class="absolute left-full ml-2 top-1/2 transform -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal"
-												>Element</span
-											>
-										</a>
-									</li>
-
-									<li>
-										<a
-											href="/src/components/accordion.html"
-											x-data="{ tooltip: false }"
-											@mouseover="tooltip = true"
-											@mouseleave="tooltip = false"
-											class="group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-primary dark:hover:bg-primary-dark dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
-										>
-											<!-- Component Icon -->
-											<svg
-												xmlns="http://www.w3.org/2000/svg"
-												width="24"
-												height="24"
-												viewBox="0 0 24 24"
-												fill="none"
-												stroke="currentColor"
-												stroke-width="2"
-												stroke-linecap="round"
-												stroke-linejoin="round"
-												class="icon icon-tabler icons-tabler-outline icon-tabler-components"
-											>
-												<path stroke="none" d="M0 0h24h24H0z" fill="none" />
-												<path d="M3 12l3 3l3 -3l-3 -3z" />
-												<path d="M15 12l3 3l3 -3l-3 -3z" />
-												<path d="M9 6l3 3l3 -3l-3 -3z" />
-												<path d="M9 18l3 3l3 -3l-3 -3z" />
-											</svg>
-											<span
-												x-show="tooltip"
-												x-transition
-												class="absolute left-full ml-2 top-1/2 transform -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal"
-												>Component</span
-											>
-										</a>
-									</li>
-
-									<li>
-										<a
-											href="/src/pages/index.html"
-											x-data="{ tooltip: false }"
-											@mouseover="tooltip = true"
-											@mouseleave="tooltip = false"
-											class="group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-primary dark:hover:bg-primary-dark dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
-										>
-											<!-- Pages Icon -->
-											<svg
-												xmlns="http://www.w3.org/2000/svg"
-												width="24"
-												height="24"
-												viewBox="0 0 24 24"
-												fill="none"
-												stroke="currentColor"
-												stroke-width="2"
-												stroke-linecap="round"
-												stroke-linejoin="round"
-												class="icon icon-tabler icons-tabler-outline icon-tabler-article"
-											>
-												<path stroke="none" d="M0 0h24h24H0z" fill="none" />
-												<path
-													d="M3 4m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z"
-												/>
-												<path d="M7 8h10" />
-												<path d="M7 12h10" />
-												<path d="M7 16h10" />
-											</svg>
-											<span
-												x-show="tooltip"
-												x-transition
-												class="absolute left-full ml-2 top-1/2 transform -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal"
-												>Pages</span
-											>
-										</a>
-									</li>
-								</ul>
-							</div>
-						</div>
+								<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+								<path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" />
+								<path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
+							</svg>
+							<span
+								x-show="tooltip"
+								x-transition
+								class="absolute left-full ml-2 top-1/2 -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal text-sm"
+								>Settings</span
+							>
+						</a>
 					</div>
 
-					<div
-						class="sticky inset-x-0 bottom-0 border-t border-gray-100 dark:border-gray-700 bg-foreground dark:bg-background-dark p-2"
-					>
-						<!-- Logout -->
-						<div class="relative" x-data="{ tooltip: false }">
-							<form action="#">
-								<button
-									type="submit"
-									class="group relative flex w-full justify-center rounded-sm px-2 py-1.5 text-sm text-gray-500 hover:bg-primary dark:hover:bg-primary-dark dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
-									@mouseover="tooltip = true"
-									@mouseleave="tooltip = false"
-								>
-									<!-- Logout Icon -->
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										class="size-5 opacity-75"
-										fill="none"
-										viewBox="0 0 24 24"
-										stroke="currentColor"
-										stroke-width="2"
-									>
-										<path
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-										/>
-									</svg>
-								</button>
-								<span
-									x-show="tooltip"
-									x-transition
-									class="absolute left-full ml-2 top-1/2 transform -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal"
-								>
-									Logout
-								</span>
-							</form>
-						</div>
-					</div>
-				</div>
-				<!-- Icon Sidebar - Hidden on mobile, visible on tablet and up -->
-
-				<!-- Expanded Sidebar - Mobile overlay, normal sidebar on larger screens -->
-				<div class="relative z-10">
-					<div
-						x-cloak
-						x-show="sidebarOpen"
-						x-transition:enter="transform transition duration-300 ease-in-out"
-						x-transition:enter-start="translate-x-[-100%]"
-						x-transition:enter-end="translate-x-0"
-						x-transition:leave="transform transition duration-300 ease-in-out"
-						x-transition:leave-start="translate-x-0"
-						x-transition:leave-end="translate-x-[-100%]"
-						class="sidebar-layout overflow-y-auto max-h-screen"
-					>
-						<div class="px-4 py-6">
-							<ul class="space-y-1" x-data="{ selected: null }">
-								<li>
-									<a href="/src/components/accordion.html" class="sidebar-link"
-										>Accordion</a
-									>
-								</li>
-
-								<li>
-									<a href="/src/components/alert.html" class="sidebar-link"
-										>Alert</a
-									>
-								</li>
-								<li>
-									<a href="/src/components/badge.html" class="sidebar-link"
-										>Badge</a
-									>
-								</li>
-								<li>
-									<a href="/src/components/breadcrumb.html" class="sidebar-link"
-										>Breadcrumb</a
-									>
-								</li>
-								<li>
-									<a href="/src/components/card.html" class="sidebar-link"
-										>Card</a
-									>
-								</li>
-								<li>
-									<a href="/src/components/collapse.html" class="sidebar-link"
-										>Collapse</a
-									>
-								</li>
-								<li>
-									<a href="/src/components/divider.html" class="sidebar-link"
-										>Divider</a
-									>
-								</li>
-								<li>
-									<a href="/src/components/drawer.html" class="sidebar-link"
-										>Drawer</a
-									>
-								</li>
-								<li>
-									<a href="/src/components/dropdown.html" class="sidebar-link"
-										>Dropdown</a
-									>
-								</li>
-								<li>
-									<a href="/src/components/menu-list.html" class="sidebar-link"
-										>Menu List</a
-									>
-								</li>
-								<li>
-									<a
-										href="/src/components/modal.html"
-										class="sidebar-link sidebar-link-active"
-										>Modal</a
-									>
-								</li>
-								<li>
-									<a href="/src/components/pagination.html" class="sidebar-link"
-										>Pagination</a
-									>
-								</li>
-								<li>
-									<a href="/src/components/popover.html" class="sidebar-link"
-										>Popover</a
-									>
-								</li>
-								<li>
-									<a href="/src/components/tab.html" class="sidebar-link"
-										>Tab</a
-									>
-								</li>
-								<li>
-									<a href="/src/components/table.html" class="sidebar-link"
-										>Table</a
-									>
-								</li>
-								<li>
-									<a href="/src/components/tooltip.html" class="sidebar-link"
-										>Tooltip</a
-									>
-								</li>
+					<div class="border-t border-slate-100 dark:border-slate-700">
+						<div class="px-2 pt-4">
+							<ul class="space-y-1">
+								<template x-for="item in items" :key="item.label">
+									<li>
+										<a
+											:href="item.link"
+											x-data="{ tooltip: false }"
+											@mouseover="tooltip = true"
+											@mouseleave="tooltip = false"
+											class="sidebar-icon-button"
+											:class="isActive(item) ? 'sidebar-icon-button-active' : ''"
+										>
+											<span x-html="item.icon"></span>
+											<span
+												x-show="tooltip"
+												x-transition
+												class="absolute left-full ml-2 top-1/2 -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal text-sm"
+												x-text="item.label"
+											></span>
+										</a>
+									</li>
+								</template>
 							</ul>
 						</div>
 					</div>
-
-					<!-- Backdrop for mobile -->
-					<div
-						x-show="sidebarOpen"
-						x-transition:enter="transition-all ease-linear duration-300"
-						x-transition:enter-start="opacity-0 backdrop-blur-none"
-						x-transition:enter-end="opacity-100 backdrop-blur-sm"
-						x-transition:leave="transition-all ease-linear duration-300"
-						x-transition:leave-start="opacity-100 backdrop-blur-sm"
-						x-transition:leave-end="opacity-0 backdrop-blur-none"
-						class="sidebar-backdrop"
-						@click="sidebarOpen = false"
-					></div>
-				</div>
-				<!-- Expanded Sidebar - Mobile overlay, normal sidebar on larger screens -->
-			</aside>
-			<!-- Sidebar -->
-
-			<!-- Main content -->
-			<div
-				class="main-container"
-				:class="{
-                    'md:ml-80': sidebarOpen, 
-                    'md:ml-16': !sidebarOpen,
-                    'ml-0': true
-                }"
-			>
-				<div class="card" x-data="{showModal: false, modalPosition: 'center'}">
-					<div class="card-header">
-						<h2 class="card-title">Modal</h2>
-					</div>
-					<div class="card-body">
-						<div class="flex gap-4 flex-wrap">
-							<div
-								x-data="{showModal: false}"
-								@keydown.window.escape="showModal = false"
-							>
-								<!-- Trigger Button -->
-								<button @click="showModal = true" class="button button-primary">
-									Open Modal
-								</button>
-
-								<!-- Modal Backdrop -->
-								<div
-									class="modal-backdrop"
-									@click="showModal = false"
-									x-show="showModal"
-									x-transition:enter="transition ease-out duration-300"
-									x-transition:enter-start="opacity-0"
-									x-transition:enter-end="opacity-100"
-									x-transition:leave="transition ease-in duration-300"
-									x-transition:leave-start="opacity-100"
-									x-transition:leave-end="opacity-0"
-								></div>
-
-								<!-- Modal Container -->
-								<div
-									class="modal-container"
-									x-show="showModal"
-									x-transition:enter="transition ease-out duration-300"
-									x-transition:enter-start="opacity-0 transform translate-y-4"
-									x-transition:enter-end="opacity-100 transform translate-y-0"
-									x-transition:leave="transition ease-in duration-300"
-									x-transition:leave-start="opacity-100 transform translate-y-0"
-									x-transition:leave-end="opacity-0 transform translate-y-4"
-								>
-									<!-- Modal -->
-									<div class="modal">
-										<!-- Modal Header -->
-										<div class="modal-header">
-											<h2 class="text-lg font-semibold">Modal Title</h2>
-											<button
-												@click="showModal = false"
-												class="modal-close-button"
-											>
-												<!-- Tabler X icon -->
-												<svg
-													xmlns="http://www.w3.org/2000/svg"
-													class="icon icon-tabler icon-tabler-x w-6 h-6"
-													width="24"
-													height="24"
-													viewBox="0 0 24 24"
-													stroke-width="1.5"
-													stroke="currentColor"
-													fill="none"
-													stroke-linecap="round"
-													stroke-linejoin="round"
-												>
-													<path stroke="none" d="M0 0h24v24H0z" fill="none" />
-													<line x1="18" y1="6" x2="6" y2="18" />
-													<line x1="6" y1="6" x2="18" y2="18" />
-												</svg>
-											</button>
-										</div>
-
-										<!-- Modal Body -->
-										<div class="modal-body">
-											<p>
-												Modal content goes here. This section is scrollable if
-												the content overflows.
-											</p>
-										</div>
-
-										<!-- Modal Footer -->
-										<div class="modal-footer">
-											<button
-												@click="showModal = false"
-												class="button button-secondary"
-											>
-												Close
-											</button>
-											<button class="button button-primary">
-												Save changes
-											</button>
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<div
-								x-data="{showModal: false}"
-								@keydown.window.escape="showModal = false"
-							>
-								<!-- Trigger Button -->
-								<button @click="showModal = true" class="button button-primary">
-									Open Modal Blur
-								</button>
-
-								<!-- Modal Backdrop -->
-								<div
-									x-show="showModal"
-									class="modal-backdrop blur"
-									x-transition:enter="transition ease-out duration-300"
-									x-transition:enter-start="opacity-0"
-									x-transition:enter-end="opacity-100"
-									x-transition:leave="transition ease-in duration-300"
-									x-transition:leave-start="opacity-100"
-									x-transition:leave-end="opacity-0"
-								></div>
-
-								<!-- Modal Container -->
-								<div
-									class="modal-container"
-									x-show="showModal"
-									@click="showModal = false"
-									x-transition:enter="transition ease-out duration-300"
-									x-transition:enter-start="opacity-0 transform translate-y-4"
-									x-transition:enter-end="opacity-100 transform translate-y-0"
-									x-transition:leave="transition ease-in duration-300"
-									x-transition:leave-start="opacity-100 transform translate-y-0"
-									x-transition:leave-end="opacity-0 transform translate-y-4"
-								>
-									<!-- Modal -->
-									<div class="modal">
-										<!-- Modal Header -->
-										<div class="modal-header">
-											<h2 class="text-lg font-semibold">Modal Title Blur</h2>
-											<button
-												@click="showModal = false"
-												class="modal-close-button"
-											>
-												<!-- Tabler X icon -->
-												<svg
-													xmlns="http://www.w3.org/2000/svg"
-													class="icon icon-tabler icon-tabler-x w-6 h-6"
-													width="24"
-													height="24"
-													viewBox="0 0 24 24"
-													stroke-width="1.5"
-													stroke="currentColor"
-													fill="none"
-													stroke-linecap="round"
-													stroke-linejoin="round"
-												>
-													<path stroke="none" d="M0 0h24v24H0z" fill="none" />
-													<line x1="18" y1="6" x2="6" y2="18" />
-													<line x1="6" y1="6" x2="18" y2="18" />
-												</svg>
-											</button>
-										</div>
-
-										<!-- Modal Body -->
-										<div class="modal-body">
-											<p>
-												Modal content goes here. This section is scrollable if
-												the content overflows.
-											</p>
-										</div>
-
-										<!-- Modal Footer -->
-										<div class="modal-footer">
-											<button
-												@click="showModal = false"
-												class="button button-secondary"
-											>
-												Close
-											</button>
-											<button class="button button-primary">
-												Save changes
-											</button>
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<!-- Success Modal -->
-							<div
-								x-data="{showSuccessModal: false}"
-								@keydown.window.escape="showSuccessModal = false"
-							>
-								<button
-									@click="showSuccessModal = true"
-									class="button button-success"
-								>
-									Show Success
-								</button>
-								<div
-									class="modal-backdrop"
-									@click="showSuccessModal = false"
-									x-show="showSuccessModal"
-									x-transition:enter="transition ease-out duration-300"
-									x-transition:enter-start="opacity-0"
-									x-transition:enter-end="opacity-100"
-									x-transition:leave="transition ease-in duration-300"
-									x-transition:leave-start="opacity-100"
-									x-transition:leave-end="opacity-0"
-								></div>
-								<div
-									class="modal-container"
-									x-show="showSuccessModal"
-									x-transition:enter="transition ease-out duration-300"
-									x-transition:enter-start="opacity-0 transform translate-y-4"
-									x-transition:enter-end="opacity-100 transform translate-y-0"
-									x-transition:leave="transition ease-in duration-300"
-									x-transition:leave-start="opacity-100 transform translate-y-0"
-									x-transition:leave-end="opacity-0 transform translate-y-4"
-								>
-									<div class="modal">
-										<div class="modal-body">
-											<div
-												class="flex items-center justify-center w-full text-success dark:text-success-dark"
-											>
-												<svg
-													xmlns="http://www.w3.org/2000/svg"
-													viewBox="0 0 24 24"
-													fill="none"
-													stroke="currentColor"
-													stroke-width="2"
-													stroke-linecap="round"
-													stroke-linejoin="round"
-													class="icon icon-tabler icons-tabler-outline icon-tabler-checks w-32 h-32 lg:w-64 lg:h-64"
-												>
-													<path stroke="none" d="M0 0h24v24H0z" fill="none" />
-													<path d="M7 12l5 5l10 -10" />
-													<path d="M2 12l5 5m5 -5l5 -5" />
-												</svg>
-											</div>
-
-											<div class="text-center">
-												<h3>Success Save Your Data</h3>
-												<p>Operation completed successfully!</p>
-												<button
-													@click="showSuccessModal = false"
-													class="button button-success mt-8"
-												>
-													Close
-												</button>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<!-- Error Modal -->
-							<div
-								x-data="{showErrorModal: false}"
-								@keydown.window.escape="showErrorModal = false"
-							>
-								<button
-									@click="showErrorModal = true"
-									class="button button-danger"
-								>
-									Show Error
-								</button>
-								<div
-									class="modal-backdrop"
-									@click="showErrorModal = false"
-									x-show="showErrorModal"
-									x-transition:enter="transition ease-out duration-300"
-									x-transition:enter-start="opacity-0"
-									x-transition:enter-end="opacity-100"
-									x-transition:leave="transition ease-in duration-300"
-									x-transition:leave-start="opacity-100"
-									x-transition:leave-end="opacity-0"
-								></div>
-								<div
-									class="modal-container"
-									x-show="showErrorModal"
-									x-transition:enter="transition ease-out duration-300"
-									x-transition:enter-start="opacity-0 transform translate-y-4"
-									x-transition:enter-end="opacity-100 transform translate-y-0"
-									x-transition:leave="transition ease-in duration-300"
-									x-transition:leave-start="opacity-100 transform translate-y-0"
-									x-transition:leave-end="opacity-0 transform translate-y-4"
-								>
-									<div class="modal">
-										<div class="modal-body">
-											<div
-												class="flex items-center justify-center w-full text-danger dark:text-danger-dark"
-											>
-												<svg
-													xmlns="http://www.w3.org/2000/svg"
-													width="24"
-													height="24"
-													viewBox="0 0 24 24"
-													fill="none"
-													stroke="currentColor"
-													stroke-width="2"
-													stroke-linecap="round"
-													stroke-linejoin="round"
-													class="icon icon-tabler icons-tabler-outline icon-tabler-exclamation-circle w-32 h-32 lg:w-64 lg:h-64"
-												>
-													<path stroke="none" d="M0 0h24v24H0z" fill="none" />
-													<path
-														d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"
-													/>
-													<path d="M12 9v4" />
-													<path d="M12 16v.01" />
-												</svg>
-											</div>
-
-											<div class="text-center">
-												<h3>Error Save Your Data</h3>
-												<p>
-													Please inform the system administrator for more
-													information.!
-												</p>
-												<button
-													@click="showErrorModal = false"
-													class="button button-danger mt-8"
-												>
-													Close
-												</button>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
 				</div>
 
-				<div
-					class="card mt-4"
-					x-data="{showModal: false, modalPosition: 'center'}"
-					@keydown.window.escape="showModal = false"
-				>
-					<div class="card-header">
-						<h2 class="card-title">Modal Position</h2>
-					</div>
-					<div class="card-body">
-						<div class="gap-4">
-							<!-- Trigger Buttons -->
-
+				<div class="sidebar-footer">
+					<div class="relative" x-data="{ tooltip: false }">
+						<form action="#">
 							<button
-								@click="showModal = true; modalPosition = 'center'"
-								class="button button-primary my-4"
+								type="submit"
+								class="sidebar-icon-button w-full justify-center"
+								@mouseover="tooltip = true"
+								@mouseleave="tooltip = false"
 							>
-								Open Modal Center
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									class="size-5 opacity-75"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke="currentColor"
+									stroke-width="2"
+								>
+									<path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+								</svg>
 							</button>
-							<button
-								@click="showModal = true; modalPosition = 'top-left'"
-								class="button button-primary my-4"
+							<span
+								x-show="tooltip"
+								x-transition
+								class="absolute left-full ml-2 top-1/2 -translate-y-1/2 w-max bg-slate-800 text-white rounded py-1 px-2 whitespace-nowrap z-[100] font-normal text-sm"
+								>Logout</span
 							>
-								Open Modal Top-Left
-							</button>
-							<button
-								@click="showModal = true; modalPosition = 'top-center'"
-								class="button button-primary my-4"
-							>
-								Open Modal Top-Center
-							</button>
-							<button
-								@click="showModal = true; modalPosition = 'top-right'"
-								class="button button-primary my-4"
-							>
-								Open Modal Top-Right
-							</button>
-							<button
-								@click="showModal = true; modalPosition = 'mid-left'"
-								class="button button-primary my-4"
-							>
-								Open Modal Mid-Left
-							</button>
-							<button
-								@click="showModal = true; modalPosition = 'mid-right'"
-								class="button button-primary my-4"
-							>
-								Open Modal Mid-Right
-							</button>
-							<button
-								@click="showModal = true; modalPosition = 'bottom-left'"
-								class="button button-primary my-4"
-							>
-								Open Modal Bottom-Left
-							</button>
-							<button
-								@click="showModal = true; modalPosition = 'bottom-center'"
-								class="button button-primary my-4"
-							>
-								Open Modal Bottom-Center
-							</button>
-							<button
-								@click="showModal = true; modalPosition = 'bottom-right'"
-								class="button button-primary my-4"
-							>
-								Open Modal Bottom-Right
-							</button>
-
-							<!-- Modal Backdrop -->
-							<div
-								class="modal-backdrop"
-								x-show="showModal"
-								@click="showModal = false"
-								x-transition:enter="transition ease-out duration-300"
-								x-transition:enter-start="opacity-0"
-								x-transition:enter-end="opacity-100"
-								x-transition:leave="transition ease-in duration-300"
-								x-transition:leave-start="opacity-100"
-								x-transition:leave-end="opacity-0"
-							></div>
-
-							<!-- Modal Container -->
-							<div
-								x-show="showModal"
-								@click.away="showModal = false"
-								:class="{
-								'modal-container': true,
-								'modal-top-left': modalPosition === 'top-left',
-								'modal-top-center': modalPosition === 'top-center',
-								'modal-top-right': modalPosition === 'top-right',
-								'modal-mid-left': modalPosition === 'mid-left',
-								'modal-mid-right': modalPosition === 'mid-right',
-								'modal-bottom-left': modalPosition === 'bottom-left',
-								'modal-bottom-center': modalPosition === 'bottom-center',
-								'modal-bottom-right': modalPosition === 'bottom-right',
-							}"
-								x-transition:enter="transition ease-out duration-300"
-								x-transition:enter-start="opacity-0 transform translate-y-4"
-								x-transition:enter-end="opacity-100 transform translate-y-0"
-								x-transition:leave="transition ease-in duration-300"
-								x-transition:leave-start="opacity-100 transform translate-y-0"
-								x-transition:leave-end="opacity-0 transform translate-y-4"
-							>
-								<!-- Modal -->
-								<div class="modal" @click.stop>
-									<!-- Modal Header -->
-									<div class="modal-header">
-										<h2 class="text-lg font-semibold">Modal Title</h2>
-										<button
-											@click="showModal = false"
-											class="modal-close-button"
-										>
-											<!-- Tabler X icon -->
-											<svg
-												xmlns="http://www.w3.org/2000/svg"
-												class="icon icon-tabler icon-tabler-x w-6 h-6"
-												width="24"
-												height="24"
-												viewBox="0 0 24 24"
-												stroke-width="1.5"
-												stroke="currentColor"
-												fill="none"
-												stroke-linecap="round"
-												stroke-linejoin="round"
-											>
-												<path stroke="none" d="M0 0h24v24H0z" fill="none" />
-												<line x1="18" y1="6" x2="6" y2="18" />
-												<line x1="6" y1="6" x2="18" y2="18" />
-											</svg>
-										</button>
-									</div>
-
-									<!-- Modal Body -->
-									<div class="modal-body">
-										<p>
-											Modal content goes here. This section is scrollable if the
-											content overflows.
-										</p>
-									</div>
-
-									<!-- Modal Footer -->
-									<div class="modal-footer">
-										<button
-											@click="showModal = false"
-											class="button button-secondary"
-										>
-											Close
-										</button>
-										<button class="button button-primary">Save changes</button>
-									</div>
-								</div>
-							</div>
-						</div>
+						</form>
 					</div>
 				</div>
 			</div>
-			<!-- Mobile Bottom Menu -->
+			<!-- /Icon Sidebar -->
+
+			<!-- Expanded Sidebar -->
+			<div class="relative z-10">
+				<div
+					x-cloak
+					x-show="sidebarOpen"
+					x-transition:enter="transform transition duration-300 ease-in-out"
+					x-transition:enter-start="-translate-x-full"
+					x-transition:enter-end="translate-x-0"
+					x-transition:leave="transform transition duration-300 ease-in-out"
+					x-transition:leave-start="translate-x-0"
+					x-transition:leave-end="-translate-x-full"
+					class="sidebar-layout"
+				>
+					<div class="px-4 py-6">
+						<p
+							class="px-4 mb-3 text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500"
+							x-text="activeGroup.label"
+						></p>
+						<ul class="space-y-1">
+							<template x-for="sub in activeSubMenus" :key="sub.link">
+								<li>
+									<a
+										:href="sub.link"
+										class="sidebar-link"
+										:class="isSubActive(sub) ? 'sidebar-link-active' : ''"
+										x-text="sub.name"
+									></a>
+								</li>
+							</template>
+						</ul>
+					</div>
+				</div>
+
+				<!-- Backdrop for mobile -->
+				<div
+					x-show="sidebarOpen"
+					x-transition:enter="transition-all ease-linear duration-300"
+					x-transition:enter-start="opacity-0 backdrop-blur-none"
+					x-transition:enter-end="opacity-100 backdrop-blur-sm"
+					x-transition:leave="transition-all ease-linear duration-300"
+					x-transition:leave-start="opacity-100 backdrop-blur-sm"
+					x-transition:leave-end="opacity-0 backdrop-blur-none"
+					class="sidebar-backdrop"
+					@click="sidebarOpen = false"
+				></div>
+			</div>
+			<!-- /Expanded Sidebar -->
+		</aside>
+		<!-- /Sidebar -->
+
+
+<!-- Main Content -->
+<div
+class="main-container"
+:class="{
+'md:ml-80': sidebarOpen,
+'md:ml-16': !sidebarOpen,
+'ml-0': true
+}"
+>
+<!-- Breadcrumb -->
+<nav class="breadcrumb mb-6" aria-label="Breadcrumb">
+<ol>
+<li><a href="/src/index.html">Dashboard</a></li>
+<li><span aria-hidden="true"></span><a href="#">Components</a></li>
+<li><span aria-hidden="true"></span><a href="#">Modal</a></li>
+</ol>
+</nav>
+<h1 class="heading-1 mb-8">Modal</h1>
+
+<section class="mb-10">
+<h2 class="heading-2 mb-6">Default Modal</h2>
+				<div x-data="{open: false}">
+					<button class="button button-primary" @click="open = true">Open Modal</button>
+					<div x-show="open" x-cloak>
+						<div class="modal-backdrop" @click="open = false"></div>
+						<div class="modal-container" role="dialog" aria-modal="true" aria-labelledby="modal-title-1">
+							<div class="modal modal-lg" @click.stop x-transition>
+								<div class="modal-header">
+									<h3 id="modal-title-1" class="font-semibold text-lg text-slate-900 dark:text-slate-100">Modal Title</h3>
+									<button class="modal-close-button" @click="open = false" aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
+								</div>
+								<div class="modal-body">
+									<p class="text-slate-600 dark:text-slate-400">This is the default modal with header, body, and footer. It closes when clicking the backdrop or the close button.</p>
+								</div>
+								<div class="modal-footer gap-2">
+									<button class="button button-dark-outline" @click="open = false">Cancel</button>
+									<button class="button button-primary" @click="open = false">Confirm</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+</section>
+<section class="mb-10">
+<h2 class="heading-2 mb-6">Sizes</h2>
+				<div class="flex flex-wrap gap-3" x-data="{openSm: false, openMd: false, openXl: false, open2xl: false}">
+					<button class="button button-secondary" @click="openSm = true">Small</button>
+					<button class="button button-success" @click="openMd = true">Medium</button>
+					<button class="button button-warning" @click="openXl = true">XL</button>
+					<button class="button button-info" @click="open2xl = true">2XL</button>
+
+					<div x-show="openSm" x-cloak>
+						<div class="modal-backdrop" @click="openSm = false"></div>
+						<div class="modal-container"><div class="modal modal-sm" @click.stop x-transition>
+							<div class="modal-header"><h3 class="font-semibold text-slate-900 dark:text-slate-100">Small Modal</h3><button class="modal-close-button" @click="openSm = false"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button></div>
+							<div class="modal-body"><p class="text-slate-600 dark:text-slate-400">Compact modal for simple confirmations.</p></div>
+							<div class="modal-footer gap-2"><button class="button button-dark-outline" @click="openSm = false">Cancel</button><button class="button button-secondary" @click="openSm = false">OK</button></div>
+						</div></div>
+					</div>
+
+					<div x-show="openMd" x-cloak>
+						<div class="modal-backdrop" @click="openMd = false"></div>
+						<div class="modal-container"><div class="modal modal-md" @click.stop x-transition>
+							<div class="modal-header"><h3 class="font-semibold text-slate-900 dark:text-slate-100">Medium Modal</h3><button class="modal-close-button" @click="openMd = false"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button></div>
+							<div class="modal-body"><p class="text-slate-600 dark:text-slate-400">Medium sized modal — good for forms and confirmations.</p></div>
+							<div class="modal-footer gap-2"><button class="button button-dark-outline" @click="openMd = false">Close</button><button class="button button-success" @click="openMd = false">Save</button></div>
+						</div></div>
+					</div>
+
+					<div x-show="openXl" x-cloak>
+						<div class="modal-backdrop" @click="openXl = false"></div>
+						<div class="modal-container"><div class="modal modal-xl" @click.stop x-transition>
+							<div class="modal-header"><h3 class="font-semibold text-slate-900 dark:text-slate-100">XL Modal</h3><button class="modal-close-button" @click="openXl = false"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button></div>
+							<div class="modal-body"><p class="text-slate-600 dark:text-slate-400">Extra large modal for complex content, data tables, or detailed forms.</p></div>
+							<div class="modal-footer gap-2"><button class="button button-dark-outline" @click="openXl = false">Close</button></div>
+						</div></div>
+					</div>
+
+					<div x-show="open2xl" x-cloak>
+						<div class="modal-backdrop" @click="open2xl = false"></div>
+						<div class="modal-container"><div class="modal modal-2xl" @click.stop x-transition>
+							<div class="modal-header"><h3 class="font-semibold text-slate-900 dark:text-slate-100">2XL Modal</h3><button class="modal-close-button" @click="open2xl = false"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button></div>
+							<div class="modal-body"><p class="text-slate-600 dark:text-slate-400">Full-width 2XL modal for maximum content area.</p></div>
+							<div class="modal-footer gap-2"><button class="button button-dark-outline" @click="open2xl = false">Close</button></div>
+						</div></div>
+					</div>
+				</div>
+</section>
+<section class="mb-10">
+<h2 class="heading-2 mb-6">Modal with Form</h2>
+				<div x-data="{open: false}">
+					<button class="button button-success" @click="open = true">New User</button>
+					<div x-show="open" x-cloak>
+						<div class="modal-backdrop" @click="open = false"></div>
+						<div class="modal-container" role="dialog" aria-modal="true">
+							<div class="modal modal-md" @click.stop x-transition>
+								<div class="modal-header">
+									<h3 class="font-semibold text-lg text-slate-900 dark:text-slate-100">Create User</h3>
+									<button class="modal-close-button" @click="open = false"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
+								</div>
+								<div class="modal-body space-y-4">
+									<div class="form-group">
+										<label class="label label-required">Full Name</label>
+										<input type="text" class="input" placeholder="John Doe">
+									</div>
+									<div class="form-group">
+										<label class="label label-required">Email</label>
+										<input type="email" class="input" placeholder="john@example.com">
+									</div>
+									<div class="form-group">
+										<label class="label">Role</label>
+										<select class="select"><option>Admin</option><option>Editor</option><option>Viewer</option></select>
+									</div>
+								</div>
+								<div class="modal-footer gap-2">
+									<button class="button button-dark-outline" @click="open = false">Cancel</button>
+									<button class="button button-success" @click="open = false">Create</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+</section>
+<section class="mb-10">
+<h2 class="heading-2 mb-6">Confirm / Delete Modal</h2>
+				<div class="flex flex-wrap gap-3" x-data="{openDelete: false, openWarn: false, openSuccess: false}">
+					<button class="button button-danger" @click="openDelete = true">Delete Item</button>
+					<button class="button button-warning" @click="openWarn = true">Discard Changes</button>
+					<button class="button button-success" @click="openSuccess = true">Approve Request</button>
+
+					<!-- Delete confirm -->
+					<div x-show="openDelete" x-cloak>
+						<div class="modal-backdrop" @click="openDelete = false"></div>
+						<div class="modal-container" role="alertdialog" aria-modal="true" aria-labelledby="confirm-delete-title">
+							<div class="modal modal-sm" @click.stop x-transition>
+								<div class="modal-confirm">
+									<div class="modal-confirm-icon modal-confirm-icon-danger">
+										<svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+											<path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+										</svg>
+									</div>
+									<div>
+										<p id="confirm-delete-title" class="modal-confirm-title">Delete this item?</p>
+										<p class="modal-confirm-description mt-1">This action cannot be undone. The item will be permanently removed from your account.</p>
+									</div>
+									<div class="flex gap-2 w-full">
+										<button class="button button-dark-outline flex-1" @click="openDelete = false">Cancel</button>
+										<button class="button button-danger flex-1" @click="openDelete = false">Delete</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Discard changes -->
+					<div x-show="openWarn" x-cloak>
+						<div class="modal-backdrop" @click="openWarn = false"></div>
+						<div class="modal-container" role="alertdialog" aria-modal="true" aria-labelledby="confirm-warn-title">
+							<div class="modal modal-sm" @click.stop x-transition>
+								<div class="modal-confirm">
+									<div class="modal-confirm-icon modal-confirm-icon-warning">
+										<svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+											<path stroke-linecap="round" stroke-linejoin="round" d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+										</svg>
+									</div>
+									<div>
+										<p id="confirm-warn-title" class="modal-confirm-title">Discard changes?</p>
+										<p class="modal-confirm-description mt-1">You have unsaved changes. If you leave now, your changes will be lost.</p>
+									</div>
+									<div class="flex gap-2 w-full">
+										<button class="button button-dark-outline flex-1" @click="openWarn = false">Keep editing</button>
+										<button class="button button-warning flex-1" @click="openWarn = false">Discard</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Approve / success confirm -->
+					<div x-show="openSuccess" x-cloak>
+						<div class="modal-backdrop" @click="openSuccess = false"></div>
+						<div class="modal-container" role="alertdialog" aria-modal="true" aria-labelledby="confirm-success-title">
+							<div class="modal modal-sm" @click.stop x-transition>
+								<div class="modal-confirm">
+									<div class="modal-confirm-icon modal-confirm-icon-success">
+										<svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+											<path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+										</svg>
+									</div>
+									<div>
+										<p id="confirm-success-title" class="modal-confirm-title">Approve this request?</p>
+										<p class="modal-confirm-description mt-1">The request will be marked as approved and the requester will be notified.</p>
+									</div>
+									<div class="flex gap-2 w-full">
+										<button class="button button-dark-outline flex-1" @click="openSuccess = false">Cancel</button>
+										<button class="button button-success flex-1" @click="openSuccess = false">Approve</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+</section>
+<section class="mb-10">
+<h2 class="heading-2 mb-6">Positions</h2>
+<div class="card p-6">
+				<div class="flex flex-wrap gap-3" x-data="{pos: null}">
+					<button class="button button-dark-outline" @click="pos = 'top-left'">Top Left</button>
+					<button class="button button-dark-outline" @click="pos = 'top-center'">Top Center</button>
+					<button class="button button-dark-outline" @click="pos = 'top-right'">Top Right</button>
+					<button class="button button-dark-outline" @click="pos = 'center'">Center (default)</button>
+					<button class="button button-dark-outline" @click="pos = 'mid-left'">Mid Left</button>
+					<button class="button button-dark-outline" @click="pos = 'mid-right'">Mid Right</button>
+					<button class="button button-dark-outline" @click="pos = 'bottom-left'">Bottom Left</button>
+					<button class="button button-dark-outline" @click="pos = 'bottom-center'">Bottom Center</button>
+					<button class="button button-dark-outline" @click="pos = 'bottom-right'">Bottom Right</button>
+
+					<template x-if="pos">
+						<div>
+							<div class="modal-backdrop" @click="pos = null"></div>
+							<div
+								class="modal-container"
+								:class="{
+									'modal-top-left': pos === 'top-left',
+									'modal-top-center': pos === 'top-center',
+									'modal-top-right': pos === 'top-right',
+									'modal-mid-left': pos === 'mid-left',
+									'modal-mid-right': pos === 'mid-right',
+									'modal-bottom-left': pos === 'bottom-left',
+									'modal-bottom-center': pos === 'bottom-center',
+									'modal-bottom-right': pos === 'bottom-right',
+								}"
+								role="dialog" aria-modal="true"
+							>
+								<div class="modal modal-sm" @click.stop x-transition>
+									<div class="modal-header">
+										<h3 class="font-semibold text-slate-900 dark:text-slate-100" x-text="pos.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase()) + ' Modal'"></h3>
+										<button class="modal-close-button" @click="pos = null" aria-label="Close">
+											<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+										</button>
+									</div>
+									<div class="modal-body">
+										<p class="text-slate-600 dark:text-slate-400 text-sm">This modal is positioned at <strong x-text="pos"></strong>.</p>
+									</div>
+									<div class="modal-footer">
+										<button class="button button-primary" @click="pos = null">Close</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</template>
+				</div>
+</div>
+</section>
+
+				<!-- Usage -->
+				<div class="card mt-8" x-data="{ copied: false }">
+					<div class="card-body">
+						<h2 class="text-lg font-semibold mb-3">Usage</h2>
+						<div class="relative">
+							<pre class="bg-slate-900 text-slate-100 rounded-lg p-4 overflow-x-auto text-sm"><code>&lt;div x-data="{ open: false }"&gt;
+  &lt;button @click="open = true"&gt;Open Modal&lt;/button&gt;
+  &lt;div class="modal" x-show="open" x-teleport="body"&gt;
+    &lt;div class="modal-dialog"&gt;
+      &lt;div class="modal-header"&gt;Title&lt;/div&gt;
+      &lt;div class="modal-body"&gt;Content&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+							<button
+								class="absolute top-3 right-3 btn btn-sm btn-secondary"
+								@click="copied = true; navigator.clipboard.writeText($el.closest('.relative').querySelector('code').textContent); setTimeout(() => copied = false, 2000)"
+								x-text="copied ? 'Copied!' : 'Copy'"
+							>Copy</button>
+						</div>
+					</div>
+				</div>
+</div>
+<!-- /Main Content -->
+			<!-- /Main Content -->
+
+			<!-- Mobile Bottom Menu Button -->
 			<div
 				x-show="isMobile"
 				x-transition:enter="transition ease-out duration-200"
 				x-transition:enter-start="opacity-0"
 				x-transition:enter-end="opacity-100"
-				class="mobile-menu flex justify-center lg:hidden"
+				class="mobile-menu lg:hidden"
 			>
 				<button
 					@click="mobileMenuOpen = !mobileMenuOpen"
-					class="button button-primary button-rounded flex items-center space-x-2 px-4 py-2 rounded-lg"
+					class="flex items-center space-x-2 px-4 py-2 rounded-lg bg-primary text-white"
 				>
-					<!-- Tabler menu icon -->
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						width="24"
@@ -1190,7 +788,7 @@
 						stroke-linejoin="round"
 						class="icon icon-tabler icons-tabler-outline icon-tabler-layout-dashboard"
 					>
-						<path stroke="none" d="M0 0h24h24H0z" fill="none" />
+						<path stroke="none" d="M0 0h24v24H0z" fill="none" />
 						<path
 							d="M5 4h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1"
 						/>
@@ -1212,41 +810,37 @@
 			<div
 				x-show="isMobile && mobileMenuOpen"
 				x-transition:enter="transition ease-out duration-200"
-				x-transition:enter-start="opacity-0 transform translate-y-8"
-				x-transition:enter-end="opacity-100 transform translate-y-0"
+				x-transition:enter-start="opacity-0 translate-y-8"
+				x-transition:enter-end="opacity-100 translate-y-0"
 				x-transition:leave="transition ease-in duration-200"
-				x-transition:leave-start="opacity-100 transform translate-y-0"
-				x-transition:leave-end="opacity-0 transform translate-y-8"
+				x-transition:leave-start="opacity-100 translate-y-0"
+				x-transition:leave-end="opacity-0 translate-y-8"
 				@click.away="mobileMenuOpen = false"
-				class="mobile-menu-popup block lg:hidden"
+				class="mobile-menu-popup lg:hidden"
 			>
-				<div class="space-y-4 py-2">
-					<!-- Dashboard -->
+				<div class="space-y-1 py-2">
 					<a
 						href="/src/dashboard/dashboard.html"
-						class="flex items-center space-x-3 px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"
+						class="flex items-center space-x-3 px-4 py-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg"
 					>
-						<!-- Dashboard -->
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
-							class="h-5 w-5 opacity-75"
+							class="h-5 w-5"
 							fill="none"
 							viewBox="0 0 24 24"
 							stroke="currentColor"
 							stroke-width="2"
 						>
-							<path stroke="none" d="M0 0h24h24H0z" fill="none" />
+							<path stroke="none" d="M0 0h24v24H0z" fill="none" />
 							<path d="M5 12l-2 0l9 -9l9 9l-2 0" />
 							<path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
 							<path d="M10 12h4v4h-4z" />
 						</svg>
 						<span>Dashboard</span>
 					</a>
-
-					<!-- Element -->
 					<a
 						href="/src/elements/index.html"
-						class="flex items-center space-x-3 px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"
+						class="flex items-center space-x-3 px-4 py-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg"
 					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -1260,7 +854,7 @@
 							stroke-linejoin="round"
 							class="icon icon-tabler icons-tabler-outline icon-tabler-file-type-html"
 						>
-							<path stroke="none" d="M0 0h24h24H0z" fill="none" />
+							<path stroke="none" d="M0 0h24v24H0z" fill="none" />
 							<path d="M14 3v4a1 1 0 0 0 1 1h4" />
 							<path d="M5 12v-7a2 2 0 0 1 2 -2h7l5 5v4" />
 							<path d="M2 21v-6" />
@@ -1271,13 +865,11 @@
 							<path d="M7.5 15h3" />
 							<path d="M9 15v6" />
 						</svg>
-						<span>Element</span>
+						<span>Elements</span>
 					</a>
-
-					<!-- Component -->
 					<a
 						href="/src/components/accordion.html"
-						class="flex items-center space-x-3 px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"
+						class="flex items-center space-x-3 px-4 py-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg"
 					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -1291,19 +883,17 @@
 							stroke-linejoin="round"
 							class="icon icon-tabler icons-tabler-outline icon-tabler-components"
 						>
-							<path stroke="none" d="M0 0h24h24H0z" fill="none" />
+							<path stroke="none" d="M0 0h24v24H0z" fill="none" />
 							<path d="M3 12l3 3l3 -3l-3 -3z" />
 							<path d="M15 12l3 3l3 -3l-3 -3z" />
 							<path d="M9 6l3 3l3 -3l-3 -3z" />
 							<path d="M9 18l3 3l3 -3l-3 -3z" />
 						</svg>
-						<span>Component</span>
+						<span>Components</span>
 					</a>
-
-					<!-- Pages -->
 					<a
 						href="/src/pages/index.html"
-						class="flex items-center space-x-3 px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"
+						class="flex items-center space-x-3 px-4 py-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg"
 					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -1317,7 +907,7 @@
 							stroke-linejoin="round"
 							class="icon icon-tabler icons-tabler-outline icon-tabler-article"
 						>
-							<path stroke="none" d="M0 0h24h24H0z" fill="none" />
+							<path stroke="none" d="M0 0h24v24H0z" fill="none" />
 							<path
 								d="M3 4m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z"
 							/>
@@ -1327,15 +917,13 @@
 						</svg>
 						<span>Pages</span>
 					</a>
-
-					<!-- Divider -->
-					<div class="border-t border-gray-200 dark:border-gray-700 my-2"></div>
-
-					<!-- Logout -->
+					<div
+						class="border-t border-slate-200 dark:border-slate-700 my-2"
+					></div>
 					<form action="#" class="px-2">
 						<button
 							type="submit"
-							class="flex w-full items-center space-x-3 px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"
+							class="flex w-full items-center space-x-3 px-4 py-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg"
 						>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"

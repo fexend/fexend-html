@@ -1,0 +1,75 @@
+.timeline {
+	@apply relative pl-8;
+}
+
+.timeline::before {
+	content: '';
+	@apply absolute top-0 bottom-0 w-0.5 bg-slate-200 dark:bg-slate-700;
+	left: 19px;
+}
+
+.timeline-item {
+	@apply relative pb-8 last:pb-0;
+}
+
+.timeline-dot {
+	@apply absolute -left-5 top-1 w-4 h-4 rounded-full
+	border-2 border-foreground dark:border-foreground-dark
+	bg-slate-400 dark:bg-slate-500 z-10;
+}
+
+.timeline-dot-primary   { @apply bg-primary dark:bg-primary-dark; }
+.timeline-dot-secondary { @apply bg-secondary dark:bg-secondary-dark; }
+.timeline-dot-success   { @apply bg-success dark:bg-success-dark; }
+.timeline-dot-danger    { @apply bg-danger dark:bg-danger-dark; }
+.timeline-dot-warning   { @apply bg-warning dark:bg-warning-dark; }
+.timeline-dot-info      { @apply bg-info dark:bg-info-dark; }
+
+.timeline-dot-icon {
+	@apply absolute -left-6 top-0 w-6 h-6 rounded-full
+	flex items-center justify-center
+	bg-primary dark:bg-primary-dark text-white z-10;
+}
+
+.timeline-dot-icon-secondary { @apply bg-secondary dark:bg-secondary-dark; }
+.timeline-dot-icon-success   { @apply bg-success dark:bg-success-dark; }
+.timeline-dot-icon-danger    { @apply bg-danger dark:bg-danger-dark; }
+.timeline-dot-icon-warning   { @apply bg-warning dark:bg-warning-dark; }
+.timeline-dot-icon-info      { @apply bg-info dark:bg-info-dark; }
+
+.timeline-content {
+	@apply ml-2;
+}
+
+.timeline-title {
+	@apply text-sm font-semibold text-slate-900 dark:text-slate-100;
+}
+
+.timeline-time {
+	@apply text-xs text-slate-500 dark:text-slate-400 mt-0.5;
+}
+
+.timeline-description {
+	@apply text-sm text-slate-600 dark:text-slate-400 mt-1;
+}
+
+.timeline-horizontal {
+	@apply flex items-start gap-0 pl-0 overflow-x-auto;
+}
+
+.timeline-horizontal::before {
+	content: '';
+	@apply absolute left-0 right-0 top-5 h-0.5 w-full bg-slate-200 dark:bg-slate-700;
+}
+
+.timeline-horizontal .timeline-item {
+	@apply pb-0 flex-1 min-w-[120px] text-center;
+}
+
+.timeline-horizontal .timeline-dot {
+	@apply relative left-auto top-auto mx-auto mb-3;
+}
+
+.timeline-horizontal .timeline-content {
+	@apply ml-0;
+}

@@ -1,0 +1,91 @@
+.file-upload {
+	@apply relative flex flex-col items-center justify-center
+	w-full min-h-[200px] p-6
+	border-2 border-dashed border-slate-300 dark:border-slate-600
+	rounded-lg cursor-pointer
+	bg-slate-50 dark:bg-slate-800/50
+	text-slate-500 dark:text-slate-400
+	transition-colors duration-200
+	hover:border-primary dark:hover:border-primary-dark
+	hover:bg-primary/5 dark:hover:bg-primary-dark/5;
+}
+
+.file-upload.dragging {
+	@apply border-primary dark:border-primary-dark
+	bg-primary/10 dark:bg-primary-dark/10
+	ring-2 ring-primary/30 dark:ring-primary-dark/30;
+}
+
+.file-upload-icon {
+	@apply w-12 h-12 mb-3 text-slate-400 dark:text-slate-500;
+}
+
+.file-upload.dragging .file-upload-icon {
+	@apply text-primary dark:text-primary-dark;
+}
+
+.file-upload-title {
+	@apply text-base font-medium text-slate-700 dark:text-slate-300 mb-1;
+}
+
+.file-upload-description {
+	@apply text-sm text-slate-500 dark:text-slate-400;
+}
+
+.file-upload-browse {
+	@apply text-primary dark:text-primary-dark font-medium
+	hover:underline cursor-pointer;
+}
+
+.file-upload input[type="file"] {
+	@apply absolute inset-0 w-full h-full opacity-0 cursor-pointer;
+}
+
+.file-upload-sm {
+	@apply min-h-[120px] p-4;
+}
+
+.file-upload-list {
+	@apply mt-4 space-y-2;
+}
+
+.file-upload-item {
+	@apply flex items-center justify-between gap-3 p-3
+	bg-foreground dark:bg-foreground-dark
+	border border-slate-200 dark:border-slate-700
+	rounded-lg;
+}
+
+.file-upload-item-info {
+	@apply flex items-center gap-3 min-w-0;
+}
+
+.file-upload-item-icon {
+	@apply w-10 h-10 rounded-lg flex items-center justify-center shrink-0
+	bg-slate-100 dark:bg-slate-800
+	text-slate-500 dark:text-slate-400;
+}
+
+.file-upload-item-name {
+	@apply text-sm font-medium text-slate-700 dark:text-slate-300 truncate;
+}
+
+.file-upload-item-size {
+	@apply text-xs text-slate-500 dark:text-slate-400;
+}
+
+.file-upload-item-remove {
+	@apply p-1 rounded-md text-slate-400 dark:text-slate-500
+	hover:text-danger dark:hover:text-danger-dark
+	hover:bg-danger/10 dark:hover:bg-danger-dark/10
+	cursor-pointer transition-colors duration-150
+	focus-visible:outline-2 focus-visible:outline-primary dark:focus-visible:outline-primary-dark focus-visible:outline-offset-2;
+}
+
+.file-upload-progress {
+	@apply w-full h-1.5 rounded-full bg-slate-200 dark:bg-slate-700 mt-1 overflow-hidden;
+}
+
+.file-upload-progress-bar {
+	@apply h-full rounded-full bg-primary dark:bg-primary-dark transition-all duration-300;
+}

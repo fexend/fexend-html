@@ -2,42 +2,34 @@
 	@apply relative bg-foreground dark:bg-foreground-dark rounded-md p-6 shadow-md transition-all duration-200;
 }
 
-/* Card variants */
 .card-primary {
 	@apply border-2 bg-primary dark:bg-primary-dark text-white border-primary dark:border-primary-dark;
 }
 
 .card-secondary {
-	@apply border-2 bg-secondary dark:bg-secondary-dark text-white;
-	border-color: var(--color-secondary);
+	@apply border-2 bg-secondary dark:bg-secondary-dark text-white border-secondary dark:border-secondary-dark;
 }
 
 .card-info {
-	@apply border-2 bg-info dark:bg-info-dark text-white;
-	border-color: var(--color-info);
+	@apply border-2 bg-info dark:bg-info-dark text-white border-info dark:border-info-dark;
 }
 
 .card-success {
-	@apply border-2 bg-success dark:bg-success-dark text-white;
-	border-color: var(--color-success);
+	@apply border-2 bg-success dark:bg-success-dark text-white border-success dark:border-success-dark;
 }
 
 .card-warning {
-	@apply border-2 bg-warning dark:bg-warning-dark text-white;
-	border-color: var(--color-warning);
+	@apply border-2 bg-warning dark:bg-warning-dark text-white border-warning dark:border-warning-dark;
 }
 
 .card-danger {
-	@apply border-2 bg-danger dark:bg-danger-dark text-white;
-	border-color: var(--color-danger);
+	@apply border-2 bg-danger dark:bg-danger-dark text-white border-danger dark:border-danger-dark;
 }
 
-/* Card hover effects */
 .card-hover:hover {
 	@apply transform scale-[1.02] shadow-lg;
 }
 
-/* Card sizes */
 .card-sm {
 	@apply p-4;
 }
@@ -46,7 +38,6 @@
 	@apply p-8;
 }
 
-/* Card header */
 .card-header {
 	@apply mb-4 text-xl font-semibold;
 }
@@ -55,12 +46,10 @@
 	@apply text-2xl font-semibold;
 }
 
-/* Card footer */
 .card-footer {
 	@apply mt-4 pt-4;
 }
 
-/* Card with loading state */
 .card.loading {
 	@apply animate-pulse;
 }

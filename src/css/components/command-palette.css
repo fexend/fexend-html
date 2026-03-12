@@ -1,0 +1,88 @@
+.command-palette-backdrop {
+	@apply fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm
+	transition-opacity duration-200;
+}
+
+.command-palette {
+	@apply fixed top-[20%] left-1/2 -translate-x-1/2 z-50
+	w-full max-w-xl
+	bg-foreground dark:bg-foreground-dark
+	rounded-xl shadow-2xl
+	border border-slate-200 dark:border-slate-700
+	overflow-hidden;
+}
+
+.command-palette-input-wrapper {
+	@apply flex items-center gap-3 px-4 py-3
+	border-b border-slate-200 dark:border-slate-700;
+}
+
+.command-palette-input-icon {
+	@apply w-5 h-5 text-slate-400 dark:text-slate-500 shrink-0;
+}
+
+.command-palette-input {
+	@apply w-full bg-transparent border-none outline-none
+	text-slate-900 dark:text-slate-100 text-base
+	placeholder:text-slate-400 dark:placeholder:text-slate-500;
+}
+
+.command-palette-shortcut {
+	@apply text-xs text-slate-400 dark:text-slate-500
+	px-1.5 py-0.5 rounded border
+	border-slate-200 dark:border-slate-600
+	bg-slate-100 dark:bg-slate-800
+	font-mono whitespace-nowrap;
+}
+
+.command-palette-results {
+	@apply max-h-80 overflow-y-auto py-2;
+}
+
+.command-palette-group {
+	@apply px-3 py-1.5;
+}
+
+.command-palette-group-title {
+	@apply text-xs font-semibold uppercase tracking-wider
+	text-slate-400 dark:text-slate-500 px-2 mb-1;
+}
+
+.command-palette-item {
+	@apply flex items-center gap-3 px-4 py-2.5 mx-2 rounded-lg cursor-pointer
+	text-sm text-slate-700 dark:text-slate-300
+	transition-colors duration-100
+	hover:bg-slate-100 dark:hover:bg-slate-800
+	focus-visible:outline-2 focus-visible:outline-primary dark:focus-visible:outline-primary-dark focus-visible:outline-offset-[-2px];
+}
+
+.command-palette-item.active {
+	@apply bg-primary/10 dark:bg-primary-dark/10
+	text-primary dark:text-primary-dark;
+}
+
+.command-palette-item-icon {
+	@apply w-5 h-5 text-slate-400 dark:text-slate-500 shrink-0;
+}
+
+.command-palette-item.active .command-palette-item-icon {
+	@apply text-primary dark:text-primary-dark;
+}
+
+.command-palette-item-label {
+	@apply flex-1 truncate;
+}
+
+.command-palette-item-shortcut {
+	@apply text-xs text-slate-400 dark:text-slate-500 font-mono;
+}
+
+.command-palette-footer {
+	@apply flex items-center justify-between gap-4 px-4 py-2.5
+	border-t border-slate-200 dark:border-slate-700
+	text-xs text-slate-400 dark:text-slate-500;
+}
+
+.command-palette-empty {
+	@apply py-10 text-center text-sm text-slate-400 dark:text-slate-500;
+}

@@ -1,0 +1,28 @@
+.label {
+	@apply block text-slate-900 dark:text-slate-100 text-sm font-medium mb-1;
+}
+
+.label-required::after {
+	content: " *";
+	@apply text-danger dark:text-danger-dark;
+}
+
+.label-error {
+	@apply text-danger dark:text-danger-dark;
+}
+
+.label-valid {
+	@apply text-success dark:text-success-dark;
+}
+
+.form-feedback {
+	@apply text-xs mt-1 text-slate-500 dark:text-slate-400;
+}
+
+.form-feedback-error {
+	@apply text-danger dark:text-danger-dark;
+}
+
+.form-feedback-valid {
+	@apply text-success dark:text-success-dark;
+}

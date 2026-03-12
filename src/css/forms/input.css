@@ -1,0 +1,175 @@
+.input,
+.select,
+.textarea {
+	@apply block w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-md
+	bg-foreground dark:bg-foreground-dark
+	text-slate-900 dark:text-slate-100
+	placeholder:text-slate-400 dark:placeholder:text-slate-500
+	focus:outline-none focus:border-primary dark:focus:border-primary-dark
+	focus:ring-1 focus:ring-primary dark:focus:ring-primary-dark
+	transition-colors duration-150;
+}
+
+.input:disabled,
+.select:disabled,
+.textarea:disabled {
+	@apply bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 cursor-not-allowed opacity-75;
+}
+
+.input:read-only,
+.textarea:read-only {
+	@apply bg-slate-50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400;
+}
+
+.select option {
+	@apply bg-foreground dark:bg-foreground-dark text-slate-900 dark:text-slate-100;
+}
+
+.select option:checked {
+	@apply bg-primary dark:bg-primary-dark text-white;
+}
+
+.input-sm {
+	@apply px-3 py-1.5 text-sm;
+}
+
+.input-lg {
+	@apply px-5 py-3 text-lg;
+}
+
+.input-rounded {
+	@apply rounded-full;
+}
+
+.input-error {
+	@apply border-danger dark:border-danger-dark
+	focus:border-danger dark:focus:border-danger-dark
+	focus:ring-danger dark:focus:ring-danger-dark;
+}
+
+.input-valid {
+	@apply border-success dark:border-success-dark
+	focus:border-success dark:focus:border-success-dark
+	focus:ring-success dark:focus:ring-success-dark;
+}
+
+.input-file {
+	@apply border-dashed cursor-pointer
+	file:mr-4 file:py-1.5 file:px-3
+	file:rounded-md file:border-0 file:text-sm file:font-medium
+	file:bg-primary/10 file:text-primary
+	dark:file:bg-primary-dark/10 dark:file:text-primary-dark
+	file:cursor-pointer hover:file:bg-primary/20 dark:hover:file:bg-primary-dark/20;
+}
+
+.form-group {
+	@apply flex flex-col gap-1 mb-4;
+}
+
+.input-group {
+	@apply flex items-stretch;
+}
+
+.input-group .input,
+.input-group .select {
+	@apply rounded-none flex-1 min-w-0 relative z-[1];
+}
+
+.input-group > *:first-child,
+.input-group .input:first-child,
+.input-group .select:first-child {
+	@apply rounded-l-md;
+}
+
+.input-group > *:last-child,
+.input-group .input:last-child,
+.input-group .select:last-child {
+	@apply rounded-r-md;
+}
+
+.input-group > *:not(:first-child) {
+	@apply -ml-px;
+}
+
+.input-addon {
+	@apply flex items-center px-4 py-2 text-sm border
+	bg-slate-100 dark:bg-slate-800
+	border-slate-300 dark:border-slate-600
+	text-slate-600 dark:text-slate-400
+	whitespace-nowrap shrink-0;
+}
+
+.input-addon:first-child {
+	@apply rounded-l-md;
+}
+
+.input-addon:last-child {
+	@apply rounded-r-md;
+}
+
+.input-icon-left {
+	@apply relative;
+}
+
+.input-icon-left .input,
+.input-icon-left .select {
+	@apply pl-10;
+}
+
+.input-icon-left .input-icon {
+	@apply absolute left-3 top-1/2 -translate-y-1/2
+	text-slate-400 dark:text-slate-500 pointer-events-none;
+}
+
+.input-icon-right {
+	@apply relative;
+}
+
+.input-icon-right .input,
+.input-icon-right .select {
+	@apply pr-10;
+}
+
+.input-icon-right .input-icon {
+	@apply absolute right-3 top-1/2 -translate-y-1/2
+	text-slate-400 dark:text-slate-500 pointer-events-none;
+}
+
+/* ── Password Input ─────────────────────────────────────────── */
+
+.input-password {
+	@apply relative;
+}
+
+.input-password .input {
+	@apply pr-10;
+}
+
+.input-password-toggle {
+	@apply absolute right-3 top-1/2 -translate-y-1/2
+	bg-transparent border-0 p-0 cursor-pointer
+	text-slate-400 dark:text-slate-500
+	hover:text-slate-600 dark:hover:text-slate-300
+	focus:outline-none focus-visible:ring-1
+	focus-visible:ring-primary dark:focus-visible:ring-primary-dark
+	rounded transition-colors duration-150;
+}
+
+.input-password-criteria {
+	@apply absolute left-0 right-0 top-full mt-1.5 z-20
+	rounded-lg border border-slate-200 dark:border-slate-700
+	bg-foreground dark:bg-foreground-dark
+	shadow-lg p-3 space-y-1.5;
+}
+
+.criteria-item {
+	@apply flex items-center gap-2 text-sm text-slate-400 dark:text-slate-500 transition-colors duration-150;
+}
+
+.criteria-item svg {
+	@apply w-4 h-4 shrink-0;
+}
+
+.criteria-item-met {
+	@apply text-success dark:text-success-dark;
+}

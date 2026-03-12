@@ -1,50 +1,72 @@
-# Contributing to Fexend Project
+# Contributing to Fexend
 
-We welcome contributions to the Fexend Project! Here are some guidelines to help you get started. If you want to create a new element, please check the README file and create a new issue for the component. This ensures that other contributors do not work on the same issue or component, allowing you to continue contributing efficiently.
+We welcome contributions! Please open a GitHub issue before starting work on a new component to avoid duplication.
 
-## How to Contribute
+## Setup
 
-1. Fork the repository:
-
-```bash
-git fork https://github.com/zera-app/fexend-html.git
-```
-
-2. Clone your forked repository:
+This project uses **Bun** (not npm/yarn/pnpm).
 
 ```bash
 git clone https://github.com/<your-username>/fexend-html.git
+cd fexend-html
+bun install
+bun run dev
 ```
 
-3. Create a new branch for your feature or bugfix:
+`bun run dev` watches both CSS (`src/css/app.css` → `public/css/app.css`) and JS (`src/js/app.js` → `public/js/app.js`) in parallel.
+
+## Branch & PR Workflow
+
+1. Fork and clone the repo
+2. Create a branch: `git checkout -b feature-<name>` or `fix-<name>`
+3. Make changes, test light + dark mode
+4. Push and open a PR targeting `main`
+
+## Adding a New Component
 
 ```bash
-git checkout -b feature-or-bugfix-name
+# 1. Create the CSS
+touch src/css/components/<name>.css
+
+# 2. Import it in the barrel
+echo '@import "./components/<name>.css";' >> src/css/components.css
+
+# 3. Create the HTML showcase (copy boilerplate)
+cp src/dashboard.html src/components/<name>.html
 ```
 
-4. Install Node Modules and watch the CSS:
+## Adding a New Form Element
 
 ```bash
-npm install && npm run dev
+# 1. Create the CSS (opt-in classes only — no bare element selectors)
+touch src/css/forms/<name>.css
+
+# 2. Import it
+echo '@import "./forms/<name>.css";' >> src/css/forms.css
+
+# 3. Create the showcase
+cp src/dashboard.html src/elements/<name>.html
 ```
 
-5. Make your changes and commit them:
+## Design Standards
 
-```bash
-git add .
-git commit -m "Description of your changes"
-```
+- **Opt-in CSS classes only** — never style bare `input`, `select`, `textarea`, `label` elements
+- **Dark mode required** — always pair `bg-white dark:bg-slate-800`; never light-only
+- **No raw hex colors** — use `@theme` tokens (`text-primary`, `bg-success`, etc.)
+- **Semantic tokens** — see the color table in `AGENTS.md`
+- **Icons** — Tabler Icons inline SVG only (`w-5 h-5`, `stroke="currentColor"`)
 
-6. Push your changes to your forked repository:
+## Tailwind v4 Patterns
 
-```bash
-git push origin feature-or-bugfix-name
-```
-
-7. Create a pull request from your branch to the main repository.
+- Config lives in `src/css/app.css` via `@theme {}` — no `tailwind.config.js`
+- New design tokens go in the `@theme {}` block, not in arbitrary values
+- Use `@apply` sparingly; prefer utility classes in HTML
+- Dark mode is class-based (`.dark` on `<html>`) — use `dark:` prefix
 
 ## Code Style
 
-- Follow the existing code style.
-- Write clear and concise commit messages.
-- Please use Prettier for formatting.
+- **Formatter:** Prettier — run `bun run format` before committing
+- **Indentation:** 4 spaces for HTML/CSS/JS
+- **Alpine.js:** Keep `x-data` minimal; use `@click` shorthand
+- **No inline `<style>` blocks** unless it's for loading screen FOUC prevention
+- **No comments** unless logic is non-obvious
