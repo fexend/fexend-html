@@ -396,7 +396,7 @@ All libraries are bundled in `public/js/app.js` — no CDN scripts needed on pag
 
 ## Page Boilerplate (Alpine.js)
 
-Every page uses this standard setup (`src/index.html` is the reference):
+Every page uses this standard setup (`src/dashboard.html` is the boilerplate reference):
 
 ```html
 <!DOCTYPE html>

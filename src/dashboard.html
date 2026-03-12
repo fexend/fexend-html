@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Popover | Fexend</title>
+		<title>Dashboard | Fexend</title>
 
 		<link
 			rel="icon"
@@ -482,82 +482,19 @@
 		</aside>
 		<!-- /Sidebar -->
 
-
-<!-- Main Content -->
-<div
-class="main-container"
-:class="{
-'md:ml-80': sidebarOpen,
-'md:ml-16': !sidebarOpen,
-'ml-0': true
-}"
->
-<!-- Breadcrumb -->
-<nav class="breadcrumb mb-6" aria-label="Breadcrumb">
-<ol>
-<li><a href="/src/index.html">Dashboard</a></li>
-<li><span aria-hidden="true"></span><a href="#">Components</a></li>
-<li><span aria-hidden="true"></span><a href="#">Popover</a></li>
-</ol>
-</nav>
-<h1 class="heading-1 mb-8">Popover</h1>
-
-<section class="mb-10">
-<h2 class="heading-2 mb-6">Positions</h2>
-				<div class="flex flex-wrap gap-8 items-start py-6">
-					<!-- Top -->
-					<div class="popover" x-data="{open: false}">
-						<button class="button button-primary" @click="open = !open" :aria-expanded="open">Top Popover</button>
-						<div x-show="open" x-transition @click.away="open = false" class="popover-content bottom-full mb-2 left-0" style="position:absolute;bottom:calc(100% + 8px);top:auto;" role="dialog">
-							<div class="p-3">
-								<h4 class="font-semibold text-sm mb-1 text-slate-900 dark:text-slate-100">Popover Title</h4>
-								<p class="text-xs text-slate-600 dark:text-slate-400">This is a popover with additional content and richer information than a tooltip.</p>
-							</div>
-						</div>
-					</div>
-					<!-- Right -->
-					<div class="popover" x-data="{open: false}">
-						<button class="button button-success" @click="open = !open" :aria-expanded="open">Right Popover</button>
-						<div x-show="open" x-transition @click.away="open = false" class="popover-content left-full ml-2 top-0" style="position:absolute;" role="dialog">
-							<div class="p-3">
-								<h4 class="font-semibold text-sm mb-1 text-slate-900 dark:text-slate-100">Right Placement</h4>
-								<p class="text-xs text-slate-600 dark:text-slate-400">Popover appearing to the right of the trigger element.</p>
-								<button class="button button-primary button-sm mt-2" @click="open = false">Close</button>
-							</div>
-						</div>
-					</div>
-					<!-- Bottom -->
-					<div class="popover" x-data="{open: false}">
-						<button class="button button-warning" @click="open = !open" :aria-expanded="open">Bottom Popover</button>
-						<div x-show="open" x-transition @click.away="open = false" class="popover-content top-full mt-2 left-0" role="dialog">
-							<div class="p-3">
-								<h4 class="font-semibold text-sm mb-1 text-slate-900 dark:text-slate-100">Bottom Placement</h4>
-								<p class="text-xs text-slate-600 dark:text-slate-400">This popover appears below the trigger. Great for forms or user actions.</p>
-							</div>
-						</div>
-					</div>
-				</div>
-</section>
-
-				<!-- Usage -->
-				<div class="card mt-8" x-data="{ copied: false }">
-					<div class="card-body">
-						<h2 class="text-lg font-semibold mb-3">Usage</h2>
-						<div class="relative">
-							<pre class="bg-slate-900 text-slate-100 rounded-lg p-4 overflow-x-auto text-sm"><code>&lt;div class="popover" x-data="{ open: false }"&gt;
-  &lt;button @click="open = !open"&gt;Toggle&lt;/button&gt;
-  &lt;div class="popover-content" x-show="open"&gt;Content&lt;/div&gt;
-&lt;/div&gt;</code></pre>
-							<button
-								class="absolute top-3 right-3 btn btn-sm btn-secondary"
-								@click="copied = true; navigator.clipboard.writeText($el.closest('.relative').querySelector('code').textContent); setTimeout(() => copied = false, 2000)"
-								x-text="copied ? 'Copied!' : 'Copy'"
-							>Copy</button>
-						</div>
-					</div>
-				</div>
-</div>
-<!-- /Main Content -->
+			<!-- Main Content -->
+			<div
+				class="main-container"
+				:class="{
+					'md:ml-80': sidebarOpen,
+					'md:ml-16': !sidebarOpen,
+					'ml-0': true
+				}"
+			>
+				<p class="text-slate-500 dark:text-slate-400">
+					Dashboard content goes here.
+				</p>
+			</div>
 			<!-- /Main Content -->
 
 			<!-- Mobile Bottom Menu Button -->

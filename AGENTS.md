@@ -51,7 +51,8 @@ fexend-html/
 │   │   └── utilities/            # Utility CSS files (a, heading, list, p)
 │   ├── js/
 │   │   └── app.js                # Alpine.js entry point (bundled by Bun)
-│   ├── index.html                # Root dashboard page with full layout boilerplate
+│   ├── index.html                # Root gallery page (Components · Form Elements · Pages)
+│   ├── dashboard.html            # Full layout boilerplate (navbar + sidebar + loading screen)
 │   ├── components/               # Full page showcases for each UI component
 │   ├── elements/                 # Standalone element pages (buttons, forms, etc.)
 │   ├── pages/                    # Auth pages (login, signup, forgot-password, etc.)
@@ -64,7 +65,8 @@ fexend-html/
 │   ├── images/
 │   ├── fonts/
 │   └── favicon*, site.webmanifest, *.png
-├── skills/                       # AI skills for project-specific guidance
+├── .agents/
+│   └── skills/                   # AI skills for project-specific guidance
 ├── AGENTS.md                     # This file — shared by all AI agents
 ├── CLAUDE.md                     # Claude Code specific instructions (references AGENTS.md)
 ├── .github/copilot-instructions.md  # GitHub Copilot instructions (references AGENTS.md)
@@ -121,144 +123,22 @@ fexend-html/
 
 ## Rewrite Plan
 
-### Goals
+### Completed Phases
 
-1. **Migrate from npm → Bun** for faster installs and cleaner scripts
-2. **Restructure components** for better organization and discoverability
-3. **Add missing components** from the TODO list and community requests
-4. **Improve dark mode** consistency across all components
-5. **Standardize page boilerplate** with a shared layout pattern
-6. **Add breadcrumbs** to all component/element pages
-7. **Add WYSIWYG editor** integration (TinyMCE or Trix)
-8. **Improve accessibility** — ARIA roles, keyboard navigation, focus states
-9. **Add more chart types** using ApexCharts
-
-### Phase 1 — Foundation (Bun + Build) ✅
-
-- [x] Replace `package.json` npm scripts with Bun equivalents
-- [x] Verify `bun run dev` and `bun run build` work correctly (builds CSS + JS in parallel via `concurrently`)
-- [x] Update all documentation to reference `bun` instead of `npm`
-- [x] Bundle Alpine.js via `src/js/app.js` → `public/js/app.js`
-- [x] Restructure CSS into `layouts/` and `utilities/` subdirectories
-
-### Phase 2 — Component Audit & CSS Migration ✅
-
-- [x] Migrate all UI component CSS to `src/css/components/` (accordion, alert, badge, breadcrumb, button, card, collapse, divider, drawer, dropdown, menu-list, modal, pagination, popover, tab, table)
-- [x] Migrate all form CSS to `src/css/forms/` (label, input, checkbox, radio, switch) — **opt-in classes only, no bare element selectors**
-- [x] Migrate all third-party library CSS to `src/css/libs/` (select2, flatpickr, datatable)
-- [x ] Populate `src/css/components.css`, `src/css/forms.css`, `src/css/libs.css` barrel imports
-- [x] Audit all existing components for dark mode consistency
-- [x] Fix any broken Alpine.js patterns
-- [x] Ensure all components use semantic color tokens (not raw hex)
-- [x] Add accessibility attributes (ARIA roles, labels) to interactive components
-
-### Phase 3 — New Components ✅
-
-Priority order:
-
-| Component            | Status   | Notes                                                                         |
-| -------------------- | -------- | ----------------------------------------------------------------------------- |
-| Breadcrumb           | [x] done | `src/css/components/breadcrumb.css`                                           |
-| WYSIWYG Input        | [x] done | `src/css/libs/wysiwyg.css` — toolbar, editor content, size variants           |
-| Stepper / Wizard     | [x] done | `src/css/components/stepper.css` — horizontal/vertical, color variants        |
-| Timeline             | [x] done | `src/css/components/timeline.css` — vertical/horizontal, color dots           |
-| Stat Cards           | [x] done | `src/css/components/stat-card.css` — icon variants, trends, filled colors     |
-| File Upload          | [x] done | `src/css/components/file-upload.css` — drag & drop, file list, progress       |
-| Avatar Group         | [x] done | `src/css/components/avatar.css` — sizes, status, stacked groups               |
-| Command Palette      | [x] done | `src/css/components/command-palette.css` — search overlay, keyboard shortcuts |
-| Toast / Notification | [x] done | `src/css/components/toast.css` — auto-dismiss, color variants, animations     |
-| Data Filters         | [x] done | `src/css/components/data-filter.css` — filter chips, search, actions          |
-
-### Phase 4 — HTML Pages ✅
-
-Create a full page for every component in `src/components/` and `src/elements/`, using `src/index.html` as the boilerplate base. Update all asset paths from old `/dist/` to `/public/`.
-
-| Page                                  | Status   |
-| ------------------------------------- | -------- |
-| `src/components/accordion.html`       | [x] done |
-| `src/components/alert.html`           | [x] done |
-| `src/components/avatar.html`          | [x] done |
-| `src/components/badge.html`           | [x] done |
-| `src/components/breadcrumb.html`      | [x] done |
-| `src/components/button.html`          | [x] done |
-| `src/components/card.html`            | [x] done |
-| `src/components/collapse.html`        | [x] done |
-| `src/components/command-palette.html` | [x] done |
-| `src/components/data-filter.html`     | [x] done |
-| `src/components/divider.html`         | [x] done |
-| `src/components/drawer.html`          | [x] done |
-| `src/components/dropdown.html`        | [x] done |
-| `src/components/file-upload.html`     | [x] done |
-| `src/components/menu-list.html`       | [x] done |
-| `src/components/modal.html`           | [x] done |
-| `src/components/pagination.html`      | [x] done |
-| `src/components/popover.html`         | [x] done |
-| `src/components/stat-card.html`       | [x] done |
-| `src/components/stepper.html`         | [x] done |
-| `src/components/tab.html`             | [x] done |
-| `src/components/table.html`           | [x] done |
-| `src/components/timeline.html`        | [x] done |
-| `src/components/toast.html`           | [x] done |
-| `src/components/tooltip.html`         | [x] done |
-| `src/elements/checkbox.html`          | [x] done |
-| `src/elements/datatable.html`         | [x] done |
-| `src/elements/flatpickr.html`         | [x] done |
-| `src/elements/input.html`             | [x] done |
-| `src/elements/radio.html`             | [x] done |
-| `src/elements/select2.html`           | [x] done |
-| `src/elements/switch.html`            | [x] done |
-| `src/elements/wysiwyg.html`           | [x] done |
-
-### Phase 4.1
-
-- [x] Input Password (With Password Criteria) — show/hide toggle + live criteria checklist in `src/css/forms/input.css`, showcased in `src/elements/input.html`
-- [x] Modal Delete/Confirm — `.modal-confirm` variants in `src/css/components/modal.css`, showcased in `src/components/modal.html`
-- [x] Add Prettier — `prettier` devDependency, `.prettierrc`, `.prettierignore`, `bun run format` script
-- [x] Sidebar JS config — `src/js/sidebar-config.js` (full nav data) + `fexendSidebar` Alpine component registered in `src/js/app.js`
-- [x] Auth Pages — `src/pages/login.html`, `register.html`, `forgot-password.html`, `reset-password.html`, `verify-email.html`
-
-### Phase 4.2
-
-- [x] in all sub folder, must have the index.html file
-- [x] render the sidebar via js file `/src/js/sidebar-config.js` in all html file
-
-### Phase 4.3
-
-- [x] Some sample dashboard.
-- [x] Blank Setting Page or just simple forms.
-
-### Phase 4.4
-
-- [x] Table Datatable with datatables.net
-- [x] Update styling for datatables.net to match our styles
-- [x] Table with Filter (using collapse component + card + datatable)
-- [x] Table with icons or images (avatars + badges in table rows)
-- [x] Input Password criteria — shows on focus, hides on blur, adds input-error/input-valid state after blur
-- [x] Input elements must be inside card div
-- [x] Update the styling for select2 (arrow positioning fixed to match input height)
-- [x] All element showcase sections inside card div (input, select2, file-upload)
-- [x] Table filter with collapse component (card + datatable + collapse in datatable.html)
-- [x] Fix the drawer — removed `static` override, improved close button styling, teleport to body, bottom drawer rounded
-- [x] Move file upload to elements — `src/elements/file-upload.html` created
-- [x] Modal positions — top-left, top-center, top-right, mid-left, mid-right, bottom-left, bottom-center, bottom-right
-- [x] Fix timeline alignment — connector line now centered through dots (`left-[19px]`, dot-icon at `-left-6`)
-- [] see the \_\_old folder for reference if further improvements needed
-
-### Phase 5 — New Pages & Layouts ✅
-
-- [x] Inbox / Messages page — `src/pages/inbox.html`
-- [x] Calendar page — `src/pages/calendar.html`
-- [x] Kanban board — `src/pages/kanban.html`
-- [x] Invoice / billing page — `src/pages/invoice.html`
-- [x] User management table page — `src/pages/users.html`
-- [x] Error pages (404, 500, maintenance) — `src/pages/errors/`
+| Phase | Summary |
+| ----- | ------- |
+| **Phase 1** — Foundation ✅ | Migrated to Bun, restructured CSS into `layouts/` and `utilities/`, bundled Alpine.js |
+| **Phase 2** — CSS Migration ✅ | All UI, form, and lib CSS migrated to their respective `src/css/` subfolders; dark mode audited |
+| **Phase 3** — New Components ✅ | Added Breadcrumb, WYSIWYG, Stepper, Timeline, Stat Card, File Upload, Avatar, Command Palette, Toast, Data Filter |
+| **Phase 4** — HTML Pages ✅ | Full showcase pages for all 25 components and 9 elements; sidebar JS config; auth pages; datatable/select2 styling; modal positions |
+| **Phase 5** — New Pages ✅ | Inbox, Calendar, Kanban, Invoice, Users, Error pages (404/500/maintenance) |
 
 ### Phase 6 — DX & Documentation
 
-- [ ] Add `index.html` component gallery at root
-- [ ] Generate component thumbnails for the gallery
-- [ ] Document every component with usage examples
-- [ ] Add contributing guide for new component standards
+- [x] Root gallery page — `src/index.html` (gallery), `src/dashboard.html` (boilerplate)
+- [x] Thumbnail generator — `scripts/generate-thumbnails.js`, run `bun run thumbnails`
+- [x] Contributing guide — `CONTRIBUTING.md` updated with Bun setup, component standards, design rules
+- [ ] Document every component with inline usage examples
 
 ---
 
@@ -266,7 +146,7 @@ Create a full page for every component in `src/components/` and `src/elements/`,
 
 1. Create `src/css/components/<name>.css` using `@apply` + theme tokens
 2. Import it in `src/css/components.css`
-3. Create `src/components/<name>.html` — copy `src/index.html` as boilerplate base
+3. Create `src/components/<name>.html` — copy `src/dashboard.html` as boilerplate base
 4. Optionally create `src/elements/<name>.html` for a standalone showcase
 
 ## Adding a New Form Element

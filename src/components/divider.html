@@ -542,6 +542,22 @@ class="main-container"
 					<p class="text-slate-600 dark:text-slate-400">Content below</p>
 				</div>
 </section>
+
+				<!-- Usage -->
+				<div class="card mt-8" x-data="{ copied: false }">
+					<div class="card-body">
+						<h2 class="text-lg font-semibold mb-3">Usage</h2>
+						<div class="relative">
+							<pre class="bg-slate-900 text-slate-100 rounded-lg p-4 overflow-x-auto text-sm"><code>&lt;hr class="divider" /&gt;
+&lt;div class="divider-with-text"&gt;&lt;span&gt;OR&lt;/span&gt;&lt;/div&gt;</code></pre>
+							<button
+								class="absolute top-3 right-3 btn btn-sm btn-secondary"
+								@click="copied = true; navigator.clipboard.writeText($el.closest('.relative').querySelector('code').textContent); setTimeout(() => copied = false, 2000)"
+								x-text="copied ? 'Copied!' : 'Copy'"
+							>Copy</button>
+						</div>
+					</div>
+				</div>
 </div>
 <!-- /Main Content -->
 			<!-- /Main Content -->

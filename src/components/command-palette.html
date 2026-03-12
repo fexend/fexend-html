@@ -561,6 +561,24 @@ commands: [
 					</div>
 				</div>
 </section>
+
+				<!-- Usage -->
+				<div class="card mt-8" x-data="{ copied: false }">
+					<div class="card-body">
+						<h2 class="text-lg font-semibold mb-3">Usage</h2>
+						<div class="relative">
+							<pre class="bg-slate-900 text-slate-100 rounded-lg p-4 overflow-x-auto text-sm"><code>&lt;div class="command-palette" x-show="open"&gt;
+  &lt;input class="command-palette-input" placeholder="Search..."&gt;
+  &lt;ul class="command-palette-list"&gt;...&lt;/ul&gt;
+&lt;/div&gt;</code></pre>
+							<button
+								class="absolute top-3 right-3 btn btn-sm btn-secondary"
+								@click="copied = true; navigator.clipboard.writeText($el.closest('.relative').querySelector('code').textContent); setTimeout(() => copied = false, 2000)"
+								x-text="copied ? 'Copied!' : 'Copy'"
+							>Copy</button>
+						</div>
+					</div>
+				</div>
 </div>
 <!-- /Main Content -->
 			<!-- /Main Content -->

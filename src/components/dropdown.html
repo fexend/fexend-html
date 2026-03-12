@@ -562,6 +562,26 @@ class="main-container"
 					</div>
 				</div>
 </section>
+
+				<!-- Usage -->
+				<div class="card mt-8" x-data="{ copied: false }">
+					<div class="card-body">
+						<h2 class="text-lg font-semibold mb-3">Usage</h2>
+						<div class="relative">
+							<pre class="bg-slate-900 text-slate-100 rounded-lg p-4 overflow-x-auto text-sm"><code>&lt;div class="dropdown" x-data="{ open: false }"&gt;
+  &lt;button @click="open = !open"&gt;Open&lt;/button&gt;
+  &lt;div class="dropdown-menu" x-show="open"&gt;
+    &lt;a class="dropdown-item" href="#"&gt;Item&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+							<button
+								class="absolute top-3 right-3 btn btn-sm btn-secondary"
+								@click="copied = true; navigator.clipboard.writeText($el.closest('.relative').querySelector('code').textContent); setTimeout(() => copied = false, 2000)"
+								x-text="copied ? 'Copied!' : 'Copy'"
+							>Copy</button>
+						</div>
+					</div>
+				</div>
 </div>
 <!-- /Main Content -->
 			<!-- /Main Content -->

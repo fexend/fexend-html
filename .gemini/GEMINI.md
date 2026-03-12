@@ -104,7 +104,8 @@ This project is being actively rewritten. Before starting any task, check `AGENT
 | `src/css/layouts/` | Layout CSS (navbar, sidebar, layout, loading) |
 | `src/css/utilities/` | Base/utility CSS (a, heading, list, p) |
 | `src/js/app.js` | Alpine.js entry point |
-| `src/index.html` | Page boilerplate template |
+| `src/dashboard.html` | Page boilerplate template (copy for new pages) |
+| `src/index.html` | Root gallery page (Components · Form Elements · Pages) |
 | `src/components/` | Full page HTML showcases |
 | `src/elements/` | Standalone element demos |
 | `src/pages/` | Auth pages |

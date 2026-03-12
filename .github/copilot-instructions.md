@@ -93,7 +93,8 @@ src/css/layouts.css               ← Layout import barrel
 src/css/utilities/<name>.css      ← Utility/base styles
 src/css/utilities.css             ← Utility import barrel
 src/js/app.js                     ← Alpine.js entry (compiled → public/js/app.js)
-src/index.html                    ← Page boilerplate (copy for new pages)
+src/dashboard.html                ← Page boilerplate (copy for new pages)
+src/index.html                    ← Root gallery (Components · Form Elements · Pages)
 src/components/<name>.html        ← Full page showcase
 src/elements/<name>.html          ← Standalone element showcase
 public/css/app.css                ← Compiled CSS output — DO NOT EDIT

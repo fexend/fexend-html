@@ -20,16 +20,16 @@ bun remove <package>  # Remove a dependency
 
 ### Skills Available
 
-This project has skills in `skills/` that Claude should apply automatically:
+This project has skills in `.agents/skills/` that Claude should apply automatically:
 
 | Skill | When to Apply |
 |---|---|
-| `skills/fexend/` | Creating or modifying any HTML, CSS, or Alpine.js in this project |
-| `skills/tailwind-patterns/` | Configuring Tailwind v4 or writing utility classes |
-| `skills/tailwind-design-system/` | Building new components or updating the design system |
-| `skills/frontend-design/` | Designing new page layouts or visual treatments |
-| `skills/ui-ux-pro-max/` | UX reviews, accessibility audits, chart/palette selection |
-| `skills/clean-code/` | Code review, refactoring, naming conventions |
+| `.agents/skills/fexend/` | Creating or modifying any HTML, CSS, or Alpine.js in this project |
+| `.agents/skills/tailwind-patterns/` | Configuring Tailwind v4 or writing utility classes |
+| `.agents/skills/tailwind-design-system/` | Building new components or updating the design system |
+| `.agents/skills/frontend-design/` | Designing new page layouts or visual treatments |
+| `.agents/skills/ui-ux-pro-max/` | UX reviews, accessibility audits, chart/palette selection |
+| `.agents/skills/clean-code/` | Code review, refactoring, naming conventions |
 
 ### Working on the Rewrite
 
@@ -37,7 +37,7 @@ When working on rewrite tasks (see `AGENTS.md` Rewrite Plan):
 
 1. Check `AGENTS.md` for current phase and status
 2. Update the checkbox in `AGENTS.md` when a task is completed
-3. Use `src/index.html` as the page boilerplate reference (navbar + sidebar + loading screen)
+3. Use `src/dashboard.html` as the page boilerplate reference (navbar + sidebar + loading screen)
 4. Test dark mode manually for every change
 5. Use `bun run dev` to watch for CSS changes during development
 
@@ -61,7 +61,7 @@ touch src/css/components/<name>.css
 # 2. Import in components.css
 echo '@import "./components/<name>.css";' >> src/css/components.css
 # 3. Create the HTML showcase page
-cp src/index.html src/components/<name>.html
+cp src/dashboard.html src/components/<name>.html
 ```
 
 **Add a new form element:**
@@ -71,7 +71,7 @@ touch src/css/forms/<name>.css
 # 2. Import in forms.css
 echo '@import "./forms/<name>.css";' >> src/css/forms.css
 # 3. Create the HTML showcase
-cp src/index.html src/elements/<name>.html
+cp src/dashboard.html src/elements/<name>.html
 ```
 
 **Add a third-party library theme:**

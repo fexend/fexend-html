@@ -5,7 +5,8 @@
 	"scripts": {
 		"dev": "concurrently \"bunx tailwindcss -i ./src/css/app.css -o ./public/css/app.css --watch\" \"bun build ./src/js/app.js --outdir ./public/js --watch\"",
 		"build": "concurrently \"bunx tailwindcss -i ./src/css/app.css -o ./public/css/app.css --minify\" \"bun build ./src/js/app.js --outdir ./public/js --minify\"",
-		"format": "prettier --write \"src/**/*.{html,css,js}\""
+		"format": "prettier --write \"src/**/*.{html,css,js}\"",
+		"thumbnails": "node scripts/generate-thumbnails.js"
 	},
 	"keywords": [],
 	"author": "",
@@ -25,6 +26,7 @@
 	},
 	"private": true,
 	"devDependencies": {
+		"@playwright/test": "^1.50.0",
 		"@types/bun": "latest",
 		"concurrently": "^9.2.1",
 		"prettier": "^3.8.1"
