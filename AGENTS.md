@@ -138,7 +138,7 @@ fexend-html/
 - [x] Root gallery page — `src/index.html` (gallery), `src/dashboard.html` (boilerplate)
 - [x] Thumbnail generator — `scripts/generate-thumbnails.js`, run `bun run thumbnails`
 - [x] Contributing guide — `CONTRIBUTING.md` updated with Bun setup, component standards, design rules
-- [ ] Document every component with inline usage examples
+- [x] Document every component with inline usage examples — Usage card + copy button on all 34 showcase pages
 
 ---
 
