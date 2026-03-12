@@ -23,10 +23,6 @@
 
 		<link rel="stylesheet" href="/public/css/app.css" />
 		<script defer src="/public/js/app.js"></script>
-		<!-- Flatpickr CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-<!-- Flatpickr JS -->
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -508,6 +504,7 @@ class="main-container"
 
 <section class="mb-10">
 <h2 class="heading-2 mb-6">Date Picker</h2>
+<div class="card p-6">
 				<div class="max-w-sm">
 					<div class="form-group">
 						<label class="label">Date</label>
@@ -517,9 +514,11 @@ class="main-container"
 						</div>
 					</div>
 				</div>
+</div>
 </section>
 <section class="mb-10">
 <h2 class="heading-2 mb-6">Date & Time Picker</h2>
+<div class="card p-6">
 				<div class="max-w-sm">
 					<div class="form-group">
 						<label class="label">Date & Time</label>
@@ -529,18 +528,22 @@ class="main-container"
 						</div>
 					</div>
 				</div>
+</div>
 </section>
 <section class="mb-10">
 <h2 class="heading-2 mb-6">Time Picker</h2>
+<div class="card p-6">
 				<div class="max-w-sm">
 					<div class="form-group">
 						<label class="label">Time Only</label>
 						<input id="fp-time" type="text" class="input" placeholder="Select time">
 					</div>
 				</div>
+</div>
 </section>
 <section class="mb-10">
 <h2 class="heading-2 mb-6">Date Range Picker</h2>
+<div class="card p-6">
 				<div class="max-w-sm">
 					<div class="form-group">
 						<label class="label">Date Range</label>
@@ -550,9 +553,11 @@ class="main-container"
 						</div>
 					</div>
 				</div>
+</div>
 </section>
 <section class="mb-10">
 <h2 class="heading-2 mb-6">Multiple Date Selection</h2>
+<div class="card p-6">
 				<div class="max-w-sm">
 					<div class="form-group">
 						<label class="label">Multiple Dates</label>
@@ -560,9 +565,10 @@ class="main-container"
 						<span class="form-feedback">Hold Ctrl/Cmd to select multiple dates.</span>
 					</div>
 				</div>
+</div>
 </section>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+window.addEventListener('load', function() {
 flatpickr('#fp-date', { dateFormat: 'Y-m-d' });
 flatpickr('#fp-datetime', { enableTime: true, dateFormat: 'Y-m-d H:i', time_24hr: true });
 flatpickr('#fp-time', { enableTime: true, noCalendar: true, dateFormat: 'H:i', time_24hr: true });

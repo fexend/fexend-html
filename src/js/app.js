@@ -2,11 +2,12 @@ import Alpine from "alpinejs";
 import Collapse from "@alpinejs/collapse";
 import $ from "jquery";
 import DataTable from "datatables.net";
-import "select2";
+import select2 from "select2";
 import flatpickr from "flatpickr";
 
 window.Alpine = Alpine;
 window.$ = window.jQuery = $;
+select2(window, $);
 window.DataTable = DataTable;
 window.flatpickr = flatpickr;
 

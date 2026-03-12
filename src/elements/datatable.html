@@ -23,12 +23,6 @@
 
 		<link rel="stylesheet" href="/public/css/app.css" />
 		<script defer src="/public/js/app.js"></script>
-		<!-- DataTables CSS -->
-<link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.min.css">
-<!-- jQuery (DataTables dependency) -->
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<!-- DataTables JS -->
-<script src="https://cdn.datatables.net/2.2.2/js/dataTables.min.js"></script>
 
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -772,7 +766,7 @@ class="main-container"
 </section>
 
 <script>
-$(document).ready(function() {
+window.addEventListener('load', function() {
     $('#dt-main').DataTable({
         pageLength: 5,
         lengthMenu: [5, 10, 25, 50],
