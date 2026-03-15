@@ -796,7 +796,64 @@ class="main-container"
 </div>
 </section>
 
-				<!-- Usage -->
+<section class="mb-10">
+<h2 class="heading-2 mb-6">Label</h2>
+<div class="card p-6">
+			<div class="flex flex-col gap-6 max-w-md">
+				<!-- Default label -->
+				<div>
+					<label class="label">Default Label</label>
+					<input type="text" class="input" placeholder="Field value">
+				</div>
+				<!-- Required label -->
+				<div>
+					<label class="label label-required">Required Label</label>
+					<input type="text" class="input" placeholder="This field is required" required>
+				</div>
+				<!-- Error label -->
+				<div>
+					<label class="label label-error">Error Label</label>
+					<input type="text" class="input input-error" value="invalid input">
+					<span class="form-feedback form-feedback-error">This field has an error.</span>
+				</div>
+				<!-- Disabled label -->
+				<div>
+					<label class="label" style="opacity:0.5;cursor:not-allowed;">Disabled Label</label>
+					<input type="text" class="input" placeholder="Disabled field" disabled>
+				</div>
+			</div>
+</div>
+</section>
+<section class="mb-10">
+<h2 class="heading-2 mb-6">Validation Error Message</h2>
+<div class="card p-6">
+			<div class="flex flex-col gap-6 max-w-md">
+				<!-- Inline error below field -->
+				<div class="form-group">
+					<label class="label label-required" for="val-email">Email</label>
+					<input id="val-email" type="email" class="input input-error" value="not-an-email" required>
+					<span class="form-feedback form-feedback-error">Please enter a valid email address.</span>
+				</div>
+				<!-- Inline valid below field -->
+				<div class="form-group">
+					<label class="label label-valid" for="val-username">Username</label>
+					<input id="val-username" type="text" class="input input-valid" value="johndoe42">
+					<span class="form-feedback form-feedback-valid">Username is available!</span>
+				</div>
+				<!-- Multiple errors (list style) -->
+				<div class="form-group">
+					<label class="label label-error" for="val-password">Password</label>
+					<input id="val-password" type="password" class="input input-error" value="short">
+					<ul class="mt-1 space-y-1">
+						<span class="form-feedback form-feedback-error">At least 8 characters required.</span>
+						<span class="form-feedback form-feedback-error">Must contain an uppercase letter.</span>
+					</ul>
+				</div>
+			</div>
+</div>
+</section>
+
+			<!-- Usage -->
 				<div class="card mt-8" x-data="{ copied: false }">
 					<div class="card-body">
 						<h2 class="text-lg font-semibold mb-3">Usage</h2>
