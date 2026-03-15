@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Toast | Fexend</title>
+		<title>Button | Fexend</title>
 
 		<link
 			rel="icon"
@@ -482,152 +482,205 @@
 		</aside>
 		<!-- /Sidebar -->
 
-
 <!-- Main Content -->
-<div
-class="main-container"
-:class="{
-'md:ml-80': sidebarOpen,
-'md:ml-16': !sidebarOpen,
-'ml-0': true
-}"
->
+<div class="main-container" :class="{ 'md:ml-80': sidebarOpen, 'md:ml-16': !sidebarOpen, 'ml-0': true }">
 <!-- Breadcrumb -->
 <nav class="breadcrumb mb-6" aria-label="Breadcrumb">
 <ol>
 <li><a href="/src/index.html">Dashboard</a></li>
-<li><span aria-hidden="true"></span><a href="#">Components</a></li>
-<li><span aria-hidden="true"></span><a href="#">Toast</a></li>
+<li><span aria-hidden="true"></span><a href="/src/elements/index.html">Elements</a></li>
+<li><span aria-hidden="true"></span><a href="#">Button</a></li>
 </ol>
 </nav>
-<h1 class="heading-1 mb-8">Toast</h1>
+<h1 class="heading-1 mb-8">Button</h1>
 
+<!-- Introduction -->
 <section class="mb-10">
-<h2 class="heading-2 mb-6">Color Variants (click to trigger)</h2>
-				<div x-data="{
-toasts: [],
-addToast(type, title, message) {
-const id = Date.now();
-this.toasts.push({id, type, title, message});
-setTimeout(() => this.removeToast(id), 4000);
-},
-removeToast(id) {
-this.toasts = this.toasts.filter(t => t.id !== id);
-}
-}">
-					<div class="flex flex-wrap gap-3 mb-6">
-						<button class="button button-primary" @click="addToast('primary', 'Primary', 'This is a primary notification.')">Primary</button>
-						<button class="button button-secondary" @click="addToast('secondary', 'Secondary', 'Secondary toast message.')">Secondary</button>
-						<button class="button button-success" @click="addToast('success', 'Success!', 'Your changes have been saved.')">Success</button>
-						<button class="button button-danger" @click="addToast('danger', 'Error!', 'Something went wrong. Please try again.')">Danger</button>
-						<button class="button button-warning" @click="addToast('warning', 'Warning', 'Please review your input before proceeding.')">Warning</button>
-						<button class="button button-info" @click="addToast('info', 'Info', 'Your session will expire in 5 minutes.')">Info</button>
-					</div>
-					<!-- Toast Container -->
-					<div class="toast-container toast-container-top-right" role="status" aria-live="polite">
-						<template x-for="toast in toasts" :key="toast.id">
-							<div class="toast toast-slide-in-right" :class="'toast-' + toast.type">
-								<div class="toast-header">
-									<span x-text="toast.title"></span>
-									<button class="toast-close" @click="removeToast(toast.id)" aria-label="Close">
-										<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-									</button>
-								</div>
-								<div class="toast-body" x-text="toast.message"></div>
-								<div class="toast-progress toast-progress-animated" style="animation-duration: 4s;"></div>
-							</div>
-						</template>
-					</div>
-				</div>
-</section>
-<section class="mb-10">
-<h2 class="heading-2 mb-6">Flash Messages (Auto-dismiss)</h2>
-<p class="text-sm text-slate-500 dark:text-slate-400 mb-4">These flash notifications appear fixed in the top-right corner and auto-dismiss after 5 seconds. Click × to dismiss manually.</p>
-			<div class="flex flex-wrap gap-3 mb-6" x-data="{
-flashMessages: [],
-addFlash(type, message) {
-	const id = Date.now();
-	this.flashMessages.push({ id, type, message, show: true });
-	setTimeout(() => this.dismissFlash(id), 5000);
-},
-dismissFlash(id) {
-	const msg = this.flashMessages.find(m => m.id === id);
-	if (msg) msg.show = false;
-	setTimeout(() => { this.flashMessages = this.flashMessages.filter(m => m.id !== id); }, 300);
-}
-}">
-				<button class="button button-success" @click="addFlash('success', 'Your changes have been saved successfully.')">Show Success</button>
-				<button class="button button-warning" @click="addFlash('warning', 'Please review your input before proceeding.')">Show Warning</button>
-				<button class="button button-danger" @click="addFlash('error', 'Something went wrong. Please try again.')">Show Error</button>
-				<button class="button button-info" @click="addFlash('info', 'Your session will expire in 5 minutes.')">Show Info</button>
-
-				<!-- Flash container fixed top-right -->
-				<div class="fixed top-4 right-4 z-[60] flex flex-col gap-2 w-full max-w-sm pointer-events-none">
-					<template x-for="msg in flashMessages" :key="msg.id">
-						<div
-							class="pointer-events-auto w-full rounded-lg shadow-lg"
-							x-show="msg.show"
-							x-transition:enter="transition ease-out duration-300"
-							x-transition:enter-start="opacity-0 translate-y-2"
-							x-transition:enter-end="opacity-100 translate-y-0"
-							x-transition:leave="transition ease-in duration-200"
-							x-transition:leave-start="opacity-100 translate-y-0"
-							x-transition:leave-end="opacity-0 translate-y-2"
-							:class="{
-								'bg-success dark:bg-success-dark text-white': msg.type === 'success',
-								'bg-warning dark:bg-warning-dark text-white': msg.type === 'warning',
-								'bg-danger dark:bg-danger-dark text-white': msg.type === 'error',
-								'bg-info dark:bg-info-dark text-white': msg.type === 'info'
-							}"
-						>
-							<div class="flex items-center justify-between p-4">
-								<div class="flex items-center gap-3">
-									<svg x-show="msg.type === 'success'" class="w-5 h-5 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-									<svg x-show="msg.type === 'warning'" class="w-5 h-5 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
-									<svg x-show="msg.type === 'error'" class="w-5 h-5 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-									<svg x-show="msg.type === 'info'" class="w-5 h-5 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-									<p class="text-sm font-medium" x-text="msg.message"></p>
-								</div>
-								<button @click="dismissFlash(msg.id)" class="ml-4 shrink-0 text-white/80 hover:text-white focus:outline-none">
-									<svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-								</button>
-							</div>
-						</div>
-					</template>
-				</div>
-			</div>
-</section>
-<section class="mb-10">
-<h2 class="heading-2 mb-6">Positions Preview</h2>
-				<div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
-					<div class="card card-sm text-center text-sm text-slate-500 dark:text-slate-400 font-mono">top-left</div>
-					<div class="card card-sm text-center text-sm text-slate-500 dark:text-slate-400 font-mono">top-center</div>
-					<div class="card card-sm text-center text-sm text-slate-500 dark:text-slate-400 font-mono">top-right</div>
-					<div class="card card-sm text-center text-sm text-slate-500 dark:text-slate-400 font-mono">bottom-left</div>
-					<div class="card card-sm text-center text-sm text-slate-500 dark:text-slate-400 font-mono">bottom-center</div>
-					<div class="card card-sm text-center text-sm text-slate-500 dark:text-slate-400 font-mono">bottom-right</div>
-				</div>
+<div class="card p-6">
+<p>The <code>button</code> component provides interactive elements for user actions. Buttons can be customized with different sizes, colors, and styles to create a consistent and engaging interface.</p>
+</div>
 </section>
 
-				<!-- Usage -->
-				<div class="card mt-8" x-data="{ copied: false }">
-					<div class="card-body">
-						<h2 class="text-lg font-semibold mb-3">Usage</h2>
-						<div class="relative">
-							<pre class="bg-slate-900 text-slate-100 rounded-lg p-4 overflow-x-auto text-sm"><code>&lt;div class="toast toast-success" x-show="show" x-transition&gt;
-  &lt;span&gt;Success!&lt;/span&gt;
-&lt;/div&gt;</code></pre>
-							<button
-								class="absolute top-3 right-3 btn btn-sm btn-secondary"
-								@click="copied = true; navigator.clipboard.writeText($el.closest('.relative').querySelector('code').textContent); setTimeout(() => copied = false, 2000)"
-								x-text="copied ? 'Copied!' : 'Copy'"
-							>Copy</button>
-						</div>
-					</div>
-				</div>
+<!-- Solid Variants -->
+<section class="mb-10">
+<h2 class="heading-2 mb-6">Solid Variants</h2>
+<div class="card p-6">
+    <div class="flex flex-wrap gap-2 mb-6">
+        <button class="button button-primary">Primary</button>
+        <button class="button button-secondary">Secondary</button>
+        <button class="button button-success">Success</button>
+        <button class="button button-danger">Danger</button>
+        <button class="button button-warning">Warning</button>
+        <button class="button button-info">Info</button>
+        <button class="button button-dark">Dark</button>
+        <button class="button button-white">White</button>
+    </div>
+    <pre class="bg-slate-900 text-slate-100 rounded-lg p-4 overflow-x-auto text-sm"><code>&lt;button class="button button-primary"&gt;Primary&lt;/button&gt;
+&lt;button class="button button-secondary"&gt;Secondary&lt;/button&gt;
+&lt;button class="button button-success"&gt;Success&lt;/button&gt;
+&lt;button class="button button-danger"&gt;Danger&lt;/button&gt;
+&lt;button class="button button-warning"&gt;Warning&lt;/button&gt;
+&lt;button class="button button-info"&gt;Info&lt;/button&gt;
+&lt;button class="button button-dark"&gt;Dark&lt;/button&gt;
+&lt;button class="button button-white"&gt;White&lt;/button&gt;</code></pre>
+</div>
+</section>
+
+<!-- Soft Variants -->
+<section class="mb-10">
+<h2 class="heading-2 mb-6">Soft Variants</h2>
+<div class="card p-6">
+    <div class="flex flex-wrap gap-2 mb-6">
+        <button class="button button-primary-soft">Primary</button>
+        <button class="button button-secondary-soft">Secondary</button>
+        <button class="button button-success-soft">Success</button>
+        <button class="button button-danger-soft">Danger</button>
+        <button class="button button-warning-soft">Warning</button>
+        <button class="button button-info-soft">Info</button>
+        <button class="button button-dark-soft">Dark</button>
+    </div>
+    <pre class="bg-slate-900 text-slate-100 rounded-lg p-4 overflow-x-auto text-sm"><code>&lt;button class="button button-primary-soft"&gt;Primary&lt;/button&gt;
+&lt;button class="button button-secondary-soft"&gt;Secondary&lt;/button&gt;
+&lt;button class="button button-success-soft"&gt;Success&lt;/button&gt;
+&lt;button class="button button-danger-soft"&gt;Danger&lt;/button&gt;
+&lt;button class="button button-dark-soft"&gt;Dark&lt;/button&gt;</code></pre>
+</div>
+</section>
+
+<!-- Outline Variants -->
+<section class="mb-10">
+<h2 class="heading-2 mb-6">Outline Variants</h2>
+<div class="card p-6">
+    <div class="flex flex-wrap gap-2 mb-6">
+        <button class="button button-primary-outline">Primary</button>
+        <button class="button button-secondary-outline">Secondary</button>
+        <button class="button button-success-outline">Success</button>
+        <button class="button button-danger-outline">Danger</button>
+        <button class="button button-warning-outline">Warning</button>
+        <button class="button button-info-outline">Info</button>
+        <button class="button button-dark-outline">Dark</button>
+    </div>
+    <pre class="bg-slate-900 text-slate-100 rounded-lg p-4 overflow-x-auto text-sm"><code>&lt;button class="button button-primary-outline"&gt;Primary&lt;/button&gt;
+&lt;button class="button button-secondary-outline"&gt;Secondary&lt;/button&gt;
+&lt;button class="button button-success-outline"&gt;Success&lt;/button&gt;
+&lt;button class="button button-danger-outline"&gt;Danger&lt;/button&gt;
+&lt;button class="button button-dark-outline"&gt;Dark&lt;/button&gt;</code></pre>
+</div>
+</section>
+
+<!-- Sizes -->
+<section class="mb-10">
+<h2 class="heading-2 mb-6">Sizes</h2>
+<div class="card p-6">
+    <div class="flex flex-wrap items-center gap-3 mb-6">
+        <button class="button button-primary button-sm">Small</button>
+        <button class="button button-primary">Default</button>
+        <button class="button button-primary button-lg">Large</button>
+    </div>
+    <pre class="bg-slate-900 text-slate-100 rounded-lg p-4 overflow-x-auto text-sm"><code>&lt;button class="button button-primary button-sm"&gt;Small&lt;/button&gt;
+&lt;button class="button button-primary"&gt;Default&lt;/button&gt;
+&lt;button class="button button-primary button-lg"&gt;Large&lt;/button&gt;</code></pre>
+</div>
+</section>
+
+<!-- Icon Buttons -->
+<section class="mb-10">
+<h2 class="heading-2 mb-6">Icon Buttons</h2>
+<div class="card p-6">
+    <div class="flex flex-wrap gap-2 mb-6">
+        <button class="button button-primary flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+            Add Item
+        </button>
+        <button class="button button-danger flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+            Delete
+        </button>
+        <button class="button button-secondary flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+            Upload
+        </button>
+        <!-- Icon-only buttons -->
+        <button class="button button-primary-soft p-2" aria-label="Edit">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+        </button>
+        <button class="button button-danger-soft p-2" aria-label="Delete">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+        </button>
+    </div>
+    <pre class="bg-slate-900 text-slate-100 rounded-lg p-4 overflow-x-auto text-sm"><code>&lt;button class="button button-primary flex items-center gap-2"&gt;
+  &lt;svg ...&gt;&lt;/svg&gt; Add Item
+&lt;/button&gt;
+
+&lt;!-- Icon-only --&gt;
+&lt;button class="button button-primary-soft p-2" aria-label="Edit"&gt;
+  &lt;svg ...&gt;&lt;/svg&gt;
+&lt;/button&gt;</code></pre>
+</div>
+</section>
+
+<!-- Loading State -->
+<section class="mb-10">
+<h2 class="heading-2 mb-6">Loading State</h2>
+<div class="card p-6">
+    <div class="flex flex-wrap gap-2 mb-6" x-data="{ loading: false }">
+        <button class="button button-primary flex items-center gap-2" :disabled="loading" @click="loading = true; setTimeout(() => loading = false, 2000)">
+            <svg x-show="loading" class="w-4 h-4 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+            <span x-text="loading ? 'Loading...' : 'Click to load'"></span>
+        </button>
+        <button class="button button-secondary" disabled>Disabled</button>
+    </div>
+    <pre class="bg-slate-900 text-slate-100 rounded-lg p-4 overflow-x-auto text-sm"><code>&lt;button class="button button-primary" disabled&gt;Disabled&lt;/button&gt;
+
+&lt;!-- With spinner (Alpine.js) --&gt;
+&lt;button class="button button-primary flex items-center gap-2" :disabled="loading"&gt;
+  &lt;svg x-show="loading" class="w-4 h-4 animate-spin" ...&gt;&lt;/svg&gt;
+  &lt;span x-text="loading ? 'Loading...' : 'Submit'"&gt;&lt;/span&gt;
+&lt;/button&gt;</code></pre>
+</div>
+</section>
+
+<!-- CSS Classes Reference -->
+<section class="mb-10">
+<h2 class="heading-2 mb-6">CSS Classes Reference</h2>
+<div class="card">
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Class</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr><td><code>button</code></td><td>Base button styles (required)</td></tr>
+<tr><td><code>button-{color}</code></td><td>Solid color variants: primary, secondary, success, danger, warning, info, dark, white</td></tr>
+<tr><td><code>button-{color}-soft</code></td><td>Soft (light background) variants</td></tr>
+<tr><td><code>button-{color}-outline</code></td><td>Outline variants</td></tr>
+<tr><td><code>button-sm</code></td><td>Small size</td></tr>
+<tr><td><code>button-lg</code></td><td>Large size</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+
+<!-- Best Practices -->
+<section class="mb-10">
+<h2 class="heading-2 mb-6">Best Practices</h2>
+<div class="card p-6">
+<ul class="list-disc pl-6 space-y-2 text-slate-600 dark:text-slate-300">
+    <li>Use clear, action-oriented labels (e.g. "Save changes", not just "OK")</li>
+    <li>Use <code>button-primary</code> for the main action, <code>button-secondary</code> for cancel/back</li>
+    <li>Use <code>button-danger</code> for destructive actions and always ask for confirmation</li>
+    <li>Always include <code>aria-label</code> on icon-only buttons</li>
+    <li>Show a loading spinner and disable the button during async operations</li>
+    <li>Maintain sufficient color contrast for accessibility (WCAG AA)</li>
+</ul>
+</div>
+</section>
 </div>
 <!-- /Main Content -->
-			<!-- /Main Content -->
 
 			<!-- Mobile Bottom Menu Button -->
 			<div
